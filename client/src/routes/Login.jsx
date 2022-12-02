@@ -12,6 +12,8 @@ function Login() {
   const login = async () => {
     await signInWithMicrosoft()
       .then((result) => {
+        localStorage.setItem("name", result.user.displayName);
+        localStorage.setItem("email", result.user.email);
         navigate("/home");
       })
       .catch((error) => {
