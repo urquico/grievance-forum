@@ -4,6 +4,7 @@ import microsoftLogo from "../assets/ms-logo.svg";
 import DarkModeButton from "../layouts/DarkModeButton";
 import { signInWithMicrosoft } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
   const theme = useMantineTheme();
@@ -14,6 +15,10 @@ function Login() {
       .then((result) => {
         localStorage.setItem("name", result.user.displayName);
         localStorage.setItem("email", result.user.email);
+        axios.post("http://localhost:3001/addUser", {
+          email: result.user.email,
+          name: result.user.displayName,
+        });
         navigate("/home");
       })
       .catch((error) => {
