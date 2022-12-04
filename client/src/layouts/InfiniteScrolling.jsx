@@ -8,7 +8,6 @@ function InfiniteScrolling({ type }) {
   const [posts, setPosts] = useState([]);
   const [lastDoc, setLastDoc] = useState();
   const [isEmpty, setIsEmpty] = useState(false);
-  const user = getUser("kjeurquico2020@plm.edu.ph");
 
   useLayoutEffect(() => {
     getPost().then((result) => {
