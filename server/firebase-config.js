@@ -70,7 +70,7 @@ const getPost = async () => {
   await generateVotePoint();
   let data = [];
   const ref = db.collection("Posts");
-  const q = await ref.orderBy("votePoint", "desc").limit(10).get();
+  const q = await ref.orderBy("votePoint", "desc").limit(5).get();
   if (q.empty) {
     console.log("no content");
   }
