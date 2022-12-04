@@ -1,4 +1,3 @@
-const { query } = require("express");
 var admin = require("firebase-admin");
 const {
   getFirestore,
@@ -63,63 +62,6 @@ const generateVotePoint = async () => {
     });
   }
 };
-
-<<<<<<< HEAD
-const getPost = async () => {
-  // TODO: generate a post, 10 posts? 15? 5?
-  // TODO: check if it is possible to generate the post while updating the vote point of each posts
-  await generateVotePoint();
-  let data = [];
-  const ref = db.collection("Posts");
-  const q = await ref.orderBy("votePoint", "desc").limit(5).get();
-  if (q.empty) {
-    console.log("no content");
-  }
-=======
-// const getPost = async () => {
-//   // TODO: generate a post, 10 posts? 15? 5?
-//   // TODO: check if it is possible to generate the post while updating the vote point of each posts
-//   await generateVotePoint();
-//   let data = [];
-//   const ref = db.collection("Posts");
-//   const q = await ref.orderBy("votePoint", "desc").limit(5).get();
-//   if (q.empty) {
-//     console.log("no content");
-//   }
->>>>>>> c862443b9c84f3c3c68830b4a44b080224ddc927
-
-//   q.forEach((post) => {
-//     data.push(post.data());
-//   });
-
-//   return data;
-// };
-
-// const getMorePost = async (lastDoc) => {
-//   // TODO: generate more post depending on the last document;
-//   let data = [];
-//   const ref = db.collection("Posts");
-//   const q = await ref
-//     .orderBy("votePoint", "desc")
-//     .startAfter(lastDoc)
-//     .limit(5)
-//     .get();
-
-//   if (q.empty) {
-//     console.log("no content");
-//   }
-
-//   q.forEach((post) => {
-//     data.push(post.data());
-//   });
-
-//   return data;
-// };
-
-const getPostByCategory = async (category) => {};
-const getMorePostByCategory = async (category, lastDoc) => {};
-const getPostByTag = async (tag) => {};
-const getMorePostByTag = async (tag, lastDoc) => {};
 
 const votePost = async ({ voteType, userType, postId }) => {
   // TODO: check if the user up votes or down votes, then update the current vote count of a specific post
