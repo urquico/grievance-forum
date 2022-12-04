@@ -86,6 +86,11 @@ const getMorePost = async (lastDoc) => {
   // TODO: generate more post depending on the last document;
 };
 
+const getPostByCategory = async (category) => {};
+const getMorePostByCategory = async (category, lastDoc) => {};
+const getPostByTag = async (tag) => {};
+const getMorePostByTag = async (tag, lastDoc) => {};
+
 const votePost = async ({ voteType, userType, postId }) => {
   // TODO: check if the user up votes or down votes, then update the current vote count of a specific post
   // TODO: add the post to a user's vote lists
