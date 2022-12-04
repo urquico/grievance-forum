@@ -1,21 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, useMantineTheme, Text } from "@mantine/core";
 import microsoftLogo from "../assets/ms-logo.svg";
 import DarkModeButton from "../layouts/DarkModeButton";
 import { signInWithMicrosoft } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { PORT } from "../Globals";
 
 function Login() {
   const theme = useMantineTheme();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.post(`${PORT}/generateVotePoint`);
+  });
 
   const login = async () => {
     await signInWithMicrosoft()
       .then((result) => {
         localStorage.setItem("name", result.user.displayName);
         localStorage.setItem("email", result.user.email);
-        axios.post("http://localhost:3001/addUser", {
+        axios.post(`${PORT}/addUser`, {
           email: result.user.email,
           name: result.user.displayName,
         });

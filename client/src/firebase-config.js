@@ -13,10 +13,11 @@ import {
   orderBy,
   limit,
   startAfter,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 
 import env from "react-dotenv";
-import axios from "axios";
 
 const firebaseConfig = {
   apiKey: env.API_KEY,
@@ -47,4 +48,30 @@ export const signInWithMicrosoft = () =>
 
 export const logOut = () => {
   signOut(auth);
+};
+
+export const getPost = async () => {
+  const ref = collection(db, "Posts");
+  const q = query(ref, orderBy("votePoint", "desc"), limit(5));
+  const data = await getDocs(q);
+  return data;
+};
+
+export const getMorePosts = async (lastDoc) => {
+  const ref = collection(db, "Posts");
+  const q = query(
+    ref,
+    orderBy("votePoint", "desc"),
+    startAfter(lastDoc),
+    limit(5)
+  );
+  const data = await getDocs(q);
+  return data;
+};
+
+export const getUser = async (userId) => {
+  // can be used when accessing the name and isAdmin of a user
+  const ref = doc(db, "UserData", userId);
+  const fetchedDoc = await getDoc(ref);
+  return fetchedDoc.data();
 };
