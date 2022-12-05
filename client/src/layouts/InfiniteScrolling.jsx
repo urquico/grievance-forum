@@ -3,6 +3,7 @@ import { Button } from "@mantine/core";
 import { getPost, getMorePosts } from "../firebase-config";
 import EndPost from "./EndPost";
 import LoadingPost from "./LoadingPost";
+import PostCard from "./PostCard";
 
 function InfiniteScrolling({ type }) {
   const [posts, setPosts] = useState([]);
@@ -58,9 +59,11 @@ function InfiniteScrolling({ type }) {
       {posts?.map((post, index) => {
         return (
           <div key={index}>
-            {post.votePoint}
-            {post.userId}
-            {post.message}
+            <PostCard
+              publisher={post.publisher}
+              isAnonymous={post.isAnonymous}
+              email={post.userId}
+            />
           </div>
         );
       })}
