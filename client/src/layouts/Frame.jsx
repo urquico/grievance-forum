@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "@emotion/react";
 import HeaderLayout from "./HeaderLayout";
 import NavBarLayout from "./NavBarLayout";
+import AsideLayout from "./AsideLayout";
 
 // includes the navigation, sidebar, responsive UI etc.
 
@@ -71,6 +72,7 @@ function Frame({ content }) {
           />
         }
         navbar={<NavBarLayout opened={opened} logOut={logout} />}
+        aside={<AsideLayout />}
       >
         {content}
       </AppShell>
