@@ -19,7 +19,6 @@ function InfiniteScrolling({ type }) {
   const fetchMoreData = () => {
     getMorePosts(lastDoc).then((result) => {
       updateState(result);
-      console.log(posts[0].message);
     });
   };
 
