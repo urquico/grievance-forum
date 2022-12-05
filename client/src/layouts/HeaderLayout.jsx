@@ -27,7 +27,7 @@ function HeaderLayout({ opened, setOpened, dark, theme, toggleColorScheme }) {
 
           <div style={{ fontFamily: "Poor Story" }}>
             <Text style={{ fontFamily: "Poor Story", fontSize: "1.25rem" }}>
-              Haribon Knights E-Wall
+              Haribon E-Wall
             </Text>
           </div>
 

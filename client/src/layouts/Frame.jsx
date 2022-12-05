@@ -23,6 +23,8 @@ import {
 import { logOut } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "@emotion/react";
+import HeaderLayout from "./HeaderLayout";
+import NavBarLayout from "./NavBarLayout";
 
 // includes the navigation, sidebar, responsive UI etc.
 
@@ -31,6 +33,7 @@ function Frame({ content }) {
   const theme = useMantineTheme();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const [opened, setOpened] = useState(false);
+  const dark = colorScheme === "dark";
 
   useEffect(() => {
     // redirects to login page when accessing a url that requires authentication
@@ -46,6 +49,7 @@ function Frame({ content }) {
     localStorage.clear();
     navigate("/");
   };
+
   return (
     <div>
       <AppShell
@@ -57,8 +61,21 @@ function Frame({ content }) {
                 : theme.colors.gray[0],
           },
         }}
-        header={<>Header</>}
-      ></AppShell>
+        header={
+          <HeaderLayout
+            opened={opened}
+            setOpened={setOpened}
+            dark={dark}
+            theme={theme}
+            toggleColorScheme={toggleColorScheme}
+          />
+        }
+        navbar={<NavBarLayout opened={opened} logOut={logout} />}
+      >
+        {content}
+      </AppShell>
     </div>
   );
 }
+
+export default Frame;
