@@ -1,28 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
-  Button,
   AppShell,
-  Navbar,
-  Header,
-  Text,
-  MediaQuery,
-  Burger,
   useMantineTheme,
-  ActionIcon,
   useMantineColorScheme,
 } from "@mantine/core";
-import {
-  IconSun,
-  IconMoonStars,
-  IconHome2,
-  IconBallpen,
-  IconAddressBook,
-  IconCategory,
-  IconTags,
-} from "@tabler/icons";
+
 import { logOut } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
-import { ThemeContext } from "@emotion/react";
 import HeaderLayout from "./HeaderLayout";
 import NavBarLayout from "./NavBarLayout";
 import AsideLayout from "./AsideLayout";
