@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
 import { Button } from "@mantine/core";
-import { getPost, getMorePosts, getUser } from "../firebase-config";
+import { getPost, getMorePosts } from "../firebase-config";
 import EndPost from "./EndPost";
 import LoadingPost from "./LoadingPost";
 
@@ -19,6 +19,7 @@ function InfiniteScrolling({ type }) {
   const fetchMoreData = () => {
     getMorePosts(lastDoc).then((result) => {
       updateState(result);
+      console.log(posts[0].message);
     });
   };
 
@@ -60,7 +61,7 @@ function InfiniteScrolling({ type }) {
           <div key={index}>
             {post.votePoint}
             {post.userId}
-            {}
+            {post.message}
           </div>
         );
       })}
