@@ -46,7 +46,7 @@ function NavBarLayout({ opened, logOut }) {
           title={"Categories"}
           icon={<IconCategory size={16} />}
           color="violet"
-          path={"/tags"}
+          path={"/category"}
         />
         <NavLinks
           title={"Tags"}
