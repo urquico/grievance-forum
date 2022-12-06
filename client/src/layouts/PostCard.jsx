@@ -1,19 +1,26 @@
 import React, { useLayoutEffect, useState } from "react";
 import { useMantineTheme } from "@mantine/core";
-import axios from "axios";
 import User from "./User";
 import { getUser } from "../firebase-config";
 
 function PostCard({ email, isAnonymous }) {
   const theme = useMantineTheme();
   const [publisher, setPublisher] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isCurrentUserAdmin, setIsCurrentUserAdmin] = useState(false);
 
   useLayoutEffect(() => {
     getUser(email).then((result) => {
       setPublisher(result.name);
-      console.log(result);
+      setIsAdmin(result.isAdmin); // check if the publisher is admin
     });
   }, []);
+
+  useLayoutEffect(() => {
+    getUser(localStorage.getItem("email")).then((result) => {
+      setIsCurrentUserAdmin(result.isAdmin);
+    });
+  });
 
   return (
     <div
@@ -31,7 +38,13 @@ function PostCard({ email, isAnonymous }) {
         flexDirection: "column",
       }}
     >
-      <User publisher={publisher} isAnonymous={isAnonymous} email={email} />
+      <User
+        publisher={publisher}
+        isAnonymous={isAnonymous}
+        email={email}
+        isAdmin={isAdmin}
+        isCurrentUserAdmin={isCurrentUserAdmin}
+      />
     </div>
   );
 }
