@@ -5,7 +5,7 @@ import {
   useMantineColorScheme,
 } from "@mantine/core";
 
-import { logOut } from "../firebase-config";
+import { logOut } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
 import HeaderLayout from "./HeaderLayout";
 import NavBarLayout from "./NavBarLayout";

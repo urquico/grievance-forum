@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useState } from "react";
 import { Button } from "@mantine/core";
 import { getPost, getMorePosts } from "../firebase-config";
 import EndPost from "./EndPost";
-import LoadingPost from "./LoadingPost";
+import LoadingPost from "./Loading/LoadingPost";
 import PostCard from "./PostCard";
 
 function InfiniteScrolling({ type }) {

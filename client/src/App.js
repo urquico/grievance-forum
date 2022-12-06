@@ -4,7 +4,7 @@ import { MantineProvider, ColorSchemeProvider } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
 import { useLocalStorage } from "@mantine/hooks";
 
-import Loading from "./layouts/Loading";
+import Loading from "./layouts/Loading/Loading";
 
 const Login = lazy(() => import("./routes/Login"));
 const Home = lazy(() => import("./routes/Home"));

@@ -1,5 +1,5 @@
 import React from "react";
-import Frame from "../layouts/Frame";
+import Frame from "../layouts/Frame/Frame";
 import InfiniteScrolling from "../layouts/InfiniteScrolling";
 import IntroductionCard from "../layouts/IntroductionCard";
 

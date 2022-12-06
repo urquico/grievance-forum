@@ -8,7 +8,7 @@ import {
   IconTags,
 } from "@tabler/icons";
 import { Navbar, Button } from "@mantine/core";
-import NavLinks from "../layouts/NavLinks";
+import NavLinks from "./NavLinks";
 function NavBarLayout({ opened, logOut }) {
   return (
     <div>

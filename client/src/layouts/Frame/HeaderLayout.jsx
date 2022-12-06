@@ -1,6 +1,7 @@
 import React from "react";
-import { Header, MediaQuery, Burger, Text, ActionIcon } from "@mantine/core";
-import { IconSun, IconMoonStars } from "@tabler/icons";
+import { Header, MediaQuery, Burger, Text } from "@mantine/core";
+import DarkModeButton from "../DarkModeButton";
+
 function HeaderLayout({ opened, setOpened, dark, theme, toggleColorScheme }) {
   return (
     <div>
@@ -31,16 +32,7 @@ function HeaderLayout({ opened, setOpened, dark, theme, toggleColorScheme }) {
             </Text>
           </div>
 
-          <div style={{ marginLeft: "auto", marginRight: 0 }}>
-            <ActionIcon
-              variant="outline"
-              color={dark ? "yellow" : "blue"}
-              onClick={() => toggleColorScheme()}
-              title="Toggle color scheme"
-            >
-              {dark ? <IconSun size={18} /> : <IconMoonStars size={18} />}
-            </ActionIcon>
-          </div>
+          <DarkModeButton />
         </div>
       </Header>
     </div>
