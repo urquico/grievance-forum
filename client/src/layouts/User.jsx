@@ -25,14 +25,14 @@ function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin }) {
     "orange",
   ];
 
+  const generateRandomColor = () => {
+    return avatarColors[Math.floor(Math.random() * avatarColors.length)];
+  };
+
   const deletePost = () => {};
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
-      <Avatar
-        src={null}
-        alt={publisher}
-        color={avatarColors[Math.floor(Math.random() * avatarColors.length)]}
-      >
+      <Avatar src={null} alt={publisher} color={generateRandomColor()}>
         {isAnonymous ? "H" : email.toUpperCase()[0] + publisher[0]}
       </Avatar>
       <Text

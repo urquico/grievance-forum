@@ -59,7 +59,12 @@ function InfiniteScrolling({ type }) {
       {posts?.map((post, index) => {
         return (
           <div key={index}>
-            <PostCard isAnonymous={post.isAnonymous} email={post.userId} />
+            <PostCard
+              isAnonymous={post.isAnonymous}
+              email={post.userId}
+              tags={post.tags}
+              category={post.categoryId}
+            />
           </div>
         );
       })}

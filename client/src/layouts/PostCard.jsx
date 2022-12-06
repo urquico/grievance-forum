@@ -1,26 +1,28 @@
 import React, { useLayoutEffect, useState } from "react";
-import { useMantineTheme } from "@mantine/core";
+import { useMantineTheme, Badge } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 import User from "./User";
 import { getUser } from "../firebase-config";
 
-function PostCard({ email, isAnonymous }) {
+function PostCard({ email, isAnonymous, tags, category }) {
   const theme = useMantineTheme();
   const [publisher, setPublisher] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [isCurrentUserAdmin, setIsCurrentUserAdmin] = useState(false);
+  const navigate = useNavigate();
 
   useLayoutEffect(() => {
     getUser(email).then((result) => {
       setPublisher(result.name);
       setIsAdmin(result.isAdmin); // check if the publisher is admin
     });
-  }, []);
+  }, [email]);
 
   useLayoutEffect(() => {
     getUser(localStorage.getItem("email")).then((result) => {
       setIsCurrentUserAdmin(result.isAdmin);
     });
-  });
+  }, []);
 
   return (
     <div
@@ -45,6 +47,36 @@ function PostCard({ email, isAnonymous }) {
         isAdmin={isAdmin}
         isCurrentUserAdmin={isCurrentUserAdmin}
       />
+      <div style={{ marginTop: "0.063rem" }}>
+        {/* Category */}
+        <Badge
+          variant="gradient"
+          gradient={
+            category === "academic-concerns"
+              ? { from: "orange", to: "red" }
+              : { from: "teal", to: "lime", deg: 105 }
+          }
+          style={{ marginLeft: "2.500rem" }}
+        >
+          {category}
+        </Badge>
+        {/* Tags */}
+        {tags.map((tag) => {
+          return (
+            <Badge
+              size="xs"
+              variant="gradient"
+              gradient={{ from: "indigo", to: "cyan" }}
+              style={{ marginLeft: "0.250rem", cursor: "pointer" }}
+              onClick={() => {
+                navigate(`/tags/${tag}`);
+              }}
+            >
+              {tag}
+            </Badge>
+          );
+        })}
+      </div>
     </div>
   );
 }
