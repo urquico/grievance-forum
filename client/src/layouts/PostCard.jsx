@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useMantineTheme } from "@mantine/core";
+import axios from "axios";
 import User from "./User";
+import { getUser } from "../firebase-config";
 
-function PostCard({ publisher, isAnonymous, email }) {
+function PostCard({ email, isAnonymous }) {
   const theme = useMantineTheme();
+  const [publisher, setPublisher] = useState("");
+
+  useLayoutEffect(() => {
+    getUser(email).then((result) => {
+      setPublisher(result.name);
+      console.log(result);
+    });
+  }, []);
+
   return (
     <div
       style={{
