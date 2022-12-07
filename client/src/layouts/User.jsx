@@ -29,7 +29,9 @@ function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin }) {
     return avatarColors[Math.floor(Math.random() * avatarColors.length)];
   };
 
-  const deletePost = () => {};
+  const deletePost = () => {
+    // TODO: add delete query
+  };
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <Avatar src={null} alt={publisher} color={generateRandomColor()}>
@@ -42,7 +44,7 @@ function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin }) {
           marginLeft: "0.563rem",
         }}
       >
-        {isAnonymous ? "Anonymous" : publisher}
+        {isAnonymous ? "HARONYMOUS" : publisher}
         <Text
           style={{
             fontSize: "0.750rem",
@@ -57,7 +59,7 @@ function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin }) {
       </Text>
       {isAnonymous ? (
         <Badge style={{ marginLeft: "5px" }} color="red">
-          Anonymous
+          secret
         </Badge>
       ) : (
         <Badge style={{ marginLeft: "5px" }} color={isAdmin ? "blue" : "green"}>
@@ -65,7 +67,7 @@ function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin }) {
         </Badge>
       )}
       <div style={{ margin: "auto", marginRight: "1rem" }}>
-        {"kurt" === email || isCurrentUserAdmin ? (
+        {localStorage.getItem("email") === email || isCurrentUserAdmin ? (
           <ActionIcon>
             <IconTrash onClick={deletePost} />
           </ActionIcon>
