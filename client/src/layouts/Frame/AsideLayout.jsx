@@ -14,7 +14,7 @@ function AsideLayout() {
               fontSize: "1.250rem",
             }}
           >
-            Tags
+            Trending
           </Text>
         </Aside>
       </MediaQuery>
