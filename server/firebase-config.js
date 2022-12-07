@@ -18,8 +18,14 @@ const db = getFirestore();
 const addUser = async ({ name, email }) => {
   await db
     .collection("UserData")
-    .doc(email)
-    .set({ name: name, isAdmin: /\d/.test(email) ? false : true });
+    .equalTo(email)
+    .once("value", (snapshot) => {
+      if (!snapshot.exists()) {
+        db.collection("UserData")
+          .doc(email)
+          .set({ name: name, isAdmin: /\d/.test(email) ? false : true });
+      }
+    });
 };
 
 const redditAlgorithm = (post) => {
