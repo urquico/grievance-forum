@@ -8,6 +8,7 @@ function HeaderLayout({ opened, setOpened, dark, theme, toggleColorScheme }) {
       <Header height={70} p="md">
         <div
           style={{
+            zIndex: "300",
             display: "flex",
             alignItems: "center",
             height: "100%",

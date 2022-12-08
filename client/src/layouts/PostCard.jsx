@@ -5,6 +5,7 @@ import {
   Text,
   ActionIcon,
   Button,
+  TypographyStylesProvider,
 } from "@mantine/core";
 import {
   IconMessage,
@@ -84,8 +85,6 @@ function PostCard({
       setDownVote(false);
     }
   };
-
-  const postConverted = post;
 
   const writeComment = () => {
     console.log(postId);
@@ -204,7 +203,9 @@ function PostCard({
             textAlign: "justify",
           }}
         >
-          {postConverted}
+          <TypographyStylesProvider>
+            <div dangerouslySetInnerHTML={{ __html: post }} />
+          </TypographyStylesProvider>
         </Text>
       </div>
       {post.split("").length > 155 ? (

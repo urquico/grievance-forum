@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { useMantineTheme, Text, Switch, Select } from "@mantine/core";
+import { RichTextEditor } from "@mantine/rte";
+
 import User from "./User";
 
+const initialValue = "<p><b>Share</b> your thoughts ...</p>";
+
 function WritePostCard() {
+  const [text, setText] = useState(initialValue);
   const [isAnonymous, setIsAnonymous] = useState(false);
   const theme = useMantineTheme();
 
@@ -35,6 +40,7 @@ function WritePostCard() {
         hideTrashAndBadge={true}
       />
       <ChooseCategory isAnonymous={isAnonymous} />
+      <RichTextBox text={text} setText={setText} />
     </div>
   );
 }
@@ -101,6 +107,23 @@ function ChooseCategory({ isAnonymous }) {
         ]}
       />
     </>
+  );
+}
+
+function RichTextBox({ text, setText }) {
+  return (
+    <RichTextEditor
+      style={{ marginTop: "1rem", zIndex: "100" }}
+      value={text}
+      onChange={setText}
+      sticky={true}
+      stickyOffset={100}
+      controls={[
+        ["bold", "italic", "underline", "link", "strike", "clean"],
+        ["unorderedList", "orderedList", "h1", "h2", "h3", "h4"],
+        ["sup", "sub", "blockquote"],
+      ]}
+    />
   );
 }
 
