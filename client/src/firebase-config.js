@@ -75,3 +75,10 @@ export const getUser = async (userId) => {
   const fetchedDoc = await getDoc(ref);
   return fetchedDoc.data();
 };
+
+export const getAllTags = async () => {
+  const ref = collection(db, "Tags");
+  const q = query(ref, orderBy("tagCount", "desc"), limit(10));
+  const data = await getDocs(q);
+  return data;
+};

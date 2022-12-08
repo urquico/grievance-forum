@@ -1,24 +1,114 @@
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { MediaQuery, Text, Aside } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
+import { getAllTags } from "../../firebase-config";
+import TagLinks from "./TagLinks";
+import TagLoader from "../Loading/TagLoader";
 
 function AsideLayout() {
+  const [tags, setTags] = useState([]);
+  const [isEmpty, setIsEmpty] = useState(false);
+
+  useLayoutEffect(() => {
+    getAllTags().then((result) => {
+      setTags([]);
+      fetchData(result);
+    });
+  }, []);
+
+  const fetchData = async (result) => {
+    const isCollectionEmpty = result.size === 0;
+    if (!isCollectionEmpty) {
+      setTags(() => [
+        ...result.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        })),
+      ]);
+    } else {
+      setIsEmpty(true);
+    }
+  };
+
+  console.log("data ", tags);
+
   return (
     <div>
-      {" "}
       <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
         <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }}>
           <Text
             style={{
               fontWeight: "bold",
-              marginBottom: "2rem",
+              marginBottom: "1rem",
               fontSize: "1.250rem",
             }}
           >
-            Trending
+            Trending Topics
+          </Text>
+          {tags.length === 0 ? (
+            <>
+              <TagLoader />
+              <TagLoader />
+              <TagLoader />
+              <TagLoader />
+              <TagLoader />
+            </>
+          ) : (
+            <>
+              {isEmpty ? (
+                <Text
+                  style={{
+                    paddingLeft: "0.75rem",
+                    opacity: "0.7",
+                    textAlign: "center",
+                  }}
+                  fz="xs"
+                >
+                  no trending topics yet
+                </Text>
+              ) : (
+                tags?.map((tag, index) => {
+                  return (
+                    <>
+                      <TagLinks tag={tag.tagName} tagCount={tag.tagCount} />
+                    </>
+                  );
+                })
+              )}
+            </>
+          )}
+          <div
+            style={{
+              marginTop: "1.625rem",
+              marginLeft: "0.75rem",
+              opacity: "0.7",
+              display: "flex",
+            }}
+          >
+            <Links title={"Terms of Services"} path={"terms-of-services"} />
+            <Links title={"Privacy Policy"} path={"privacy-policy"} />
+            <Links title={"Accessibility"} path={"accessibility"} />
+          </div>
+          <Text fz="xs" style={{ marginLeft: "0.75rem", opacity: "0.7" }}>
+            &copy; 2022 Haribon E-Wall
           </Text>
         </Aside>
       </MediaQuery>
     </div>
+  );
+}
+
+function Links({ title, path }) {
+  const navigate = useNavigate();
+
+  return (
+    <Text
+      fz="xs"
+      style={{ paddingRight: "8px", cursor: "pointer" }}
+      onClick={() => navigate(`/${path}`)}
+    >
+      {title}
+    </Text>
   );
 }
 
