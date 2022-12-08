@@ -5,6 +5,7 @@ import {
   Switch,
   Select,
   MultiSelect,
+  Button,
 } from "@mantine/core";
 import { RichTextEditor } from "@mantine/rte";
 import { IconHash } from "@tabler/icons";
@@ -20,6 +21,8 @@ function WritePostCard() {
   const [selectedTags, setSelectedTags] = useState([]);
 
   const theme = useMantineTheme();
+
+  const submitPost = () => {};
 
   return (
     <div
@@ -56,6 +59,9 @@ function WritePostCard() {
       />
       <RichTextBox text={text} setText={setText} />
       <AddTags selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
+      <Button style={{ marginTop: "0.75rem" }} onClick={submitPost}>
+        <Text fw={700}>Post</Text>
+      </Button>
     </div>
   );
 }
