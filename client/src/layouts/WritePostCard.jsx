@@ -12,7 +12,7 @@ import { IconHash } from "@tabler/icons";
 
 import User from "./User";
 
-const initialValue = "<p><b>Share</b> your thoughts ...</p>";
+const initialValue = "<p><b>Share</b> your <i>thoughts</i> ...</p>";
 
 function WritePostCard() {
   const [text, setText] = useState(initialValue);

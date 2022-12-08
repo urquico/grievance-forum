@@ -37,12 +37,6 @@ function NavBarLayout({ opened, logOut }) {
           path={"/profile"}
         />
         <NavLinks
-          title={"Placeholder"}
-          icon={<IconSun size={16} />}
-          color="yellow"
-          path={"/placeholder"}
-        />
-        <NavLinks
           title={"Categories"}
           icon={<IconCategory size={16} />}
           color="violet"
