@@ -1,5 +1,6 @@
 import React from "react";
 import { useMantineTheme, Text, Switch } from "@mantine/core";
+import User from "./User";
 
 function WritePostCard() {
   const theme = useMantineTheme();
@@ -21,6 +22,14 @@ function WritePostCard() {
       }}
     >
       <PostAnonymously />
+      <User
+        publisher={localStorage.getItem("name")}
+        isAnonymous={false}
+        email={localStorage.getItem("email")}
+        isAdmin={""}
+        isCurrentUserAdmin={false}
+        hideTrashAndBadge={true}
+      />
     </div>
   );
 }
@@ -40,6 +49,7 @@ function PostAnonymously() {
           theme.colorScheme === "dark" ? theme.colors.gray[7] : "#CED4DA",
         display: "flex",
         padding: "0.75rem",
+        marginBottom: "1rem",
       }}
     >
       <Text
@@ -57,8 +67,6 @@ function PostAnonymously() {
 
       <Switch
         style={{
-          color:
-            theme.colorScheme === "dark" ? theme.colors.gray[6] : "#5E5F61",
           marginTop: "-1rem",
         }}
         labelPosition="left"

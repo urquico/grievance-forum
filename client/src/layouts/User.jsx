@@ -8,7 +8,14 @@ import {
 } from "@mantine/core";
 import { IconTrash } from "@tabler/icons";
 
-function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin }) {
+function User({
+  publisher,
+  isAnonymous,
+  email,
+  isAdmin,
+  isCurrentUserAdmin,
+  hideTrashAndBadge,
+}) {
   const theme = useMantineTheme();
   const avatarColors = [
     "red",
@@ -57,24 +64,37 @@ function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin }) {
           {isAnonymous ? "" : email}
         </Text>
       </Text>
-      {isAnonymous ? (
-        <Badge style={{ marginLeft: "5px" }} color="red">
-          secret
-        </Badge>
+      {hideTrashAndBadge ? (
+        ""
       ) : (
-        <Badge style={{ marginLeft: "5px" }} color={isAdmin ? "blue" : "green"}>
-          {isAdmin ? "Admin" : "Student"}
-        </Badge>
+        <>
+          {isAnonymous ? (
+            <Badge style={{ marginLeft: "5px" }} color="red">
+              secret
+            </Badge>
+          ) : (
+            <Badge
+              style={{ marginLeft: "5px" }}
+              color={isAdmin ? "blue" : "green"}
+            >
+              {isAdmin ? "Admin" : "Student"}
+            </Badge>
+          )}
+        </>
       )}
-      <div style={{ margin: "auto", marginRight: "1rem" }}>
-        {localStorage.getItem("email") === email || isCurrentUserAdmin ? (
-          <ActionIcon>
-            <IconTrash onClick={deletePost} />
-          </ActionIcon>
-        ) : (
-          <></>
-        )}
-      </div>
+      {hideTrashAndBadge ? (
+        ""
+      ) : (
+        <div style={{ margin: "auto", marginRight: "1rem" }}>
+          {localStorage.getItem("email") === email || isCurrentUserAdmin ? (
+            <ActionIcon>
+              <IconTrash onClick={deletePost} />
+            </ActionIcon>
+          ) : (
+            <></>
+          )}
+        </div>
+      )}
     </div>
   );
 }
