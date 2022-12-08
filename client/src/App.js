@@ -9,6 +9,7 @@ import Loading from "./layouts/Loading/Loading";
 const Login = lazy(() => import("./routes/Login"));
 const Home = lazy(() => import("./routes/Home"));
 const Error = lazy(() => import("./routes/Error"));
+const Post = lazy(() => import("./routes/Post"));
 
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage({
@@ -35,6 +36,7 @@ function App() {
                 <Route path={"/"} element={<Login />} />
                 <Route path={"/login"} element={<Login />} />
                 <Route path={"/home"} element={<Home />} />
+                <Route path={"/post"} element={<Post />} />
                 <Route path={"*"} element={<Error />} />
               </Routes>
             </NotificationsProvider>
