@@ -1,6 +1,13 @@
-import React, { useState } from "react";
-import { useMantineTheme, Text, Switch, Select } from "@mantine/core";
+import React, { useState, useRef } from "react";
+import {
+  useMantineTheme,
+  Text,
+  Switch,
+  Select,
+  MultiSelect,
+} from "@mantine/core";
 import { RichTextEditor } from "@mantine/rte";
+import { IconHash } from "@tabler/icons";
 
 import User from "./User";
 
@@ -9,6 +16,9 @@ const initialValue = "<p><b>Share</b> your thoughts ...</p>";
 function WritePostCard() {
   const [text, setText] = useState(initialValue);
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedTags, setSelectedTags] = useState([]);
+
   const theme = useMantineTheme();
 
   return (
@@ -39,8 +49,13 @@ function WritePostCard() {
         isCurrentUserAdmin={false}
         hideTrashAndBadge={true}
       />
-      <ChooseCategory isAnonymous={isAnonymous} />
+      <ChooseCategory
+        isAnonymous={isAnonymous}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
       <RichTextBox text={text} setText={setText} />
+      <AddTags selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
     </div>
   );
 }
@@ -90,7 +105,11 @@ function PostAnonymously({ setIsAnonymous, isAnonymous }) {
   );
 }
 
-function ChooseCategory({ isAnonymous }) {
+function ChooseCategory({
+  isAnonymous,
+  selectedCategory,
+  setSelectedCategory,
+}) {
   return (
     <>
       <Select
@@ -100,10 +119,12 @@ function ChooseCategory({ isAnonymous }) {
           marginTop: isAnonymous ? "-0.75rem" : "0",
           // borderColor: "blue",
         }}
+        value={selectedCategory}
+        onChange={setSelectedCategory}
         placeholder="Category"
         data={[
-          { value: "personal", label: "personal" },
-          { value: "academic", label: "academic" },
+          { value: "Personal", label: "Personal" },
+          { value: "Academic", label: "Academic" },
         ]}
       />
     </>
@@ -113,7 +134,7 @@ function ChooseCategory({ isAnonymous }) {
 function RichTextBox({ text, setText }) {
   return (
     <RichTextEditor
-      style={{ marginTop: "1rem", zIndex: "100" }}
+      style={{ marginTop: "1rem", zIndex: "100", height: "13.75rem" }}
       value={text}
       onChange={setText}
       sticky={true}
@@ -124,6 +145,47 @@ function RichTextBox({ text, setText }) {
         ["sup", "sub", "blockquote"],
       ]}
     />
+  );
+}
+
+function AddTags({ selectedTags, setSelectedTags }) {
+  const ref = useRef(0);
+  const [data, setData] = useState([
+    {
+      value: "Depression",
+      label: "Depression",
+      group: "personal",
+    },
+    {
+      value: "How to file LOA",
+      label: "How to file LOA",
+      group: "academic",
+    },
+  ]);
+
+  return (
+    <div>
+      <MultiSelect
+        style={{ marginTop: "0.75rem" }}
+        ref={ref}
+        data={data}
+        value={selectedTags}
+        placeholder="Write your tags here ..."
+        searchable
+        creatable
+        getCreateLabel={(query) => `+ Create ${query}`}
+        onCreate={(query) => {
+          const item = { value: query, label: query };
+          setData((current) => [...current, item]);
+          return item;
+        }}
+        maxSelectedValues={5}
+        dropdownPosition="top"
+        icon={<IconHash size={14} />}
+        onChange={setSelectedTags}
+        clearable
+      />
+    </div>
   );
 }
 
