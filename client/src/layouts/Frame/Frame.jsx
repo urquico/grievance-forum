@@ -13,7 +13,7 @@ import AsideLayout from "./AsideLayout";
 
 // includes the navigation, sidebar, responsive UI etc.
 
-function Frame({ content }) {
+function Frame({ content, path }) {
   const navigate = useNavigate();
   const theme = useMantineTheme();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
@@ -25,7 +25,8 @@ function Frame({ content }) {
     if (localStorage.getItem("name") === null) {
       navigate("/");
     } else {
-      navigate("/home");
+      navigate(path);
+      console.log(path);
     }
   }, [navigate]);
 

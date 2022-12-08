@@ -1,10 +1,8 @@
 import React from "react";
 import { Text, useMantineTheme } from "@mantine/core";
 
-function IntroductionCard({ name }) {
+function IntroductionCard({ name, message }) {
   const theme = useMantineTheme();
-
-  const message = "Welcome to Haribon Knights E-Wall!";
 
   return (
     <div
