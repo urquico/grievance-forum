@@ -30,8 +30,6 @@ function AsideLayout() {
     }
   };
 
-  console.log("data ", tags);
-
   return (
     <div>
       <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
