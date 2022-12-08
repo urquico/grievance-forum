@@ -34,7 +34,7 @@ function WritePostCard() {
         isCurrentUserAdmin={false}
         hideTrashAndBadge={true}
       />
-      <ChooseCategory />
+      <ChooseCategory isAnonymous={isAnonymous} />
     </div>
   );
 }
@@ -84,11 +84,16 @@ function PostAnonymously({ setIsAnonymous, isAnonymous }) {
   );
 }
 
-function ChooseCategory() {
+function ChooseCategory({ isAnonymous }) {
   return (
     <>
       <Select
-        style={{ marginLeft: "2.90rem", width: "150px" }}
+        style={{
+          marginLeft: "2.90rem",
+          width: "7.5rem",
+          marginTop: isAnonymous ? "-0.75rem" : "0",
+          // borderColor: "blue",
+        }}
         placeholder="Category"
         data={[
           { value: "personal", label: "personal" },
