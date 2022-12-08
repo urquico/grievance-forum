@@ -4,12 +4,7 @@ const port = 3001;
 
 const cors = require("cors");
 
-const {
-  addUser,
-  getPost,
-  getMorePost,
-  generateVotePoint,
-} = require("./firebase-config");
+const { addUser, generateVotePoint } = require("./firebase-config");
 
 app.use(cors());
 app.use(express.json());
@@ -39,15 +34,6 @@ app.post("/generateVotePoint", async (req, res) => {
     });
 });
 
-// app.post("/getMorePost", async (req, res) => {
-//   await getMorePost(req.body.lastDoc)
-//     .then((result) => {
-//       res.send(result);
-//       // console.log(result);
-//     })
-//     .catch((error) => {
-//       res.send(error.message);
-//     });
-// });
+app.get("/writePost", async (req, res) => {});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
