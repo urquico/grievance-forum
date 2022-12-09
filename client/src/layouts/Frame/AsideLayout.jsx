@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useState } from "react";
 import { MediaQuery, Text, Aside } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import { getAllTags } from "../../firebase-config";
+import { getTrendTags } from "../../firebase-config";
 import TagLinks from "./TagLinks";
 import TagLoader from "../Loading/TagLoader";
 
@@ -10,7 +10,7 @@ function AsideLayout() {
   const [isEmpty, setIsEmpty] = useState(false);
 
   useLayoutEffect(() => {
-    getAllTags().then((result) => {
+    getTrendTags().then((result) => {
       setTags([]);
       fetchData(result);
     });
