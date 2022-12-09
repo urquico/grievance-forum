@@ -26,7 +26,6 @@ function Frame({ content, path }) {
       navigate("/");
     } else {
       navigate(path);
-      console.log(path);
     }
   }, [navigate]);
 

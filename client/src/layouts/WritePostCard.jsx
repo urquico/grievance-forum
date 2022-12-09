@@ -9,7 +9,9 @@ import {
 } from "@mantine/core";
 import { RichTextEditor } from "@mantine/rte";
 import { IconHash } from "@tabler/icons";
+import axios from "axios";
 
+import { PORT } from "../Globals";
 import User from "./User";
 
 const initialValue = "<p><b>Share</b> your <i>thoughts</i> ...</p>";
@@ -22,7 +24,22 @@ function WritePostCard() {
 
   const theme = useMantineTheme();
 
-  const submitPost = () => {};
+  const submitPost = () => {
+    axios
+      .post(`${PORT}/writePost`, {
+        category: selectedCategory,
+        isAnonymous: isAnonymous,
+        message: text,
+        userId: localStorage.getItem("email"),
+        tags: selectedTags,
+      })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   return (
     <div
@@ -129,8 +146,8 @@ function ChooseCategory({
         onChange={setSelectedCategory}
         placeholder="Category"
         data={[
-          { value: "Personal", label: "Personal" },
-          { value: "Academic", label: "Academic" },
+          { value: "personal-concerns", label: "Personal" },
+          { value: "academic-concerns", label: "Academic" },
         ]}
       />
     </>

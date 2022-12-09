@@ -4,7 +4,7 @@ const port = 3001;
 
 const cors = require("cors");
 
-const { addUser, generateVotePoint } = require("./firebase-config");
+const { addUser, generateVotePoint, writePost } = require("./firebase-config");
 
 app.use(cors());
 app.use(express.json());
@@ -34,6 +34,20 @@ app.post("/generateVotePoint", async (req, res) => {
     });
 });
 
-app.get("/writePost", async (req, res) => {});
+app.post("/writePost", async (req, res) => {
+  await writePost({
+    category: req.body.category,
+    isAnonymous: !!req.body.isAnonymous,
+    message: req.body.message,
+    userId: req.body.userId,
+    tags: req.body.tags,
+  })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

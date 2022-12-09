@@ -74,8 +74,19 @@ const votePost = async ({ voteType, userType, postId }) => {
   // TODO: add the post to a user's vote lists
 };
 
-const writePost = async () => {
-  //TODO: add post on the Posts
+const writePost = async ({ category, isAnonymous, message, userId, tags }) => {
+  await db.collection("Posts").add({
+    categoryId: category,
+    downVote: 0,
+    upVote: 0,
+    isAnonymous: isAnonymous,
+    isSolved: false,
+    message: message,
+    tags: tags,
+    timePosted: Timestamp.fromDate(new Date()),
+    userId: userId,
+    votePoint: 0,
+  });
 };
 
 const writeComment = async () => {
@@ -84,7 +95,6 @@ const writeComment = async () => {
 
 module.exports = {
   addUser: addUser,
-  // getPost: getPost,
-  // getMorePost: getMorePost,
   generateVotePoint: generateVotePoint,
+  writePost: writePost,
 };
