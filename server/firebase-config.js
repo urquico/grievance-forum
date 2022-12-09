@@ -73,7 +73,8 @@ const votePost = async ({ voteType, userId, postId, weight }) => {
   await db
     .collection("VotedPosts")
     .doc(userId)
-    .collection(postId)
+    .collection("Vote")
+    .doc(postId)
     .set({ voteType: voteType })
     .then(() => {
       const postQueryRef = db.collection("Posts").doc(postId);
@@ -86,6 +87,9 @@ const votePost = async ({ voteType, userId, postId, weight }) => {
           downVote: FieldValue.increment(weight),
         });
       }
+    })
+    .catch((err) => {
+      console.log(err.message);
     });
 };
 

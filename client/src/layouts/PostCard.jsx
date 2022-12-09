@@ -59,18 +59,24 @@ function PostCard({
 
   useLayoutEffect(() => {
     getVotePostData(postId, localStorage.getItem("email")).then((result) => {
-      // console.log(result);
       setVoteUI(result);
-      console.log(voteUI);
-      if (voteUI && voteUI === undefined) {
-        setUpVote(true);
-        setDownVote(false);
-      } else if (!voteUI && voteUI === undefined) {
-        setDownVote(true);
-        setUpVote(false);
-      }
+      voteState(voteUI);
     });
   }, []);
+
+  const voteState = (voteType) => {
+    if (voteType) {
+      setUpVote(true);
+      setDownVote(false);
+    } else if (!voteType) {
+      setDownVote(true);
+      setUpVote(false);
+    } else if (voteType === "no data") {
+      setDownVote(false);
+      setUpVote(false);
+    }
+    console.log(voteType);
+  };
 
   if (Math.floor(time) < 1) {
     if (Math.floor(time * 60) <= 1) {
@@ -150,7 +156,7 @@ function PostCard({
   };
 
   const writeComment = () => {
-    console.log(postId);
+    console.log(postId, voteUI);
   };
 
   const votePointMargin = (number) => {
