@@ -157,15 +157,15 @@ function ChooseCategory({
 function RichTextBox({ text, setText }) {
   return (
     <RichTextEditor
-      style={{ marginTop: "1rem", zIndex: "100", height: "13.75rem" }}
+      style={{ marginTop: "1rem", zIndex: "1" }}
       value={text}
       onChange={setText}
       sticky={true}
-      stickyOffset={100}
+      stickyOffset={60}
       controls={[
         ["bold", "italic", "underline", "link", "strike", "clean"],
         ["unorderedList", "orderedList", "h1", "h2", "h3", "h4"],
-        ["sup", "sub", "blockquote"],
+        ["sup", "sub", "blockquote", "code"],
       ]}
     />
   );
