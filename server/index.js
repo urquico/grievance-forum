@@ -64,6 +64,7 @@ app.post("/votePost", async (req, res) => {
   })
     .then((result) => {
       res.send(result);
+      generateVotePoint();
     })
     .catch((error) => {
       res.send(error.message);
