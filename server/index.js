@@ -44,6 +44,7 @@ app.post("/writePost", async (req, res) => {
   })
     .then((result) => {
       res.send(result);
+      generateVotePoint();
     })
     .catch((error) => {
       console.log(error.message);

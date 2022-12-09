@@ -31,8 +31,8 @@ const addUser = async ({ name, email }) => {
 const redditAlgorithm = (post) => {
   const timePosted = new Date(post.data().timePosted._seconds);
   const currentDate = new Date(Timestamp.fromDate(new Date())._seconds);
-  const t = currentDate - timePosted;
-  const x = post.data().upVote - post.data().downVote;
+  let t = currentDate - timePosted;
+  let x = post.data().upVote - post.data().downVote;
   let y = 0;
   let z = 0;
 

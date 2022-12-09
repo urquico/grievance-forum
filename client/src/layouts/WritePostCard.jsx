@@ -6,13 +6,16 @@ import {
   Select,
   MultiSelect,
   Button,
+  Modal,
 } from "@mantine/core";
 import { RichTextEditor } from "@mantine/rte";
-import { IconHash } from "@tabler/icons";
+import { showNotification, updateNotification } from "@mantine/notifications";
+import { IconHash, IconCheck, IconX } from "@tabler/icons";
 import axios from "axios";
 
 import { PORT } from "../Globals";
 import User from "./User";
+import PostCard from "./PostCard";
 
 const initialValue = "<p><b>Share</b> your <i>thoughts</i> ...</p>";
 
@@ -21,10 +24,24 @@ function WritePostCard() {
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedTags, setSelectedTags] = useState([]);
+  const [opened, setOpened] = useState(false);
 
   const theme = useMantineTheme();
 
   const submitPost = () => {
+    setOpened(true);
+  };
+
+  const writePostQuery = () => {
+    showNotification({
+      id: "load-data",
+      loading: true,
+      title: "Submitting your post",
+      message: "Please Wait!",
+      autoClose: false,
+      disallowClose: true,
+    });
+    setOpened(false);
     axios
       .post(`${PORT}/writePost`, {
         category: selectedCategory,
@@ -33,11 +50,30 @@ function WritePostCard() {
         userId: localStorage.getItem("email"),
         tags: selectedTags,
       })
-      .then((result) => {
-        console.log(result);
+      .then(() => {
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "teal",
+            title: "Success!",
+            message: "Post has been Submitted",
+            icon: <IconCheck size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
       })
       .catch((error) => {
         console.log(error.message);
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "red",
+            title: "Error!!",
+            message: error.message,
+            icon: <IconX size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
       });
   };
 
@@ -57,6 +93,26 @@ function WritePostCard() {
         flexDirection: "column",
       }}
     >
+      <Modal
+        style={{ borderRadius: "13px" }}
+        size="lg"
+        opened={opened}
+        centered
+        onClose={() => setOpened(false)}
+        title={
+          <Text fz="xl" fw={700} style={{ marginLeft: "1rem" }}>
+            Here's what your post will look like
+          </Text>
+        }
+      >
+        <PostPreview
+          isAnonymous={isAnonymous}
+          tags={selectedTags}
+          category={selectedCategory}
+          message={text}
+          submitQuery={writePostQuery}
+        />
+      </Modal>
       <PostAnonymously
         setIsAnonymous={setIsAnonymous}
         isAnonymous={isAnonymous}
@@ -80,6 +136,29 @@ function WritePostCard() {
         <Text fw={700}>Post</Text>
       </Button>
     </div>
+  );
+}
+
+function PostPreview({ isAnonymous, tags, category, message, submitQuery }) {
+  return (
+    <>
+      <PostCard
+        isAnonymous={isAnonymous}
+        email={localStorage.getItem("email")}
+        tags={tags}
+        category={category}
+        time={0}
+        post={message}
+        postId={""}
+        isSolved={false}
+      />
+      <Button
+        style={{ marginTop: "0.75rem", width: "100%" }}
+        onClick={submitQuery}
+      >
+        <Text fw={700}>Submit Post</Text>
+      </Button>
+    </>
   );
 }
 
