@@ -13,6 +13,7 @@ import {
   orderBy,
   limit,
   startAfter,
+  where,
   doc,
   getDoc,
 } from "firebase/firestore";
@@ -74,6 +75,20 @@ export const getUser = async (userId) => {
   const ref = doc(db, "UserData", userId);
   const fetchedDoc = await getDoc(ref);
   return fetchedDoc.data();
+};
+
+export const getVotePostData = async (postId, userId) => {
+  const ref = collection(db, "VotedPosts");
+  const q = query(ref, where("postId", "==", postId));
+  const data = await getDocs(q);
+  if (!data.empty) {
+    const email =
+      data?.docs[0]._document.data.value.mapValue.fields.userId.stringValue;
+    if (email === userId) {
+      return data?.docs[0]._document.data.value.mapValue.fields.voteType
+        .booleanValue;
+    }
+  }
 };
 
 export const getTrendTags = async () => {

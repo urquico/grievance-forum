@@ -17,7 +17,7 @@ import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
 import axios from "axios";
 import User from "./User";
-import { getUser } from "../firebase-config";
+import { getUser, getVotePostData } from "../firebase-config";
 import { PORT } from "../Globals";
 
 function PostCard({
@@ -39,6 +39,7 @@ function PostCard({
   const [downVote, setDownVote] = useState(false);
   const [voteCount, setVoteCount] = useState(voteNumber);
   const [readMore, setReadMore] = useState(false);
+  const [voteUI, setVoteUI] = useState(undefined);
   const navigate = useNavigate();
   let timeDisplay = "";
   const weight = isCurrentUserAdmin ? 10 : 1;
@@ -53,6 +54,21 @@ function PostCard({
   useLayoutEffect(() => {
     getUser(localStorage.getItem("email")).then((result) => {
       setIsCurrentUserAdmin(result.isAdmin);
+    });
+  }, []);
+
+  useLayoutEffect(() => {
+    getVotePostData(postId, localStorage.getItem("email")).then((result) => {
+      // console.log(result);
+      setVoteUI(result);
+      console.log(voteUI);
+      if (voteUI && voteUI === undefined) {
+        setUpVote(true);
+        setDownVote(false);
+      } else if (!voteUI && voteUI === undefined) {
+        setDownVote(true);
+        setUpVote(false);
+      }
     });
   }, []);
 

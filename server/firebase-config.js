@@ -72,7 +72,9 @@ const generateVotePoint = async () => {
 const votePost = async ({ voteType, userId, postId, weight }) => {
   await db
     .collection("VotedPosts")
-    .add({ voteType: voteType, userId: userId, postId: postId })
+    .doc(userId)
+    .collection(postId)
+    .set({ voteType: voteType })
     .then(() => {
       const postQueryRef = db.collection("Posts").doc(postId);
       if (voteType) {
