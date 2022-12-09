@@ -56,15 +56,7 @@ function InfiniteScrolling({ type }) {
       ) : (
         ""
       )}
-      {/*   email,
-  isAnonymous,
-  tags,
-  category,
-  time,
-  post,
-  isAuthorized,
-  postId,
-  isSolved, */}
+
       {posts?.map((post, index) => {
         return (
           <div key={index}>
@@ -77,6 +69,7 @@ function InfiniteScrolling({ type }) {
               post={post.message}
               postId={post.id}
               isSolved={post.isSolved}
+              voteNumber={post.upVote - post.downVote}
             />
           </div>
         );

@@ -69,9 +69,10 @@ const generateVotePoint = async () => {
   }
 };
 
-const votePost = async ({ voteType, userType, postId }) => {
-  // TODO: check if the user up votes or down votes, then update the current vote count of a specific post
-  // TODO: add the post to a user's vote lists
+const votePost = async ({ voteType, userId, postId, weight }) => {
+  await db
+    .collection("VotedPosts")
+    .add({ voteType: voteType, userId: userId, postId: postId });
 };
 
 const writePost = async ({ category, isAnonymous, message, userId, tags }) => {
@@ -97,4 +98,5 @@ module.exports = {
   addUser: addUser,
   generateVotePoint: generateVotePoint,
   writePost: writePost,
+  votePost: votePost,
 };

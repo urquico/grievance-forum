@@ -13,8 +13,12 @@ import {
   IconArrowNarrowDown,
 } from "@tabler/icons";
 import { useNavigate } from "react-router-dom";
+import { showNotification, updateNotification } from "@mantine/notifications";
+import { IconCheck, IconX } from "@tabler/icons";
+import axios from "axios";
 import User from "./User";
 import { getUser } from "../firebase-config";
+import { PORT } from "../Globals";
 
 function PostCard({
   email,
@@ -25,6 +29,7 @@ function PostCard({
   post,
   postId,
   isSolved,
+  voteNumber,
 }) {
   const theme = useMantineTheme();
   const [publisher, setPublisher] = useState("");
@@ -32,7 +37,7 @@ function PostCard({
   const [isCurrentUserAdmin, setIsCurrentUserAdmin] = useState(false);
   const [upVote, setUpVote] = useState(false);
   const [downVote, setDownVote] = useState(false);
-  const [voteCount, setVoteCount] = useState(0);
+  const [voteCount, setVoteCount] = useState(voteNumber);
   const [readMore, setReadMore] = useState(false);
   const navigate = useNavigate();
   let timeDisplay = "";
@@ -69,14 +74,53 @@ function PostCard({
 
   const voteDown = async () => {
     if (!downVote) {
+      showNotification({
+        id: "load-data",
+        loading: true,
+        title: "Down Voting",
+        message: "Please Wait!",
+        autoClose: false,
+        disallowClose: true,
+      });
       setVoteCount(voteCount - weight);
       setDownVote(true);
       setUpVote(false);
+      axios
+        .post(`${PORT}/votePost`, {
+          voteType: false,
+          userId: localStorage.getItem("email"),
+          postId: postId,
+          weight: weight,
+        })
+        .then(() => {
+          setTimeout(() => {
+            updateNotification({
+              id: "load-data",
+              color: "teal",
+              title: "Success!",
+              message: "Post has been down voted",
+              icon: <IconCheck size={16} />,
+              autoClose: 2000,
+            });
+          }, 3000);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setTimeout(() => {
+            updateNotification({
+              id: "load-data",
+              color: "red",
+              title: "Error!!",
+              message: error.message,
+              icon: <IconX size={16} />,
+              autoClose: 2000,
+            });
+          }, 3000);
+        });
     }
   };
 
   const voteUp = async () => {
-    //http://localhost:3001/vote/academic-concerns/at0EHMEI6sYxcw5Ma6vC/10/up
     if (!upVote) {
       setVoteCount(voteCount + weight);
       setUpVote(true);
@@ -122,6 +166,7 @@ function PostCard({
         email={email}
         isAdmin={isAdmin}
         isCurrentUserAdmin={isCurrentUserAdmin}
+        hideTrashAndBadge={false}
       />
       <div style={{ marginTop: "0.063rem" }}>
         {/* Category */}
