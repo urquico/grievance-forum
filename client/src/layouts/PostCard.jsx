@@ -74,49 +74,10 @@ function PostCard({
 
   const voteDown = async () => {
     if (!downVote) {
-      showNotification({
-        id: "load-data",
-        loading: true,
-        title: "Down Voting",
-        message: "Please Wait!",
-        autoClose: false,
-        disallowClose: true,
-      });
       setVoteCount(voteCount - weight);
       setDownVote(true);
       setUpVote(false);
-      axios
-        .post(`${PORT}/votePost`, {
-          voteType: false,
-          userId: localStorage.getItem("email"),
-          postId: postId,
-          weight: weight,
-        })
-        .then(() => {
-          setTimeout(() => {
-            updateNotification({
-              id: "load-data",
-              color: "teal",
-              title: "Success!",
-              message: "Post has been down voted",
-              icon: <IconCheck size={16} />,
-              autoClose: 2000,
-            });
-          }, 3000);
-        })
-        .catch((error) => {
-          console.log(error.message);
-          setTimeout(() => {
-            updateNotification({
-              id: "load-data",
-              color: "red",
-              title: "Error!!",
-              message: error.message,
-              icon: <IconX size={16} />,
-              autoClose: 2000,
-            });
-          }, 3000);
-        });
+      votePost("Down Voted", false);
     }
   };
 
@@ -125,7 +86,51 @@ function PostCard({
       setVoteCount(voteCount + weight);
       setUpVote(true);
       setDownVote(false);
+      votePost("Up Voted", true);
     }
+  };
+
+  const votePost = (title, voteType) => {
+    showNotification({
+      id: "load-data",
+      loading: true,
+      title: title,
+      message: "Please Wait!",
+      autoClose: false,
+      disallowClose: true,
+    });
+    axios
+      .post(`${PORT}/votePost`, {
+        voteType: voteType,
+        userId: localStorage.getItem("email"),
+        postId: postId,
+        weight: Number(weight),
+      })
+      .then(() => {
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "teal",
+            title: "Success!",
+            message: `Post has been ${title}`,
+            icon: <IconCheck size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "red",
+            title: "Error!!",
+            message: error.message,
+            icon: <IconX size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
+      });
   };
 
   const writeComment = () => {

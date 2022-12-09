@@ -72,7 +72,19 @@ const generateVotePoint = async () => {
 const votePost = async ({ voteType, userId, postId, weight }) => {
   await db
     .collection("VotedPosts")
-    .add({ voteType: voteType, userId: userId, postId: postId });
+    .add({ voteType: voteType, userId: userId, postId: postId })
+    .then(() => {
+      const postQueryRef = db.collection("Posts").doc(postId);
+      if (voteType) {
+        postQueryRef.update({
+          upVote: FieldValue.increment(weight),
+        });
+      } else {
+        postQueryRef.update({
+          downVote: FieldValue.increment(weight),
+        });
+      }
+    });
 };
 
 const writePost = async ({ category, isAnonymous, message, userId, tags }) => {
