@@ -58,6 +58,12 @@ function InfiniteScrolling({ type }) {
       )}
 
       {posts?.map((post, index) => {
+        const timeCurrent = new Date(post.readTime * 1000);
+        const timePosted = new Date(post.timePosted.seconds * 1000);
+
+        const hour =
+          (timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600;
+
         return (
           <div key={index}>
             <PostCard
@@ -65,7 +71,7 @@ function InfiniteScrolling({ type }) {
               email={post.userId}
               tags={post.tags}
               category={post.categoryId}
-              time={22}
+              time={hour.toLocaleString()}
               post={post.message}
               postId={post.id}
               isSolved={post.isSolved}
