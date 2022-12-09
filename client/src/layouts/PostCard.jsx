@@ -36,8 +36,6 @@ function PostCard({
   const [readMore, setReadMore] = useState(false);
   const navigate = useNavigate();
   let timeDisplay = "";
-  let postExists = false; // to check if the current user voted for the specific post
-  let postMatchedType = false; // to check if the current user voted for the specific post
   const weight = isCurrentUserAdmin ? 10 : 1;
 
   useLayoutEffect(() => {

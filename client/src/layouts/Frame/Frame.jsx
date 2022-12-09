@@ -27,6 +27,7 @@ function Frame({ content, path }) {
     } else {
       navigate(path);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 
   const logout = () => {

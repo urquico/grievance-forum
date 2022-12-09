@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  IconSun,
   IconHome2,
   IconBallpen,
   IconAddressBook,
