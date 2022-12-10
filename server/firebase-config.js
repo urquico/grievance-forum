@@ -112,9 +112,12 @@ const writeComment = async () => {
   // TODO: add comment using the post id then add it on the Comments collection
 };
 
+const writeTags = async ({ tags }) => {};
+
 module.exports = {
   addUser: addUser,
   generateVotePoint: generateVotePoint,
   writePost: writePost,
   votePost: votePost,
+  writeTags: writeTags,
 };

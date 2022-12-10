@@ -9,6 +9,7 @@ const {
   generateVotePoint,
   writePost,
   votePost,
+  writeTags,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -68,6 +69,16 @@ app.post("/votePost", async (req, res) => {
     })
     .catch((error) => {
       res.send(error.message);
+    });
+});
+
+app.post("/writeTags", async (req, res) => {
+  await writeTags({ tags: req.body.tags })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err.message);
     });
 });
 

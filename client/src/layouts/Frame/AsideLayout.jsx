@@ -68,7 +68,7 @@ function AsideLayout() {
                 tags?.map((tag, index) => {
                   return (
                     <>
-                      <TagLinks tag={tag.tagName} tagCount={tag.tagCount} />
+                      <TagLinks tag={tag.id} tagCount={tag.tagCount} />
                     </>
                   );
                 })
