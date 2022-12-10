@@ -60,18 +60,16 @@ function PostCard({
   useLayoutEffect(() => {
     getVotePostData(postId, localStorage.getItem("email")).then((result) => {
       setVoteUI(result);
+      voteState(result.voteType, result.postId);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useLayoutEffect(() => {
-    if (voteUI?.postId === postId) {
-      voteUI?.voteType ? setUpVote(true) : setDownVote(true);
+  const voteState = (voteType, post) => {
+    if (post === postId) {
+      voteType ? setUpVote(true) : setDownVote(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // const voteState = (voteType, post) => {};
+  };
 
   if (Math.floor(time) < 1) {
     if (Math.floor(time * 60) <= 1) {
