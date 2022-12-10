@@ -95,6 +95,5 @@ export const getTrendTags = async () => {
   const ref = collection(db, "Tags");
   const q = query(ref, orderBy("tagCount", "desc"), limit(10));
   const data = await getDocs(q);
-  console.log(data);
   return data;
 };

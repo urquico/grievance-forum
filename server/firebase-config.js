@@ -112,7 +112,13 @@ const writeComment = async () => {
   // TODO: add comment using the post id then add it on the Comments collection
 };
 
-const writeTags = async ({ tags }) => {};
+const writeTags = async ({ tags }) => {
+  await tags.forEach((tag) => {
+    db.collection("Tags")
+      .doc(tag.toLowerCase())
+      .update({ tagCount: FieldValue.increment(1) });
+  });
+};
 
 module.exports = {
   addUser: addUser,
@@ -120,4 +126,5 @@ module.exports = {
   writePost: writePost,
   votePost: votePost,
   writeTags: writeTags,
+  writeComment: writeComment,
 };

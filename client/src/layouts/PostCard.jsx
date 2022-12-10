@@ -60,7 +60,7 @@ function PostCard({
   useLayoutEffect(() => {
     getVotePostData(postId, localStorage.getItem("email")).then((result) => {
       setVoteUI(result);
-      voteState(result.voteType, result.postId);
+      voteState(result?.voteType, result?.postId);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

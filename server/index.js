@@ -50,6 +50,7 @@ app.post("/writePost", async (req, res) => {
     .then((result) => {
       res.send(result);
       generateVotePoint();
+      writeTags({ tags: req.body.tags });
     })
     .catch((error) => {
       console.log(error.message);
@@ -69,16 +70,6 @@ app.post("/votePost", async (req, res) => {
     })
     .catch((error) => {
       res.send(error.message);
-    });
-});
-
-app.post("/writeTags", async (req, res) => {
-  await writeTags({ tags: req.body.tags })
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err.message);
     });
 });
 
