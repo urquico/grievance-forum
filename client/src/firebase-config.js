@@ -81,9 +81,13 @@ export const getVotePostData = async (postId, userId) => {
   const ref = doc(db, "VotedPosts", userId, "Vote", postId);
   const fetchedDoc = await getDoc(ref);
   if (fetchedDoc.exists()) {
-    return fetchedDoc.data().voteType;
+    let data = {
+      postId: fetchedDoc.data().postId,
+      voteType: fetchedDoc.data().voteType,
+    };
+    return data;
   } else {
-    return "no data";
+    return null;
   }
 };
 

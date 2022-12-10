@@ -75,7 +75,7 @@ const votePost = async ({ voteType, userId, postId, weight }) => {
     .doc(userId)
     .collection("Vote")
     .doc(postId)
-    .set({ voteType: voteType })
+    .set({ voteType: voteType, postId: postId })
     .then(() => {
       const postQueryRef = db.collection("Posts").doc(postId);
       if (voteType) {
