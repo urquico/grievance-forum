@@ -113,10 +113,16 @@ const writeComment = async () => {
 };
 
 const writeTags = async ({ tags }) => {
-  await tags.forEach((tag) => {
-    db.collection("Tags")
-      .doc(tag.toLowerCase())
-      .update({ tagCount: FieldValue.increment(1) });
+  await tags.forEach(async (tag) => {
+    const tagRef = db.collection("Tags").doc(tag.toLowerCase());
+    const doc = await tagRef.get();
+    if (!doc.exists) {
+      tagRef.set({ tagCount: 1 });
+      console.log(tag, ": no document");
+    } else {
+      tagRef.update({ tagCount: FieldValue.increment(1) });
+      console.log(tag, ": document found");
+    }
   });
 };
 
