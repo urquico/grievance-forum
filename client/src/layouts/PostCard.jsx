@@ -30,6 +30,9 @@ function PostCard({
   postId,
   isSolved,
   voteNumber,
+  previewOnly,
+  setPosts,
+  listsOfPosts,
 }) {
   const theme = useMantineTheme();
   const [publisher, setPublisher] = useState("");
@@ -149,7 +152,9 @@ function PostCard({
   };
 
   const writeComment = () => {
-    console.log(postId, voteUI);
+    if (!previewOnly) {
+      console.log(postId, voteUI);
+    }
   };
 
   const votePointMargin = (number) => {
@@ -187,6 +192,10 @@ function PostCard({
         isAdmin={isAdmin}
         isCurrentUserAdmin={isCurrentUserAdmin}
         hideTrashAndBadge={false}
+        previewOnly={previewOnly}
+        postId={postId}
+        setPosts={setPosts}
+        listsOfPosts={listsOfPosts}
       />
       <div style={{ marginTop: "0.063rem" }}>
         {/* Category */}
