@@ -196,6 +196,7 @@ function PostCard({
         postId={postId}
         setPosts={setPosts}
         listsOfPosts={listsOfPosts}
+        tags={tags}
       />
       <div style={{ marginTop: "0.063rem" }}>
         {/* Category */}

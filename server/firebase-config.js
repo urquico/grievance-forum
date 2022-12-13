@@ -142,7 +142,13 @@ const deleteVotedPost = async ({ userId, postId }) => {
   }
 };
 
-const deleteTagCount = () => {};
+const deleteTagCount = async ({ tags }) => {
+  await tags.forEach((tag) => {
+    db.collection("Tags")
+      .doc(tag.toLowerCase())
+      .update({ tagCount: FieldValue.increment(-1) });
+  });
+};
 
 module.exports = {
   addUser: addUser,
@@ -153,4 +159,5 @@ module.exports = {
   writeComment: writeComment,
   deletePost: deletePost,
   deleteVotedPost: deleteVotedPost,
+  deleteTagCount: deleteTagCount,
 };

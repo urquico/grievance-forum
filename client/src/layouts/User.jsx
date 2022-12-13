@@ -22,6 +22,7 @@ function User({
   postId,
   setPosts,
   listsOfPosts,
+  tags,
 }) {
   const theme = useMantineTheme();
   const avatarColors = [
@@ -63,6 +64,7 @@ function User({
       .post(`${PORT}/deletePost`, {
         postId: postId,
         userId: localStorage.getItem("email"),
+        tags: tags,
       })
       .then(() => {
         setTimeout(() => {
