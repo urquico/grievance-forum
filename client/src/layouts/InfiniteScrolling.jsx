@@ -77,8 +77,6 @@ function InfiniteScrolling({ type }) {
               isSolved={post.isSolved}
               voteNumber={post.upVote - post.downVote}
               previewOnly={false}
-              setPosts={setPosts}
-              listsOfPosts={posts}
             />
           </div>
         );

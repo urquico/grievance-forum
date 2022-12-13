@@ -31,8 +31,6 @@ function PostCard({
   isSolved,
   voteNumber,
   previewOnly,
-  setPosts,
-  listsOfPosts,
 }) {
   const theme = useMantineTheme();
   const [publisher, setPublisher] = useState("");
@@ -43,6 +41,7 @@ function PostCard({
   const [voteCount, setVoteCount] = useState(voteNumber);
   const [readMore, setReadMore] = useState(false);
   const [voteUI, setVoteUI] = useState(undefined);
+  const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
   let timeDisplay = "";
   const weight = isCurrentUserAdmin ? 10 : 1;
@@ -172,6 +171,7 @@ function PostCard({
   return (
     <div
       style={{
+        display: isVisible ? "none" : "flex",
         height: "auto",
         backgroundColor:
           theme.colorScheme === "dark"
@@ -181,7 +181,6 @@ function PostCard({
         padding: "2.375rem",
         marginTop: "1rem",
         boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
-        display: "flex",
         flexDirection: "column",
       }}
     >
@@ -194,9 +193,8 @@ function PostCard({
         hideTrashAndBadge={false}
         previewOnly={previewOnly}
         postId={postId}
-        setPosts={setPosts}
-        listsOfPosts={listsOfPosts}
         tags={tags}
+        setIsVisible={setIsVisible}
       />
       <div style={{ marginTop: "0.063rem" }}>
         {/* Category */}
