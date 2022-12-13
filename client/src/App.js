@@ -31,7 +31,7 @@ function App() {
             withGlobalStyles
             withNormalizeCSS
           >
-            <NotificationsProvider zIndex={2077}>
+            <NotificationsProvider limit={5} zIndex={2077}>
               <Routes>
                 <Route path={"/"} element={<Login />} />
                 <Route path={"/login"} element={<Login />} />
