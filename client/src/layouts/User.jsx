@@ -20,6 +20,8 @@ function User({
   hideTrashAndBadge,
   previewOnly,
   postId,
+  setPosts,
+  listsOfPosts,
 }) {
   const theme = useMantineTheme();
   const avatarColors = [
@@ -64,6 +66,15 @@ function User({
               autoClose: 2000,
             });
           }, 3000);
+
+          const newRankedPost = [];
+          listsOfPosts.forEach((post) => {
+            if (post.id !== postId) {
+              newRankedPost.push(post);
+            }
+          });
+
+          setPosts(newRankedPost);
         })
         .catch((error) => {
           console.log(error.message);

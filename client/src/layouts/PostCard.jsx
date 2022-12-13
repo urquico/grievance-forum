@@ -31,6 +31,8 @@ function PostCard({
   isSolved,
   voteNumber,
   previewOnly,
+  setPosts,
+  listsOfPosts,
 }) {
   const theme = useMantineTheme();
   const [publisher, setPublisher] = useState("");
@@ -192,6 +194,8 @@ function PostCard({
         hideTrashAndBadge={false}
         previewOnly={previewOnly}
         postId={postId}
+        setPosts={setPosts}
+        listsOfPosts={listsOfPosts}
       />
       <div style={{ marginTop: "0.063rem" }}>
         {/* Category */}
