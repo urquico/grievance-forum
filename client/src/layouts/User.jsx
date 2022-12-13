@@ -43,7 +43,7 @@ function User({
     return avatarColors[Math.floor(Math.random() * avatarColors.length)];
   };
 
-  const deletePost = () => {
+  const deleteBtn = () => {
     if (!previewOnly) {
       showNotification({
         id: "load-data",
@@ -53,47 +53,56 @@ function User({
         autoClose: false,
         disallowClose: true,
       });
-      axios
-        .post(`${PORT}/deletePost`, { postId: postId })
-        .then(() => {
-          setTimeout(() => {
-            updateNotification({
-              id: "load-data",
-              color: "teal",
-              title: "Success!",
-              message: "Post has been Deleted",
-              icon: <IconCheck size={16} />,
-              autoClose: 2000,
-            });
-          }, 3000);
 
-          const newRankedPost = [];
-          listsOfPosts.forEach((post) => {
-            if (post.id !== postId) {
-              newRankedPost.push(post);
-            }
-          });
-
-          setPosts(newRankedPost);
-        })
-        .catch((error) => {
-          console.log(error.message);
-          setTimeout(() => {
-            updateNotification({
-              id: "load-data",
-              color: "red",
-              title: "Error!!",
-              message: error.message,
-              icon: <IconX size={16} />,
-              autoClose: 2000,
-            });
-          }, 3000);
-        });
-
-      //TODO: remove voted post from the user
-      //TODO: delete count from tags
+      deletePost();
     }
   };
+
+  const deletePost = () => {
+    axios
+      .post(`${PORT}/deletePost`, {
+        postId: postId,
+        userId: localStorage.getItem("email"),
+      })
+      .then(() => {
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "teal",
+            title: "Success!",
+            message: "Post has been Deleted",
+            icon: <IconCheck size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
+
+        const newRankedPost = [];
+        listsOfPosts.forEach((post) => {
+          if (post.id !== postId) {
+            newRankedPost.push(post);
+          }
+        });
+
+        setPosts(newRankedPost);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "red",
+            title: "Error!!",
+            message: error.message,
+            icon: <IconX size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
+      });
+  };
+
+  // const deleteVotedPost = () => {};
+  // const deleteTagCount = () => {};
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <Avatar src={null} alt={publisher} color={generateRandomColor()}>
@@ -143,7 +152,7 @@ function User({
         <div style={{ margin: "auto", marginRight: "1rem" }}>
           {localStorage.getItem("email") === email || isCurrentUserAdmin ? (
             <ActionIcon>
-              <IconTrash onClick={deletePost} />
+              <IconTrash onClick={deleteBtn} />
             </ActionIcon>
           ) : (
             <></>

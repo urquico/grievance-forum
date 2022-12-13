@@ -130,6 +130,20 @@ const deletePost = async ({ postId }) => {
   await db.collection("Posts").doc(postId).delete();
 };
 
+const deleteVotedPost = async ({ userId, postId }) => {
+  const votePostRef = db
+    .collection("VotedPosts")
+    .doc(userId)
+    .collection("Vote")
+    .doc(postId);
+  const doc = await votePostRef.get();
+  if (doc.exists) {
+    votePostRef.delete();
+  }
+};
+
+const deleteTagCount = () => {};
+
 module.exports = {
   addUser: addUser,
   generateVotePoint: generateVotePoint,
@@ -138,4 +152,5 @@ module.exports = {
   writeTags: writeTags,
   writeComment: writeComment,
   deletePost: deletePost,
+  deleteVotedPost: deleteVotedPost,
 };

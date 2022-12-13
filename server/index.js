@@ -11,6 +11,7 @@ const {
   votePost,
   writeTags,
   deletePost,
+  deleteVotedPost,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -78,6 +79,7 @@ app.post("/deletePost", async (req, res) => {
   await deletePost({ postId: req.body.postId })
     .then((result) => {
       res.send(result);
+      deleteVotedPost({ userId: req.body.userId, postId: req.body.postId });
     })
     .catch((error) => {
       res.send(error.message);
