@@ -89,6 +89,9 @@ function User({
             });
           }, 3000);
         });
+
+      //TODO: remove voted post from the user
+      //TODO: delete count from tags
     }
   };
   return (
