@@ -6,7 +6,10 @@ import {
   Badge,
   ActionIcon,
 } from "@mantine/core";
-import { IconTrash } from "@tabler/icons";
+import { showNotification, updateNotification } from "@mantine/notifications";
+import { IconTrash, IconCheck, IconX } from "@tabler/icons";
+import { PORT } from "../Globals";
+import axios from "axios";
 
 function User({
   publisher,
@@ -15,6 +18,8 @@ function User({
   isAdmin,
   isCurrentUserAdmin,
   hideTrashAndBadge,
+  previewOnly,
+  postId,
 }) {
   const theme = useMantineTheme();
   const avatarColors = [
@@ -37,7 +42,43 @@ function User({
   };
 
   const deletePost = () => {
-    // TODO: add delete query
+    if (!previewOnly) {
+      showNotification({
+        id: "load-data",
+        loading: true,
+        title: "Deleting",
+        message: "Please Wait!",
+        autoClose: false,
+        disallowClose: true,
+      });
+      axios
+        .post(`${PORT}/deletePost`, { postId: postId })
+        .then(() => {
+          setTimeout(() => {
+            updateNotification({
+              id: "load-data",
+              color: "teal",
+              title: "Success!",
+              message: "Post has been Deleted",
+              icon: <IconCheck size={16} />,
+              autoClose: 2000,
+            });
+          }, 3000);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setTimeout(() => {
+            updateNotification({
+              id: "load-data",
+              color: "red",
+              title: "Error!!",
+              message: error.message,
+              icon: <IconX size={16} />,
+              autoClose: 2000,
+            });
+          }, 3000);
+        });
+    }
   };
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
