@@ -93,7 +93,7 @@ export const getVotePostData = async (postId, userId) => {
 
 export const getTrendTags = async () => {
   const ref = collection(db, "Tags");
-  const q = query(ref, orderBy("tagCount", "desc"), limit(6));
+  const q = query(ref, orderBy("tagCount", "desc"), limit(5));
   const data = await getDocs(q);
   return data;
 };
