@@ -63,8 +63,8 @@ export const getPost = async (type, userId) => {
   } else if (type === "profile") {
     const q = query(
       ref,
-      // where("userId", "==", userId),
-      orderBy("votePoint", "desc"),
+      where("userId", "==", userId),
+      // orderBy("votePoint", "desc"),
       // startAt(userId),
       // endAt(userId),
       limit(5)
