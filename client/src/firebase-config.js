@@ -14,6 +14,9 @@ import {
   limit,
   startAfter,
   doc,
+  where,
+  startAt,
+  endAt,
   getDoc,
 } from "firebase/firestore";
 
@@ -50,14 +53,28 @@ export const logOut = () => {
   signOut(auth);
 };
 
-export const getPost = async () => {
+export const getPost = async (type, userId) => {
   const ref = collection(db, "Posts");
-  const q = query(ref, orderBy("votePoint", "desc"), limit(5));
-  const data = await getDocs(q);
-  return data;
+
+  if (type === "home") {
+    const q = query(ref, orderBy("votePoint", "desc"), limit(5));
+    const data = await getDocs(q);
+    return data;
+  } else if (type === "profile") {
+    const q = query(
+      ref,
+      // where("userId", "==", userId),
+      orderBy("votePoint", "desc"),
+      // startAt(userId),
+      // endAt(userId),
+      limit(5)
+    );
+    const data = await getDocs(q);
+    return data;
+  }
 };
 
-export const getMorePosts = async (lastDoc) => {
+export const getMorePosts = async (lastDoc, type, userId) => {
   const ref = collection(db, "Posts");
   const q = query(
     ref,

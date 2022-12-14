@@ -11,16 +11,18 @@ function InfiniteScrolling({ type }) {
   const [isEmpty, setIsEmpty] = useState(false);
 
   useLayoutEffect(() => {
-    getPost().then((result) => {
+    getPost(type, localStorage.getItem("email")).then((result) => {
       setPosts([]);
       updateState(result);
     });
   }, []);
 
   const fetchMoreData = () => {
-    getMorePosts(lastDoc).then((result) => {
-      updateState(result);
-    });
+    getMorePosts(lastDoc, type, localStorage.getItem("email")).then(
+      (result) => {
+        updateState(result);
+      }
+    );
   };
 
   const updateState = (result) => {
