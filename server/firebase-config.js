@@ -16,16 +16,11 @@ admin.initializeApp({
 const db = getFirestore();
 
 const addUser = async ({ name, email }) => {
-  await db
-    .collection("UserData")
-    .equalTo(email)
-    .once("value", (snapshot) => {
-      if (!snapshot.exists()) {
-        db.collection("UserData")
-          .doc(email)
-          .set({ name: name, isAdmin: /\d/.test(email) ? false : true });
-      }
-    });
+  const userRef = db.collection("UserData").doc(email);
+  const doc = await userRef.get();
+  if (!doc.exists) {
+    userRef.set({ name: name, isAdmin: /\d/.test(email) ? false : true });
+  }
 };
 
 const redditAlgorithm = (post) => {
