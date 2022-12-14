@@ -24,13 +24,13 @@ function NavBarLayout({ opened, logOut }) {
           path={"/home"}
         />
         <NavLinks
-          title={"Write Post"}
+          title={"Post"}
           icon={<IconBallpen size={16} />}
           color="blue"
           path={"/post"}
         />
         <NavLinks
-          title={"My Posts"}
+          title={"Profile"}
           icon={<IconAddressBook size={16} />}
           color="orange"
           path={"/profile"}

@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Text,
   useMantineTheme,
   Badge,
   ActionIcon,
+  Modal,
+  Button,
+  Center,
 } from "@mantine/core";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import { IconTrash, IconCheck, IconX } from "@tabler/icons";
+import { IconTrash, IconCheck, IconX, IconAlertTriangle } from "@tabler/icons";
 import { PORT } from "../Globals";
 import axios from "axios";
 
@@ -24,6 +27,8 @@ function User({
   setIsVisible,
 }) {
   const theme = useMantineTheme();
+  const [opened, setOpened] = useState(false);
+
   const avatarColors = [
     "red",
     "pink",
@@ -43,7 +48,7 @@ function User({
     return avatarColors[Math.floor(Math.random() * avatarColors.length)];
   };
 
-  const deleteBtn = () => {
+  const confirmDelete = () => {
     if (!previewOnly) {
       showNotification({
         id: "load-data",
@@ -53,8 +58,14 @@ function User({
         autoClose: false,
         disallowClose: true,
       });
-
       deletePost();
+      setOpened(false);
+    }
+  };
+
+  const deleteBtn = () => {
+    if (!previewOnly) {
+      setOpened(true);
     }
   };
 
@@ -99,6 +110,37 @@ function User({
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        radius="md"
+        centered
+        size="md"
+      >
+        <Center>
+          <IconAlertTriangle size={100} style={{ marginTop: "-3rem" }} />
+        </Center>
+        <Center>
+          <Text fz="xl" fw={500}>
+            Are you sure?
+          </Text>
+        </Center>
+        <Center>
+          <Text style={{ marginBottom: "0.500rem" }} fz="sm">
+            You won't be able to revert this
+          </Text>
+        </Center>
+        <Center>
+          <Button
+            style={{ marginRight: "0.25rem" }}
+            color="red"
+            onClick={() => setOpened(false)}
+          >
+            Cancel
+          </Button>
+          <Button onClick={confirmDelete}>Yes, Delete it</Button>
+        </Center>
+      </Modal>
       <Avatar src={null} alt={publisher} color={generateRandomColor()}>
         {isAnonymous ? "H" : email.toUpperCase()[0] + publisher[0]}
       </Avatar>
