@@ -12,6 +12,7 @@ const Error = lazy(() => import("./routes/Error"));
 const Post = lazy(() => import("./routes/Post"));
 const Profile = lazy(() => import("./routes/Profile"));
 const Category = lazy(() => import("./routes/Category"));
+const Tags = lazy(() => import("./routes/Tags"));
 
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage({
@@ -41,6 +42,7 @@ function App() {
                 <Route path={"/post"} element={<Post />} />
                 <Route path={"/profile"} element={<Profile />} />
                 <Route path={"/category"} element={<Category />} />
+                <Route path={"/tags"} element={<Tags />} />
                 <Route path={"*"} element={<Error />} />
               </Routes>
             </NotificationsProvider>
