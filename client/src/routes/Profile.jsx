@@ -4,7 +4,7 @@ import InfiniteScrolling from "../layouts/InfiniteScrolling";
 import IntroductionCard from "../layouts/IntroductionCard";
 
 function Profile() {
-  return <Frame content={<ProfileLayout path={"/profile"} />} />;
+  return <Frame content={<ProfileLayout />} path={"/profile"} />;
 }
 
 function ProfileLayout() {

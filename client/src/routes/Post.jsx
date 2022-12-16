@@ -4,7 +4,7 @@ import IntroductionCard from "../layouts/IntroductionCard";
 import WritePostCard from "../layouts/WritePostCard";
 
 function Post() {
-  return <Frame content={<PostLayout path={"/post"} />} />;
+  return <Frame content={<PostLayout />} path={"/post"} />;
 }
 
 function PostLayout() {

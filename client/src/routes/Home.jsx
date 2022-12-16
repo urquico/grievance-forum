@@ -4,7 +4,7 @@ import InfiniteScrolling from "../layouts/InfiniteScrolling";
 import IntroductionCard from "../layouts/IntroductionCard";
 
 function Home() {
-  return <Frame content={<HomeLayout path={"/home"} />} />;
+  return <Frame content={<HomeLayout />} path={"/home"} />;
 }
 
 function HomeLayout() {

@@ -15,8 +15,6 @@ import {
   startAfter,
   doc,
   where,
-  startAt,
-  endAt,
   getDoc,
 } from "firebase/firestore";
 
@@ -112,4 +110,10 @@ export const getTrendTags = async () => {
   const q = query(ref, orderBy("tagCount", "desc"), limit(5));
   const data = await getDocs(q);
   return data;
+};
+
+export const getCategories = async () => {
+  const ref = collection(db, "Categories");
+  const data = await getDocs(ref);
+  return data.docs;
 };
