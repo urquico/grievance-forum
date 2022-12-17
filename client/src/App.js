@@ -47,6 +47,8 @@ function App() {
                 <Route path={"/category/:id"} element={<CategoryId />} />
                 <Route path={"/tags"} element={<Tags />} />
                 <Route path={"/tags/:id"} element={<Tag />} />
+                <Route path={"/comment/:id"} element={<Tag />} />
+                <Route path={"/edit/:id"} element={<Tag />} />
                 <Route path={"*"} element={<Error />} />
               </Routes>
             </NotificationsProvider>
