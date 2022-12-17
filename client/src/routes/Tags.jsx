@@ -50,7 +50,13 @@ function TagsLayout() {
             {tags.map((tag) => {
               return (
                 <>
-                  <TagLinks tag={tag.id} tagCount={tag.tagCount} />
+                  {tag.tagCount === 0 ? (
+                    ""
+                  ) : (
+                    <>
+                      <TagLinks tag={tag.id} tagCount={tag.tagCount} />
+                    </>
+                  )}
                 </>
               );
             })}
