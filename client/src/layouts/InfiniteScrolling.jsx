@@ -5,24 +5,30 @@ import EndPost from "./EndPost";
 import LoadingPost from "./Loading/LoadingPost";
 import PostCard from "./PostCard";
 
-function InfiniteScrolling({ type }) {
+function InfiniteScrolling({ type, tag, category }) {
   const [posts, setPosts] = useState([]);
   const [lastDoc, setLastDoc] = useState();
   const [isEmpty, setIsEmpty] = useState(false);
 
   useLayoutEffect(() => {
-    getPost(type, localStorage.getItem("email")).then((result) => {
-      setPosts([]);
-      updateState(result);
-    });
-  }, []);
-
-  const fetchMoreData = () => {
-    getMorePosts(lastDoc, type, localStorage.getItem("email")).then(
+    getPost(type, localStorage.getItem("email"), tag, category).then(
       (result) => {
+        setPosts([]);
         updateState(result);
       }
     );
+  }, []);
+
+  const fetchMoreData = () => {
+    getMorePosts(
+      lastDoc,
+      type,
+      localStorage.getItem("email"),
+      tag,
+      category
+    ).then((result) => {
+      updateState(result);
+    });
   };
 
   const updateState = (result) => {
@@ -43,6 +49,8 @@ function InfiniteScrolling({ type }) {
       setIsEmpty(true);
     }
   };
+
+  console.log(posts);
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>

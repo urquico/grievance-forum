@@ -51,7 +51,7 @@ export const logOut = () => {
   signOut(auth);
 };
 
-export const getPost = async (type, userId) => {
+export const getPost = async (type, userId, tag, category) => {
   const ref = collection(db, "Posts");
 
   if (type === "home") {
@@ -59,29 +59,59 @@ export const getPost = async (type, userId) => {
     const data = await getDocs(q);
     return data;
   } else if (type === "profile") {
-    const q = query(
-      ref,
-      where("userId", "==", userId),
-      // orderBy("votePoint", "desc"),
-      // startAt(userId),
-      // endAt(userId),
-      limit(5)
-    );
+    const q = query(ref, where("userId", "==", userId), limit(5));
+    const data = await getDocs(q);
+    return data;
+  } else if (type === "tag") {
+    const q = query(ref, where("tags", "array-contains", tag), limit(5));
+    const data = await getDocs(q);
+    return data;
+  } else if (type === "category") {
+    const q = query(ref, where("categoryId", "==", category), limit(5));
     const data = await getDocs(q);
     return data;
   }
 };
 
-export const getMorePosts = async (lastDoc, type, userId) => {
+export const getMorePosts = async (lastDoc, type, userId, tag, category) => {
   const ref = collection(db, "Posts");
-  const q = query(
-    ref,
-    orderBy("votePoint", "desc"),
-    startAfter(lastDoc),
-    limit(5)
-  );
-  const data = await getDocs(q);
-  return data;
+  if (type === "home") {
+    const q = query(
+      ref,
+      orderBy("votePoint", "desc"),
+      startAfter(lastDoc),
+      limit(5)
+    );
+    const data = await getDocs(q);
+    return data;
+  } else if (type === "profile") {
+    const q = query(
+      ref,
+      where("userId", "==", userId),
+      startAfter(lastDoc),
+      limit(5)
+    );
+    const data = await getDocs(q);
+    return data;
+  } else if (type === "tag") {
+    const q = query(
+      ref,
+      where("tags", "array-contains", tag),
+      startAfter(lastDoc),
+      limit(5)
+    );
+    const data = await getDocs(q);
+    return data;
+  } else if (type === "category") {
+    const q = query(
+      ref,
+      where("categoryId", "==", category),
+      startAfter(lastDoc),
+      limit(5)
+    );
+    const data = await getDocs(q);
+    return data;
+  }
 };
 
 export const getUser = async (userId) => {
