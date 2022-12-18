@@ -37,8 +37,8 @@ const provider = new OAuthProvider("microsoft.com");
 
 // TODO: add the access token, credential, and idToken
 // TODO: using the OAuth access token call the microsoft graph api
-export const signInWithMicrosoft = () =>
-  signInWithPopup(
+export const signInWithMicrosoft = async () =>
+  await signInWithPopup(
     auth,
     provider.setCustomParameters({
       prompt: "consent",
