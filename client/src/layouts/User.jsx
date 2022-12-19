@@ -142,7 +142,7 @@ function User({
         </Center>
       </Modal>
       <Avatar src={null} alt={publisher} color={generateRandomColor()}>
-        {isAnonymous ? "H" : email.toUpperCase()[0] + publisher[0]}
+        {isAnonymous ? "H" : email?.toUpperCase()[0] + publisher[0]}
       </Avatar>
       <Text
         style={{

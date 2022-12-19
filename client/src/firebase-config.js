@@ -154,3 +154,11 @@ export const getCategories = async () => {
   const data = await getDocs(ref);
   return data.docs;
 };
+
+export const getSinglePost = async (postId) => {
+  const ref = doc(db, "Posts", postId);
+  const fetchedDoc = await getDoc(ref);
+  if (fetchedDoc.exists()) {
+    return fetchedDoc;
+  }
+};

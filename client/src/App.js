@@ -15,6 +15,7 @@ const Category = lazy(() => import("./routes/Category"));
 const CategoryId = lazy(() => import("./routes/CategoryId"));
 const Tags = lazy(() => import("./routes/Tags"));
 const Tag = lazy(() => import("./routes/Tag"));
+const Comment = lazy(() => import("./routes/Comment"));
 
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage({
@@ -47,7 +48,7 @@ function App() {
                 <Route path={"/category/:id"} element={<CategoryId />} />
                 <Route path={"/tags"} element={<Tags />} />
                 <Route path={"/tags/:id"} element={<Tag />} />
-                <Route path={"/comment/:id"} element={<Tag />} />
+                <Route path={"/comment/:id"} element={<Comment />} />
                 <Route path={"/edit/:id"} element={<Tag />} />
                 <Route path={"*"} element={<Error />} />
               </Routes>

@@ -152,7 +152,7 @@ function PostCard({
 
   const writeComment = () => {
     if (!previewOnly) {
-      console.log(postId, voteUI);
+      navigate(`/comment/${postId}`);
     }
   };
 
