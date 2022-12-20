@@ -87,6 +87,7 @@ function InfiniteScrolling({ type, tag, category }) {
               isSolved={post.isSolved}
               voteNumber={post.upVote - post.downVote}
               previewOnly={false}
+              isComment={false}
             />
           </div>
         );

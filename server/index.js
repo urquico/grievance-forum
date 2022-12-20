@@ -8,6 +8,7 @@ const {
   addUser,
   generateVotePoint,
   writePost,
+  writeComment,
   votePost,
   writeTags,
   deletePost,
@@ -54,6 +55,21 @@ app.post("/writePost", async (req, res) => {
       res.send(result);
       generateVotePoint();
       writeTags({ tags: req.body.tags });
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+});
+
+app.post("/writeComment", async (req, res) => {
+  await writeComment({
+    postId: req.body.postId,
+    reply: req.body.reply,
+    userId: req.body.userId,
+  })
+    .then((result) => {
+      res.send(result);
+      generateVotePoint();
     })
     .catch((error) => {
       console.log(error.message);

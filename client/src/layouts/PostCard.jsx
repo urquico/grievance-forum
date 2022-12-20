@@ -31,6 +31,7 @@ function PostCard({
   isSolved,
   voteNumber,
   previewOnly,
+  isComment,
 }) {
   const theme = useMantineTheme();
   const [publisher, setPublisher] = useState("");
@@ -319,22 +320,30 @@ function PostCard({
         )}
       </li>
 
-      <div style={{ display: "flex", marginLeft: "2.5rem" }}>
-        <Button
-          leftIcon={<IconMessage size={20} />}
-          variant="subtle"
-          color="gray"
-          onClick={writeComment}
-          style={{
-            cursor: "pointer",
-            color:
-              theme.colorScheme === "dark" ? theme.colors.gray[6] : "#747678",
-            marginLeft: "0.250rem",
-          }}
-        >
-          {isSolved ? "view comments" : "write a comment"}
-        </Button>
-      </div>
+      {isComment ? (
+        <>Comments</>
+      ) : (
+        <>
+          <div style={{ display: "flex", marginLeft: "2.5rem" }}>
+            <Button
+              leftIcon={<IconMessage size={20} />}
+              variant="subtle"
+              color="gray"
+              onClick={writeComment}
+              style={{
+                cursor: "pointer",
+                color:
+                  theme.colorScheme === "dark"
+                    ? theme.colors.gray[6]
+                    : "#747678",
+                marginLeft: "0.250rem",
+              }}
+            >
+              {isSolved ? "view comments" : "write a comment"}
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 }

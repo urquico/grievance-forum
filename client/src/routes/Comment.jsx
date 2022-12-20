@@ -9,6 +9,10 @@ import PostCard from "../layouts/PostCard";
 import LoadingPost from "../layouts/Loading/LoadingPost";
 import { getSinglePost } from "../firebase-config";
 import { useMantineTheme } from "@mantine/core";
+import axios from "axios";
+import { PORT } from "../Globals";
+import { showNotification, updateNotification } from "@mantine/notifications";
+import { IconCheck, IconX } from "@tabler/icons";
 
 function Comment() {
   let { id } = useParams();
@@ -41,8 +45,47 @@ function CommentLayout() {
     });
   }, []);
 
-  console.log(post);
-  console.log(isLoading);
+  const submitComment = () => {
+    showNotification({
+      id: "load-data",
+      loading: true,
+      title: "Submitting your comment",
+      message: "Please Wait!",
+      autoClose: false,
+      disallowClose: true,
+    });
+    axios
+      .post(`${PORT}/writeComment`, {
+        userId: localStorage.getItem("email"),
+        postId: id,
+        reply: text,
+      })
+      .then(() => {
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "teal",
+            title: "Success!",
+            message: "Comment has been Submitted",
+            icon: <IconCheck size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "red",
+            title: "Error!!",
+            message: error.message,
+            icon: <IconX size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
+      });
+  };
 
   return (
     <div>
@@ -76,6 +119,7 @@ function CommentLayout() {
             isSolved={post.isSolved}
             voteNumber={post.upVote - post.downVote}
             previewOnly={false}
+            isComment={true}
           />
           <div
             style={{
@@ -95,7 +139,9 @@ function CommentLayout() {
             }}
           >
             <RichTextBox text={text} setText={setText} />
-            <Button style={{ marginTop: "0.500rem" }}>Submit Comment</Button>
+            <Button style={{ marginTop: "0.500rem" }} onClick={submitComment}>
+              Submit Comment
+            </Button>
           </div>
         </div>
       )}

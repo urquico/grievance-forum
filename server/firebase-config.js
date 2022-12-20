@@ -103,8 +103,14 @@ const writePost = async ({ category, isAnonymous, message, userId, tags }) => {
   });
 };
 
-const writeComment = async () => {
-  // TODO: add comment using the post id then add it on the Comments collection
+const writeComment = async ({ postId, reply, userId }) => {
+  await db.collection("Comments").add({
+    postId: postId,
+    reply: reply,
+    timeCommented: Timestamp.fromDate(new Date()),
+    userId: userId,
+    starComment: false,
+  });
 };
 
 const writeTags = async ({ tags }) => {

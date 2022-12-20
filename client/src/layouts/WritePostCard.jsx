@@ -153,6 +153,7 @@ function PostPreview({ isAnonymous, tags, category, message, submitQuery }) {
         isSolved={false}
         voteNumber={0}
         previewOnly={true}
+        isComment={true}
       />
       <Button
         style={{ marginTop: "0.75rem", width: "100%" }}
