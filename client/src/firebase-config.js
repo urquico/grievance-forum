@@ -51,6 +51,14 @@ export const logOut = () => {
   signOut(auth);
 };
 
+export const getComments = async (postId) => {
+  const ref = collection(db, "comments");
+
+  const q = query(ref, where("postId", "==", "postId"));
+  const data = await getDocs(q);
+  return data;
+};
+
 export const getPost = async (type, userId, tag, category) => {
   const ref = collection(db, "Posts");
 

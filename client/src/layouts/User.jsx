@@ -10,7 +10,13 @@ import {
   Center,
 } from "@mantine/core";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import { IconTrash, IconCheck, IconX, IconAlertTriangle,IconStar } from "@tabler/icons";
+import {
+  IconTrash,
+  IconCheck,
+  IconX,
+  IconAlertTriangle,
+  IconStar,
+} from "@tabler/icons";
 import { PORT } from "../Globals";
 import axios from "axios";
 
@@ -174,13 +180,15 @@ function User({
             </Badge>
           ) : (
             <>
-            <Badge
-              style={{ marginLeft: "5px" }}
-              color={isAdmin ? "blue" : "green"}
-            >
-              {isAdmin ? "Admin" : "Student"}
-            </Badge>
-            <IconStar size={16}/>
+              <Badge
+                style={{ marginLeft: "5px" }}
+                color={isAdmin ? "blue" : "green"}
+              >
+                {isAdmin ? "Admin" : "Student"}
+              </Badge>
+              <ActionIcon>
+                <IconStar size={16} variant="filled" />
+              </ActionIcon>
             </>
           )}
         </>

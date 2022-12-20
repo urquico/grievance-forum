@@ -39,11 +39,14 @@ function CommentLayout() {
         readTime: result._document.readTime.timestamp.seconds,
       });
       setIsLoading(false);
-      setTimeCurrent(new Date(post.readTime * 1000));
-      setTimePosted(new Date(post.timePosted.seconds * 1000));
+      setTimeCurrent(Date(post.readTime * 1000));
+      setTimePosted(Date(post.timePosted.seconds * 1000));
       setHour((timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600);
     });
   }, []);
+  console.log(timeCurrent);
+  console.log(timePosted);
+  console.log(hour);
 
   const submitComment = () => {
     showNotification({
