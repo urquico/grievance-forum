@@ -131,6 +131,10 @@ const deletePost = async ({ postId }) => {
   await db.collection("Posts").doc(postId).delete();
 };
 
+const deleteComment = async ({ commentId }) => {
+  await db.collection("Comments").doc(commentId).delete();
+};
+
 const deleteVotedPost = async ({ userId, postId }) => {
   const votePostRef = db
     .collection("VotedPosts")
@@ -159,6 +163,7 @@ module.exports = {
   writeTags: writeTags,
   writeComment: writeComment,
   deletePost: deletePost,
+  deleteComment: deleteComment,
   deleteVotedPost: deleteVotedPost,
   deleteTagCount: deleteTagCount,
 };

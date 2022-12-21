@@ -8,7 +8,7 @@ import IntroductionCard from "../layouts/IntroductionCard";
 import PostCard from "../layouts/PostCard";
 import LoadingPost from "../layouts/Loading/LoadingPost";
 import { getSinglePost, getComments } from "../firebase-config";
-import { useMantineTheme, Timeline } from "@mantine/core";
+import { useMantineTheme, Timeline, Switch, Text } from "@mantine/core";
 import axios from "axios";
 import { PORT } from "../Globals";
 import { showNotification, updateNotification } from "@mantine/notifications";
@@ -33,6 +33,7 @@ function CommentLayout() {
   const [text, setText] = useState(initialValue);
   const [comments, setComments] = useState([]);
   const [isEmpty, setIsEmpty] = useState(false);
+  const [isSolve, setIsSolve] = useState(false);
   const theme = useMantineTheme();
 
   useLayoutEffect(() => {
@@ -46,6 +47,7 @@ function CommentLayout() {
       setTimeCurrent(Date(post.readTime * 1000));
       setTimePosted(Date(post.timePosted.seconds * 1000));
       setHour((timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600);
+      setIsSolve(post.isSolved);
     });
   }, []);
   console.log(timeCurrent);
@@ -71,8 +73,6 @@ function CommentLayout() {
           readTime: doc._document.readTime.timestamp.seconds,
         })),
       ]);
-      // setComments(result);
-      // console.log(result);
     } else {
       setIsEmpty(true);
     }
@@ -143,6 +143,7 @@ function CommentLayout() {
             flexDirection: "column",
           }}
         >
+          <SolveSwitch isSolve={isSolve} setIsSolve={setIsSolve} />
           <PostCard
             isAnonymous={post.isAnonymous}
             email={post.userId}
@@ -151,13 +152,12 @@ function CommentLayout() {
             time={hour.toLocaleString()}
             post={post.message}
             postId={id}
-            isSolved={post.isSolved}
+            isSolved={isSolve}
             voteNumber={post.upVote - post.downVote}
             previewOnly={false}
             isComment={false}
           />
           <div>
-            {" "}
             {isEmpty ? (
               <EndPost content="No comments yet" />
             ) : (
@@ -183,7 +183,7 @@ function CommentLayout() {
                         category={""}
                         time={hour.toLocaleString()}
                         post={comment.reply}
-                        postId={""}
+                        postId={comment.id}
                         isSolved={false}
                         voteNumber={0}
                         previewOnly={false}
@@ -192,39 +192,79 @@ function CommentLayout() {
                     </Timeline.Item>
                   );
                 })}
-                <Timeline.Item lineVariant="dashed">
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "auto",
-                      backgroundColor:
-                        theme.colorScheme === "dark"
-                          ? theme.colors.dark[6]
-                          : theme.colors.gray[0],
-                      marginTop: isEmpty ? "" : "1rem",
-                      marginLeft: "2rem",
-                      borderRadius: "13px",
-                      padding: "2.375rem",
-
-                      boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <RichTextBox text={text} setText={setText} />
-                    <Button
-                      style={{ marginTop: "0.500rem" }}
-                      onClick={submitComment}
-                    >
-                      Submit Comment
-                    </Button>
-                  </div>
-                </Timeline.Item>
-                <Timeline.Item active={1}></Timeline.Item>
+                <Timeline.Item></Timeline.Item>
               </Timeline>
             )}
           </div>
+          <div
+            style={{
+              display: isSolve ? "none" : "flex",
+              height: "auto",
+              backgroundColor:
+                theme.colorScheme === "dark"
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[0],
+              marginTop: isEmpty ? "" : "1rem",
+              marginLeft: "2rem",
+              borderRadius: "13px",
+              padding: "2.375rem",
+
+              boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+              flexDirection: "column",
+            }}
+          >
+            <RichTextBox text={text} setText={setText} disabled={true} />
+            <Button style={{ marginTop: "0.500rem" }} onClick={submitComment}>
+              Submit Comment
+            </Button>
+          </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function SolveSwitch({ isSolve, setIsSolve }) {
+  const theme = useMantineTheme();
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "auto",
+        backgroundColor: theme.colorScheme === "dark" ? "#25262B" : "#f4f4f4",
+        borderRadius: "4px",
+        border: "1px solid",
+        borderColor: theme.colorScheme === "dark" ? "#373A40" : "#CED4DA",
+        display: "flex",
+        padding: "0.75rem",
+        marginBottom: "1rem",
+      }}
+    >
+      <Text
+        fz="sm"
+        style={{
+          marginLeft: "0",
+          marginRight: "auto",
+          marginTop: "0.3rem",
+          color:
+            theme.colorScheme === "dark" ? theme.colors.gray[6] : "#5E5F61",
+        }}
+      >
+        {isSolve ? "Open Topic" : " Mark as Solved"}
+      </Text>
+
+      <Switch
+        style={{
+          marginTop: "-1rem",
+        }}
+        checked={isSolve}
+        onChange={(event) => setIsSolve(event.currentTarget.checked)}
+        labelPosition="left"
+        onLabel="Solved"
+        offLabel={"Open"}
+        size="lg"
+      />
     </div>
   );
 }

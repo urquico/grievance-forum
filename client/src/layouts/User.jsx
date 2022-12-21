@@ -77,8 +77,14 @@ function User({
   };
 
   const deletePost = () => {
+    let endPoint = "";
+    if (isComment) {
+      endPoint = "/deleteComment";
+    } else {
+      endPoint = "/deletePost";
+    }
     axios
-      .post(`${PORT}/deletePost`, {
+      .post(`${PORT}${endPoint}`, {
         postId: postId,
         userId: localStorage.getItem("email"),
         tags: tags,
