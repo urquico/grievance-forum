@@ -159,7 +159,7 @@ function CommentLayout() {
             flexDirection: "column",
           }}
         >
-          <SolveSwitch isSolve={isSolve} setIsSolve={setIsSolve} />
+          <SolveSwitch isSolve={isSolve} setIsSolve={setIsSolve} postId={id} />
           <PostCard
             isAnonymous={post.isAnonymous}
             email={post.userId}
@@ -253,10 +253,47 @@ function CommentLayout() {
   );
 }
 
-function SolveSwitch({ isSolve, setIsSolve }) {
+function SolveSwitch({ isSolve, setIsSolve, postId }) {
   const theme = useMantineTheme();
+  const state = isSolve ? "opened" : "marked as solved";
 
-  useLayoutEffect(() => {}, []);
+  const toggleSolve = () => {
+    showNotification({
+      id: "load-data",
+      loading: true,
+      title: "Loading",
+      message: "Please Wait!",
+      autoClose: false,
+      disallowClose: true,
+    });
+    axios
+      .post(`${PORT}/toggleSolve`, { isSolved: !isSolve, postId: postId })
+      .then((result) => {
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "teal",
+            title: "Success!",
+            message: `The post has been ${state}`,
+            icon: <IconCheck size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "red",
+            title: "Error!!",
+            message: error.message,
+            icon: <IconX size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
+      });
+  };
 
   return (
     <div
@@ -291,6 +328,7 @@ function SolveSwitch({ isSolve, setIsSolve }) {
         }}
         checked={isSolve}
         onChange={(event) => setIsSolve(event.currentTarget.checked)}
+        onClick={toggleSolve}
         labelPosition="left"
         onLabel="Solved"
         offLabel={"Open"}

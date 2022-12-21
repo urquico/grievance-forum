@@ -155,6 +155,10 @@ const deleteTagCount = async ({ tags }) => {
   });
 };
 
+const toggleSolve = async ({ isSolved, postId }) => {
+  await db.collection("Posts").doc(postId).update({ isSolved: isSolved });
+};
+
 module.exports = {
   addUser: addUser,
   generateVotePoint: generateVotePoint,
@@ -166,4 +170,5 @@ module.exports = {
   deleteComment: deleteComment,
   deleteVotedPost: deleteVotedPost,
   deleteTagCount: deleteTagCount,
+  toggleSolve: toggleSolve,
 };

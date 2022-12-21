@@ -15,6 +15,7 @@ const {
   deleteVotedPost,
   deleteTagCount,
   deleteComment,
+  toggleSolve,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -107,6 +108,16 @@ app.post("/deletePost", async (req, res) => {
 
 app.post("/deleteComment", async (req, res) => {
   await deleteComment({ commentId: req.body.postId })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((error) => {
+      res.send(error.message);
+    });
+});
+
+app.post("/toggleSolve", async (req, res) => {
+  await toggleSolve({ isSolved: req.body.isSolved, postId: req.body.postId })
     .then((result) => {
       res.send(result);
     })
