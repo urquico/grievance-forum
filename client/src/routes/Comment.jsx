@@ -192,29 +192,36 @@ function CommentLayout() {
                     </Timeline.Item>
                   );
                 })}
+                <Timeline.Item lineVariant="dashed">
+                  <div
+                    style={{
+                      display: "flex",
+                      height: "auto",
+                      backgroundColor:
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[6]
+                          : theme.colors.gray[0],
+                      marginTop: isEmpty ? "" : "1rem",
+                      marginLeft: "2rem",
+                      borderRadius: "13px",
+                      padding: "2.375rem",
+
+                      boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <RichTextBox text={text} setText={setText} />
+                    <Button
+                      style={{ marginTop: "0.500rem" }}
+                      onClick={submitComment}
+                    >
+                      Submit Comment
+                    </Button>
+                  </div>
+                </Timeline.Item>
+                <Timeline.Item active={1}></Timeline.Item>
               </Timeline>
             )}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              height: "auto",
-              backgroundColor:
-                theme.colorScheme === "dark"
-                  ? theme.colors.dark[6]
-                  : theme.colors.gray[0],
-              marginTop: isEmpty ? "" : "1rem",
-              borderRadius: "13px",
-              padding: "2.375rem",
-
-              boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
-              flexDirection: "column",
-            }}
-          >
-            <RichTextBox text={text} setText={setText} />
-            <Button style={{ marginTop: "0.500rem" }} onClick={submitComment}>
-              Submit Comment
-            </Button>
           </div>
         </div>
       )}
