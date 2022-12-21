@@ -179,3 +179,12 @@ export const checkSolveState = async (postId) => {
       .booleanValue;
   }
 };
+
+export const checkStarComment = async (commentId) => {
+  const ref = doc(db, "Comments", commentId);
+  const fetchedDoc = await getDoc(ref);
+  if (fetchedDoc.exists()) {
+    return fetchedDoc._document.data.value.mapValue.fields.starComment
+      .booleanValue;
+  }
+};

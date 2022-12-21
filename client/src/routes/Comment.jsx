@@ -268,7 +268,7 @@ function SolveSwitch({ isSolve, setIsSolve, postId }) {
     });
     axios
       .post(`${PORT}/toggleSolve`, { isSolved: !isSolve, postId: postId })
-      .then((result) => {
+      .then(() => {
         setTimeout(() => {
           updateNotification({
             id: "load-data",

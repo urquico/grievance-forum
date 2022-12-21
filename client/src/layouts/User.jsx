@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import {
   Avatar,
   Text,
@@ -18,6 +18,7 @@ import {
   IconStar,
 } from "@tabler/icons";
 import { PORT } from "../Globals";
+import { checkStarComment } from "../firebase-config";
 import axios from "axios";
 
 function User({
@@ -35,6 +36,7 @@ function User({
 }) {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
+  const [isStarComment, setIsStarComment] = useState();
 
   const avatarColors = [
     "red",
@@ -50,6 +52,21 @@ function User({
     "yellow",
     "orange",
   ];
+
+  useLayoutEffect(() => {
+    if (isComment) {
+      checkStarComment(postId)
+        .then((result) => {
+          // console.log(result);
+          setIsStarComment(result);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  }, []);
+
+  console.log(isStarComment);
 
   const generateRandomColor = () => {
     return avatarColors[Math.floor(Math.random() * avatarColors.length)];
@@ -118,8 +135,10 @@ function User({
       });
   };
 
-  // const deleteVotedPost = () => {};
-  // const deleteTagCount = () => {};
+  const starComment = () => {
+    console.log(postId);
+    setIsStarComment(!isStarComment);
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -195,8 +214,16 @@ function User({
               </Badge>
               {isComment ? (
                 <>
-                  <ActionIcon>
-                    <IconStar size={16} variant="filled" />
+                  <ActionIcon
+                    style={{
+                      marginLeft: "0.500rem",
+                      marginTop: "-0.150rem",
+                      borderRadius: "50px",
+                    }}
+                    variant="filled"
+                    color={isStarComment ? "yellow" : "gray"}
+                  >
+                    <IconStar size={16} onClick={starComment} color="white" />
                   </ActionIcon>
                 </>
               ) : (

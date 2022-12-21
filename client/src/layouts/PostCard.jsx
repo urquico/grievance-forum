@@ -43,6 +43,7 @@ function PostCard({
   const [readMore, setReadMore] = useState(false);
   const [voteUI, setVoteUI] = useState(undefined);
   const [isVisible, setIsVisible] = useState(false);
+
   const navigate = useNavigate();
   let timeDisplay = "";
   const weight = isCurrentUserAdmin ? 10 : 1;
