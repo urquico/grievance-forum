@@ -7,7 +7,11 @@ import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 import PostCard from "../layouts/PostCard";
 import LoadingPost from "../layouts/Loading/LoadingPost";
-import { getSinglePost, getComments } from "../firebase-config";
+import {
+  getSinglePost,
+  getComments,
+  checkSolveState,
+} from "../firebase-config";
 import { useMantineTheme, Timeline, Switch, Text } from "@mantine/core";
 import axios from "axios";
 import { PORT } from "../Globals";
@@ -33,7 +37,7 @@ function CommentLayout() {
   const [text, setText] = useState(initialValue);
   const [comments, setComments] = useState([]);
   const [isEmpty, setIsEmpty] = useState(false);
-  const [isSolve, setIsSolve] = useState(false);
+  const [isSolve, setIsSolve] = useState();
   const theme = useMantineTheme();
 
   useLayoutEffect(() => {
@@ -44,15 +48,23 @@ function CommentLayout() {
         readTime: result._document.readTime.timestamp.seconds,
       });
       setIsLoading(false);
+      // result._document.data.value.mapValue.fields.isSolved.booleanValue
       setTimeCurrent(Date(post.readTime * 1000));
       setTimePosted(Date(post.timePosted.seconds * 1000));
       setHour((timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600);
-      setIsSolve(post.isSolved);
     });
   }, []);
-  console.log(timeCurrent);
-  console.log(timePosted);
-  console.log(hour);
+
+  useLayoutEffect(() => {
+    checkSolveState(id).then((result) => {
+      setIsSolve(result);
+    });
+  }, []);
+
+  // console.log(timeCurrent);
+  // console.log(timePosted);
+  // console.log(hour);
+  console.log(isSolve);
 
   useLayoutEffect(() => {
     getComments(id).then((result) => {
@@ -63,8 +75,6 @@ function CommentLayout() {
 
   const commentState = (result) => {
     const isCollectionEmpty = result.size === 0;
-    console.log(result);
-    console.log(isCollectionEmpty);
     if (!isCollectionEmpty) {
       setComments(() => [
         ...result.docs.map((doc) => ({
@@ -77,8 +87,6 @@ function CommentLayout() {
       setIsEmpty(true);
     }
   };
-
-  console.log(comments);
 
   const submitComment = () => {
     showNotification({
@@ -126,7 +134,15 @@ function CommentLayout() {
     <div>
       <IntroductionCard name={localStorage.getItem("name")} message={id} />
       {isLoading ? (
-        <LoadingPost />
+        <>
+          <LoadingPost />
+          <LoadingPost />
+          <LoadingPost />
+          <LoadingPost />
+          <LoadingPost />
+          <LoadingPost />
+          <LoadingPost />
+        </>
       ) : (
         <div
           style={{
@@ -161,39 +177,52 @@ function CommentLayout() {
             {isEmpty ? (
               <EndPost content="No comments yet" />
             ) : (
-              <Timeline>
-                {comments?.map((comment, index) => {
-                  const timeCurrent = new Date(comment.readTime * 1000);
-                  const timeCommented = new Date(
-                    comment.timeCommented.seconds * 1000
-                  );
+              <>
+                {isCommentsLoading ? (
+                  <>
+                    <LoadingPost />
+                    <LoadingPost />
+                    <LoadingPost />
+                    <LoadingPost />
+                    <LoadingPost />
+                    <LoadingPost />
+                  </>
+                ) : (
+                  <Timeline>
+                    {comments?.map((comment, index) => {
+                      const timeCurrent = new Date(comment.readTime * 1000);
+                      const timeCommented = new Date(
+                        comment.timeCommented.seconds * 1000
+                      );
 
-                  const hour =
-                    (timeCurrent.getTime() - timeCommented.getTime()) /
-                    1000 /
-                    3600;
+                      const hour =
+                        (timeCurrent.getTime() - timeCommented.getTime()) /
+                        1000 /
+                        3600;
 
-                  return (
-                    <Timeline.Item key={index}>
-                      <PostCard
-                        style={{ marginLeft: "2rem" }}
-                        isAnonymous={false}
-                        email={comment.userId}
-                        tags={[]}
-                        category={""}
-                        time={hour.toLocaleString()}
-                        post={comment.reply}
-                        postId={comment.id}
-                        isSolved={false}
-                        voteNumber={0}
-                        previewOnly={false}
-                        isComment={true}
-                      />
-                    </Timeline.Item>
-                  );
-                })}
-                <Timeline.Item></Timeline.Item>
-              </Timeline>
+                      return (
+                        <Timeline.Item key={index}>
+                          <PostCard
+                            style={{ marginLeft: "2rem" }}
+                            isAnonymous={false}
+                            email={comment.userId}
+                            tags={[]}
+                            category={""}
+                            time={hour.toLocaleString()}
+                            post={comment.reply}
+                            postId={comment.id}
+                            isSolved={false}
+                            voteNumber={0}
+                            previewOnly={false}
+                            isComment={true}
+                          />
+                        </Timeline.Item>
+                      );
+                    })}
+                    <Timeline.Item></Timeline.Item>
+                  </Timeline>
+                )}
+              </>
             )}
           </div>
           <div
@@ -226,6 +255,8 @@ function CommentLayout() {
 
 function SolveSwitch({ isSolve, setIsSolve }) {
   const theme = useMantineTheme();
+
+  useLayoutEffect(() => {}, []);
 
   return (
     <div

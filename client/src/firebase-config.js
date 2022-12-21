@@ -170,3 +170,12 @@ export const getSinglePost = async (postId) => {
     return fetchedDoc;
   }
 };
+
+export const checkSolveState = async (postId) => {
+  const ref = doc(db, "Posts", postId);
+  const fetchedDoc = await getDoc(ref);
+  if (fetchedDoc.exists()) {
+    return fetchedDoc._document.data.value.mapValue.fields.isSolved
+      .booleanValue;
+  }
+};
