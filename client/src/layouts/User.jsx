@@ -31,6 +31,7 @@ function User({
   postId,
   tags,
   setIsVisible,
+  isComment,
 }) {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
@@ -186,9 +187,15 @@ function User({
               >
                 {isAdmin ? "Admin" : "Student"}
               </Badge>
-              <ActionIcon>
-                <IconStar size={16} variant="filled" />
-              </ActionIcon>
+              {isComment ? (
+                <>
+                  <ActionIcon>
+                    <IconStar size={16} variant="filled" />
+                  </ActionIcon>
+                </>
+              ) : (
+                <></>
+              )}
             </>
           )}
         </>

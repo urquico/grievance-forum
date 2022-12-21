@@ -7,12 +7,13 @@ import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 import PostCard from "../layouts/PostCard";
 import LoadingPost from "../layouts/Loading/LoadingPost";
-import { getSinglePost } from "../firebase-config";
-import { useMantineTheme } from "@mantine/core";
+import { getSinglePost, getComments } from "../firebase-config";
+import { useMantineTheme, Timeline } from "@mantine/core";
 import axios from "axios";
 import { PORT } from "../Globals";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
+import EndPost from "../layouts/EndPost";
 
 function Comment() {
   let { id } = useParams();
@@ -25,10 +26,13 @@ function CommentLayout() {
   let { id } = useParams();
   const [post, setPost] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isCommentsLoading, setIsCommentsLoading] = useState(true);
   const [timeCurrent, setTimeCurrent] = useState(0);
   const [timePosted, setTimePosted] = useState(0);
   const [hour, setHour] = useState(0);
   const [text, setText] = useState(initialValue);
+  const [comments, setComments] = useState([]);
+  const [isEmpty, setIsEmpty] = useState(false);
   const theme = useMantineTheme();
 
   useLayoutEffect(() => {
@@ -47,6 +51,34 @@ function CommentLayout() {
   console.log(timeCurrent);
   console.log(timePosted);
   console.log(hour);
+
+  useLayoutEffect(() => {
+    getComments(id).then((result) => {
+      commentState(result);
+      setIsCommentsLoading(false);
+    });
+  }, []);
+
+  const commentState = (result) => {
+    const isCollectionEmpty = result.size === 0;
+    console.log(result);
+    console.log(isCollectionEmpty);
+    if (!isCollectionEmpty) {
+      setComments(() => [
+        ...result.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+          readTime: doc._document.readTime.timestamp.seconds,
+        })),
+      ]);
+      // setComments(result);
+      // console.log(result);
+    } else {
+      setIsEmpty(true);
+    }
+  };
+
+  console.log(comments);
 
   const submitComment = () => {
     showNotification({
@@ -122,8 +154,47 @@ function CommentLayout() {
             isSolved={post.isSolved}
             voteNumber={post.upVote - post.downVote}
             previewOnly={false}
-            isComment={true}
+            isComment={false}
           />
+          <div>
+            {" "}
+            {isEmpty ? (
+              <EndPost content="No comments yet" />
+            ) : (
+              <Timeline>
+                {comments?.map((comment, index) => {
+                  const timeCurrent = new Date(comment.readTime * 1000);
+                  const timeCommented = new Date(
+                    comment.timeCommented.seconds * 1000
+                  );
+
+                  const hour =
+                    (timeCurrent.getTime() - timeCommented.getTime()) /
+                    1000 /
+                    3600;
+
+                  return (
+                    <Timeline.Item key={index}>
+                      <PostCard
+                        style={{ marginLeft: "2rem" }}
+                        isAnonymous={false}
+                        email={comment.userId}
+                        tags={[]}
+                        category={""}
+                        time={hour.toLocaleString()}
+                        post={comment.reply}
+                        postId={""}
+                        isSolved={false}
+                        voteNumber={0}
+                        previewOnly={false}
+                        isComment={true}
+                      />
+                    </Timeline.Item>
+                  );
+                })}
+              </Timeline>
+            )}
+          </div>
           <div
             style={{
               display: "flex",
@@ -132,8 +203,7 @@ function CommentLayout() {
                 theme.colorScheme === "dark"
                   ? theme.colors.dark[6]
                   : theme.colors.gray[0],
-              marginTop: "1rem",
-
+              marginTop: isEmpty ? "" : "1rem",
               borderRadius: "13px",
               padding: "2.375rem",
 

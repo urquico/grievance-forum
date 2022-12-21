@@ -46,6 +46,7 @@ function PostCard({
   const navigate = useNavigate();
   let timeDisplay = "";
   const weight = isCurrentUserAdmin ? 10 : 1;
+  const cardVerb = isComment ? "Commented" : "Posted";
 
   useLayoutEffect(() => {
     getUser(email).then((result) => {
@@ -76,18 +77,18 @@ function PostCard({
 
   if (Math.floor(time) < 1) {
     if (Math.floor(time * 60) <= 1) {
-      timeDisplay = `Posted ${Math.floor(time * 60)} minute ago`;
+      timeDisplay = `${cardVerb} ${Math.floor(time * 60)} minute ago`;
     } else {
-      timeDisplay = `Posted ${Math.floor(time * 60)} minutes ago`;
+      timeDisplay = `${cardVerb} ${Math.floor(time * 60)} minutes ago`;
     }
   } else if (Math.floor(time) === 1) {
-    timeDisplay = `Posted ${Math.floor(time)} hour ago`;
+    timeDisplay = `${cardVerb} ${Math.floor(time)} hour ago`;
   } else if (Math.floor(time) >= 2 && Math.floor(time) < 24) {
-    timeDisplay = `Posted ${Math.floor(time)} hours ago`;
+    timeDisplay = `${cardVerb} ${Math.floor(time)} hours ago`;
   } else if (Math.floor(time) >= 24 && Math.floor(time) <= 48) {
-    timeDisplay = `Posted ${Math.floor(time / 24)} day ago`;
+    timeDisplay = `${cardVerb} ${Math.floor(time / 24)} day ago`;
   } else if (Math.floor(time) > 48) {
-    timeDisplay = `Posted ${Math.floor(time / 24)} days ago`;
+    timeDisplay = `${cardVerb} ${Math.floor(time / 24)} days ago`;
   }
 
   const voteDown = async () => {
@@ -196,23 +197,30 @@ function PostCard({
         postId={postId}
         tags={tags}
         setIsVisible={setIsVisible}
+        isComment={isComment}
       />
       <div style={{ marginTop: "0.063rem" }}>
         {/* Category */}
-        <Badge
-          variant="gradient"
-          gradient={
-            category === "academic-concerns"
-              ? { from: "orange", to: "red" }
-              : { from: "teal", to: "lime", deg: 105 }
-          }
-          style={{ marginLeft: "2.500rem", cursor: "pointer" }}
-          onClick={() => {
-            navigate(`/category/${category}`);
-          }}
-        >
-          {category}
-        </Badge>
+        {isComment ? (
+          <></>
+        ) : (
+          <>
+            <Badge
+              variant="gradient"
+              gradient={
+                category === "academic-concerns"
+                  ? { from: "orange", to: "red" }
+                  : { from: "teal", to: "lime", deg: 105 }
+              }
+              style={{ marginLeft: "2.500rem", cursor: "pointer" }}
+              onClick={() => {
+                navigate(`/category/${category}`);
+              }}
+            >
+              {category}
+            </Badge>
+          </>
+        )}
         {/* Tags */}
         {tags.map((tag) => {
           return (
@@ -238,31 +246,37 @@ function PostCard({
           placeItems: "center",
         }}
       >
-        <div style={{ marginLeft: "0.200rem", marginTop: "1rem" }}>
-          <ActionIcon
-            variant={upVote ? "filled" : "subtle"}
-            onClick={voteUp}
-            color={theme.colorScheme === "dark" ? "yellow" : "dark"}
-          >
-            <IconArrowNarrowUp size={20} />
-          </ActionIcon>
-          <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: "1.500rem",
-              marginLeft: votePointMargin(voteCount),
-            }}
-          >
-            {voteCount}
-          </Text>
-          <ActionIcon
-            variant={downVote ? "filled" : "subtle"}
-            onClick={voteDown}
-            color={theme.colorScheme === "dark" ? "yellow" : "dark"}
-          >
-            <IconArrowNarrowDown size={20} />
-          </ActionIcon>
-        </div>
+        {isComment ? (
+          <></>
+        ) : (
+          <>
+            <div style={{ marginLeft: "0.200rem", marginTop: "1rem" }}>
+              <ActionIcon
+                variant={upVote ? "filled" : "subtle"}
+                onClick={voteUp}
+                color={theme.colorScheme === "dark" ? "yellow" : "dark"}
+              >
+                <IconArrowNarrowUp size={20} />
+              </ActionIcon>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "1.500rem",
+                  marginLeft: votePointMargin(voteCount),
+                }}
+              >
+                {voteCount}
+              </Text>
+              <ActionIcon
+                variant={downVote ? "filled" : "subtle"}
+                onClick={voteDown}
+                color={theme.colorScheme === "dark" ? "yellow" : "dark"}
+              >
+                <IconArrowNarrowDown size={20} />
+              </ActionIcon>
+            </div>
+          </>
+        )}
         <Text
           lineClamp={readMore ? 0 : 4}
           style={{
@@ -321,7 +335,7 @@ function PostCard({
       </li>
 
       {isComment ? (
-        <>Comments</>
+        <></>
       ) : (
         <>
           <div style={{ display: "flex", marginLeft: "2.5rem" }}>

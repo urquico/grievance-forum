@@ -52,9 +52,9 @@ export const logOut = () => {
 };
 
 export const getComments = async (postId) => {
-  const ref = collection(db, "comments");
+  const ref = collection(db, "Comments");
 
-  const q = query(ref, where("postId", "==", "postId"));
+  const q = query(ref, where("postId", "==", postId));
   const data = await getDocs(q);
   return data;
 };
