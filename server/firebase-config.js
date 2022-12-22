@@ -6,6 +6,14 @@ const {
 } = require("firebase-admin/firestore");
 
 var serviceAccount = require("./firebaseAppData.json");
+var Filter = require("bad-words"),
+  filter = new Filter({
+    regex: /\*|\.|$/gi,
+    replaceRegex: /[A-Za-z0-9가-힣_]/g,
+  });
+
+const { someBadWords } = require("./someBadWords");
+filter.addWords(...someBadWords);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -95,7 +103,7 @@ const writePost = async ({ category, isAnonymous, message, userId, tags }) => {
     upVote: 0,
     isAnonymous: isAnonymous,
     isSolved: false,
-    message: message,
+    message: filter.clean(message),
     tags: tags,
     timePosted: Timestamp.fromDate(new Date()),
     userId: userId,
@@ -106,7 +114,7 @@ const writePost = async ({ category, isAnonymous, message, userId, tags }) => {
 const writeComment = async ({ postId, reply, userId }) => {
   await db.collection("Comments").add({
     postId: postId,
-    reply: reply,
+    reply: filter.clean(reply),
     timeCommented: Timestamp.fromDate(new Date()),
     userId: userId,
     starComment: false,
