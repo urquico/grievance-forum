@@ -137,7 +137,47 @@ function User({
 
   const starComment = () => {
     console.log(postId);
-    setIsStarComment(!isStarComment);
+    if (isComment) {
+      showNotification({
+        id: "load-data",
+        loading: true,
+        title: "Updating",
+        message: "Please Wait!",
+        autoClose: false,
+        disallowClose: true,
+      });
+      setIsStarComment(!isStarComment);
+      axios
+        .post(`${PORT}/toggleStar`, {
+          star: isStarComment,
+          commentId: postId,
+        })
+        .then(() => {
+          setTimeout(() => {
+            updateNotification({
+              id: "load-data",
+              color: "teal",
+              title: "Success!",
+              message: "Star has been Updated",
+              icon: <IconCheck size={16} />,
+              autoClose: 2000,
+            });
+          }, 3000);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setTimeout(() => {
+            updateNotification({
+              id: "load-data",
+              color: "red",
+              title: "Error!!",
+              message: error.message,
+              icon: <IconX size={16} />,
+              autoClose: 2000,
+            });
+          }, 3000);
+        });
+    }
   };
 
   return (

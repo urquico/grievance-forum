@@ -16,6 +16,7 @@ const {
   deleteTagCount,
   deleteComment,
   toggleSolve,
+  toggleStar,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -118,6 +119,16 @@ app.post("/deleteComment", async (req, res) => {
 
 app.post("/toggleSolve", async (req, res) => {
   await toggleSolve({ isSolved: req.body.isSolved, postId: req.body.postId })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((error) => {
+      res.send(error.message);
+    });
+});
+
+app.post("/toggleStar", async (req, res) => {
+  await toggleStar({ star: req.body.star, commentId: req.body.commentId })
     .then((result) => {
       res.send(result);
     })

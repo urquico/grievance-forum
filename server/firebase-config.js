@@ -159,6 +159,10 @@ const toggleSolve = async ({ isSolved, postId }) => {
   await db.collection("Posts").doc(postId).update({ isSolved: isSolved });
 };
 
+const toggleStar = async ({ star, commentId }) => {
+  await db.collection("Comments").doc(commentId).update({ starComment: !star });
+};
+
 module.exports = {
   addUser: addUser,
   generateVotePoint: generateVotePoint,
@@ -171,4 +175,5 @@ module.exports = {
   deleteVotedPost: deleteVotedPost,
   deleteTagCount: deleteTagCount,
   toggleSolve: toggleSolve,
+  toggleStar: toggleStar,
 };
