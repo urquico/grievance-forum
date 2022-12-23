@@ -9,8 +9,8 @@ function DarkModeButton() {
     <div>
       {" "}
       <ActionIcon
-        style={{ margin: "0.625rem" }}
-        variant="outline"
+        style={{ margin: "0.400rem" }}
+        variant="transparent"
         color={dark ? "yellow" : "blue"}
         onClick={() => toggleColorScheme()}
         title="Toggle color scheme"

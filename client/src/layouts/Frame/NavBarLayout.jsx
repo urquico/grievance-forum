@@ -16,6 +16,7 @@ function NavBarLayout({ opened, logOut }) {
         hiddenBreakpoint="sm"
         hidden={!opened}
         width={{ sm: 200, lg: 300 }}
+        style={{ zIndex: "1" }}
       >
         <NavLinks
           title={"Home"}

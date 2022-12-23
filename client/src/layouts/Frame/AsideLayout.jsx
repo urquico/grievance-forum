@@ -31,7 +31,7 @@ function AsideLayout() {
   };
 
   return (
-    <div>
+    <div style={{ zIndex: "1" }}>
       <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
         <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }}>
           <Text
