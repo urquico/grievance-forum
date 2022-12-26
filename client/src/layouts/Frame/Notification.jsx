@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 
 import { getNotifications } from "../../firebase-config";
+import TagLoader from "../Loading/TagLoader";
 
 function Notification() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
@@ -21,6 +22,12 @@ function Notification() {
   const navigate = useNavigate();
 
   const dark = colorScheme === "dark";
+
+  useLayoutEffect(() => {
+    getNotifications(localStorage.getItem("email")).then((result) => {
+      setNotificationCount(result.size);
+    });
+  }, []);
 
   const openNotification = () => {
     getNotifications(localStorage.getItem("email"))
@@ -81,66 +88,84 @@ function Notification() {
 
         <Menu.Dropdown>
           <Menu.Label>Unread Notifications</Menu.Label>
-          {notifications?.map((notification) => {
-            let timeDisplay = "";
-            let cardVerb = "";
-            let messageNotification = "";
-            const timeCurrent = new Date(notification.readTime * 1000);
-            const timePosted = new Date(
-              notification.notificationTime.seconds * 1000
-            );
+          {isLoading ? (
+            <>
+              <TagLoader />
+              <TagLoader />
+              <TagLoader />
+              <TagLoader />
+            </>
+          ) : (
+            <>
+              {notifications?.map((notification) => {
+                let timeDisplay = "";
+                let cardVerb = "";
+                let messageNotification = "";
+                const timeCurrent = new Date(notification.readTime * 1000);
+                const timePosted = new Date(
+                  notification.notificationTime.seconds * 1000
+                );
 
-            const time =
-              (timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600;
+                const time =
+                  (timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600;
 
-            if (Math.floor(time) < 1) {
-              if (Math.floor(time * 60) <= 1) {
-                timeDisplay = `${cardVerb} ${Math.floor(time * 60)} minute ago`;
-              } else {
-                timeDisplay = `${cardVerb} ${Math.floor(
-                  time * 60
-                )} minutes ago`;
-              }
-            } else if (Math.floor(time) === 1) {
-              timeDisplay = `${cardVerb} ${Math.floor(time)} hour ago`;
-            } else if (Math.floor(time) >= 2 && Math.floor(time) < 24) {
-              timeDisplay = `${cardVerb} ${Math.floor(time)} hours ago`;
-            } else if (Math.floor(time) >= 24 && Math.floor(time) <= 48) {
-              timeDisplay = `${cardVerb} ${Math.floor(time / 24)} day ago`;
-            } else if (Math.floor(time) > 48) {
-              timeDisplay = `${cardVerb} ${Math.floor(time / 24)} days ago`;
-            }
+                if (Math.floor(time) < 1) {
+                  if (Math.floor(time * 60) <= 1) {
+                    timeDisplay = `${cardVerb} ${Math.floor(
+                      time * 60
+                    )} minute ago`;
+                  } else {
+                    timeDisplay = `${cardVerb} ${Math.floor(
+                      time * 60
+                    )} minutes ago`;
+                  }
+                } else if (Math.floor(time) === 1) {
+                  timeDisplay = `${cardVerb} ${Math.floor(time)} hour ago`;
+                } else if (Math.floor(time) >= 2 && Math.floor(time) < 24) {
+                  timeDisplay = `${cardVerb} ${Math.floor(time)} hours ago`;
+                } else if (Math.floor(time) >= 24 && Math.floor(time) <= 48) {
+                  timeDisplay = `${cardVerb} ${Math.floor(time / 24)} day ago`;
+                } else if (Math.floor(time) > 48) {
+                  timeDisplay = `${cardVerb} ${Math.floor(time / 24)} days ago`;
+                }
 
-            if (notification.notificationType === "reply") {
-              messageNotification = `${notification.notifier} replied to your post`;
-            }
-            if (!notification.isOpened) {
-              return (
-                <Menu.Item
-                  onClick={() => {
-                    navigate(`/comment/${notification.postId}`);
-                  }}
-                  icon={
-                    <ActionIcon
-                      variant="filled"
-                      color="orange"
-                      style={{ borderRadius: "50px" }}
+                if (notification.notificationType === "reply") {
+                  messageNotification = `${notification.notifier} replied to your post`;
+                }
+                if (!notification.isOpened) {
+                  return (
+                    <Menu.Item
+                      onClick={() => {
+                        navigate(`/comment/${notification.postId}`);
+                      }}
+                      icon={
+                        <ActionIcon
+                          variant="filled"
+                          color="orange"
+                          style={{ borderRadius: "50px" }}
+                        >
+                          <IconExclamationMark size={16} />
+                        </ActionIcon>
+                      }
+                      rightSection={
+                        <Text size="xs" color="dimmed">
+                          <IconClock
+                            size={14}
+                            style={{ paddingTop: "0.250rem" }}
+                          />
+                          {timeDisplay}
+                        </Text>
+                      }
                     >
-                      <IconExclamationMark size={16} />
-                    </ActionIcon>
-                  }
-                  rightSection={
-                    <Text size="xs" color="dimmed">
-                      <IconClock size={14} style={{ paddingTop: "0.250rem" }} />
-                      {timeDisplay}
-                    </Text>
-                  }
-                >
-                  {messageNotification}
-                </Menu.Item>
-              );
-            }
-          })}
+                      {messageNotification}
+                    </Menu.Item>
+                  );
+                }
+
+                return "";
+              })}
+            </>
+          )}
         </Menu.Dropdown>
       </Menu>
     </Indicator>
