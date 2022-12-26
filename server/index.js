@@ -17,6 +17,7 @@ const {
   deleteComment,
   toggleSolve,
   toggleStar,
+  readNotification,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -129,6 +130,16 @@ app.post("/toggleSolve", async (req, res) => {
 
 app.post("/toggleStar", async (req, res) => {
   await toggleStar({ star: req.body.star, commentId: req.body.commentId })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((error) => {
+      res.send(error.message);
+    });
+});
+
+app.post("/readNotification", async (req, res) => {
+  await readNotification({ notificationId: req.body.notificationId })
     .then((result) => {
       res.send(result);
     })

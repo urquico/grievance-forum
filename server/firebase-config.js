@@ -171,6 +171,13 @@ const toggleStar = async ({ star, commentId }) => {
   await db.collection("Comments").doc(commentId).update({ starComment: !star });
 };
 
+const readNotification = async ({ notificationId }) => {
+  await db
+    .collection("NotificationPosts")
+    .doc(notificationId)
+    .update({ isOpened: true });
+};
+
 module.exports = {
   addUser: addUser,
   generateVotePoint: generateVotePoint,
@@ -184,4 +191,5 @@ module.exports = {
   deleteTagCount: deleteTagCount,
   toggleSolve: toggleSolve,
   toggleStar: toggleStar,
+  readNotification: readNotification,
 };
