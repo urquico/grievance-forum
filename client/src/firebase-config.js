@@ -188,3 +188,10 @@ export const checkStarComment = async (commentId) => {
       .booleanValue;
   }
 };
+
+export const getNotifications = async (userId) => {
+  const ref = collection(db, "NotificationPosts");
+  const q = query(ref, where("userId", "==", userId));
+  const data = await getDocs(q);
+  return data;
+};

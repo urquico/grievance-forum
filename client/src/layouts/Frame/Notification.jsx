@@ -1,5 +1,6 @@
 import React, { useState, useLayoutEffect } from "react";
-import { IconBell, IconExclamationMark } from "@tabler/icons";
+import { useNavigate } from "react-router-dom";
+import { IconBell, IconExclamationMark, IconClock } from "@tabler/icons";
 import {
   Menu,
   Text,
@@ -7,13 +8,45 @@ import {
   Indicator,
   useMantineColorScheme,
 } from "@mantine/core";
+import axios from "axios";
+
+import { getNotifications } from "../../firebase-config";
 
 function Notification() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const [notification, setNotification] = useState([]);
+  const [notifications, setNotifications] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [empty, isEmpty] = useState(false);
+  const navigate = useNavigate();
 
   const dark = colorScheme === "dark";
+
+  const openNotification = () => {
+    getNotifications(localStorage.getItem("email"))
+      .then((result) => {
+        if (!result?.empty) {
+          setNotifications([
+            ...result.docs.map((doc) => ({
+              ...doc.data(),
+              id: doc.id,
+              readTime: doc._document.readTime.timestamp.seconds,
+            })),
+          ]);
+          setIsLoading(false);
+          setNotificationCount(result.size);
+        } else {
+          isEmpty(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  console.log(notifications);
+  console.log(isLoading);
+  console.log(empty);
 
   return (
     <Indicator
@@ -28,8 +61,13 @@ function Notification() {
       overflowCount={99}
     >
       <Menu
+        onOpen={openNotification}
+        onClose={() => {
+          setIsLoading(true);
+          isEmpty(false);
+        }}
         shadow="md"
-        width={200}
+        width={400}
         style={{ zIndex: "100px", margin: "0.400rem" }}
         withArrow
         transition="rotate-right"
@@ -42,28 +80,67 @@ function Notification() {
         </Menu.Target>
 
         <Menu.Dropdown>
-          <Menu.Label>Application</Menu.Label>
-          <Menu.Item icon={<IconBell size={14} />}>Settings</Menu.Item>
-          <Menu.Item icon={<IconBell size={14} />}>Messages</Menu.Item>
-          <Menu.Item icon={<IconBell size={14} />}>Gallery</Menu.Item>
-          <Menu.Item
-            icon={<IconBell size={14} />}
-            rightSection={
-              <Text size="xs" color="dimmed">
-                ⌘K
-              </Text>
+          <Menu.Label>Unread Notifications</Menu.Label>
+          {notifications?.map((notification) => {
+            let timeDisplay = "";
+            let cardVerb = "";
+            let messageNotification = "";
+            const timeCurrent = new Date(notification.readTime * 1000);
+            const timePosted = new Date(
+              notification.notificationTime.seconds * 1000
+            );
+
+            const time =
+              (timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600;
+
+            if (Math.floor(time) < 1) {
+              if (Math.floor(time * 60) <= 1) {
+                timeDisplay = `${cardVerb} ${Math.floor(time * 60)} minute ago`;
+              } else {
+                timeDisplay = `${cardVerb} ${Math.floor(
+                  time * 60
+                )} minutes ago`;
+              }
+            } else if (Math.floor(time) === 1) {
+              timeDisplay = `${cardVerb} ${Math.floor(time)} hour ago`;
+            } else if (Math.floor(time) >= 2 && Math.floor(time) < 24) {
+              timeDisplay = `${cardVerb} ${Math.floor(time)} hours ago`;
+            } else if (Math.floor(time) >= 24 && Math.floor(time) <= 48) {
+              timeDisplay = `${cardVerb} ${Math.floor(time / 24)} day ago`;
+            } else if (Math.floor(time) > 48) {
+              timeDisplay = `${cardVerb} ${Math.floor(time / 24)} days ago`;
             }
-          >
-            Search
-          </Menu.Item>
 
-          <Menu.Divider />
-
-          <Menu.Label>Danger zone</Menu.Label>
-          <Menu.Item icon={<IconBell size={14} />}>Transfer my data</Menu.Item>
-          <Menu.Item color="red" icon={<IconBell size={14} />}>
-            Delete my account
-          </Menu.Item>
+            if (notification.notificationType === "reply") {
+              messageNotification = `${notification.notifier} replied to your post`;
+            }
+            if (!notification.isOpened) {
+              return (
+                <Menu.Item
+                  onClick={() => {
+                    navigate(`/comment/${notification.postId}`);
+                  }}
+                  icon={
+                    <ActionIcon
+                      variant="filled"
+                      color="orange"
+                      style={{ borderRadius: "50px" }}
+                    >
+                      <IconExclamationMark size={16} />
+                    </ActionIcon>
+                  }
+                  rightSection={
+                    <Text size="xs" color="dimmed">
+                      <IconClock size={14} style={{ paddingTop: "0.250rem" }} />
+                      {timeDisplay}
+                    </Text>
+                  }
+                >
+                  {messageNotification}
+                </Menu.Item>
+              );
+            }
+          })}
         </Menu.Dropdown>
       </Menu>
     </Indicator>
