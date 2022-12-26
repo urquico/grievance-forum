@@ -70,7 +70,6 @@ function Notification() {
       <Menu
         onOpen={openNotification}
         onClose={() => {
-          setIsLoading(true);
           isEmpty(false);
         }}
         shadow="md"
