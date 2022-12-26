@@ -178,6 +178,22 @@ const readNotification = async ({ notificationId }) => {
     .update({ isOpened: true });
 };
 
+const notifyPublisher = async ({
+  notificationType,
+  notifier,
+  postId,
+  userId,
+}) => {
+  await db.collection("NotificationPosts").add({
+    isOpened: false,
+    notificationTime: Timestamp.fromDate(new Date()),
+    notificationType: notificationType,
+    notifier: notifier,
+    postId: postId,
+    userId: userId,
+  });
+};
+
 module.exports = {
   addUser: addUser,
   generateVotePoint: generateVotePoint,
@@ -192,4 +208,5 @@ module.exports = {
   toggleSolve: toggleSolve,
   toggleStar: toggleStar,
   readNotification: readNotification,
+  notifyPublisher: notifyPublisher,
 };

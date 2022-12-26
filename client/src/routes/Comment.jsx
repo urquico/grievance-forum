@@ -114,6 +114,17 @@ function CommentLayout() {
             autoClose: 2000,
           });
         }, 3000);
+
+        axios
+          .post(`${PORT}/notifyPublisher`, {
+            notificationType: "reply",
+            notifier: localStorage.getItem("name"),
+            postId: id,
+            userId: post.userId,
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
       })
       .catch((error) => {
         console.log(error.message);

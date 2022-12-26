@@ -18,6 +18,7 @@ const {
   toggleSolve,
   toggleStar,
   readNotification,
+  notifyPublisher,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -140,6 +141,21 @@ app.post("/toggleStar", async (req, res) => {
 
 app.post("/readNotification", async (req, res) => {
   await readNotification({ notificationId: req.body.notificationId })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((error) => {
+      res.send(error.message);
+    });
+});
+
+app.post("/notifyPublisher", async (req, res) => {
+  await notifyPublisher({
+    notificationType: req.body.notificationType,
+    notifier: req.body.notifier,
+    postId: req.body.postId,
+    userId: req.body.userId,
+  })
     .then((result) => {
       res.send(result);
     })
