@@ -11,6 +11,7 @@ import {
   getSinglePost,
   getComments,
   checkSolveState,
+  getUser,
 } from "../firebase-config";
 import { useMantineTheme, Timeline, Switch, Text } from "@mantine/core";
 import axios from "axios";
@@ -38,6 +39,8 @@ function CommentLayout() {
   const [comments, setComments] = useState([]);
   const [isEmpty, setIsEmpty] = useState(false);
   const [isSolve, setIsSolve] = useState();
+  const [isCurrentUserAdmin, setIsCurrentUserAdmin] = useState(false);
+
   const theme = useMantineTheme();
 
   useLayoutEffect(() => {
@@ -61,10 +64,11 @@ function CommentLayout() {
     });
   }, []);
 
-  // console.log(timeCurrent);
-  // console.log(timePosted);
-  // console.log(hour);
-  console.log(isSolve);
+  useLayoutEffect(() => {
+    getUser(localStorage.getItem("email")).then((result) => {
+      setIsCurrentUserAdmin(result.isAdmin);
+    });
+  }, []);
 
   useLayoutEffect(() => {
     getComments(id).then((result) => {
@@ -172,7 +176,15 @@ function CommentLayout() {
             flexDirection: "column",
           }}
         >
-          <SolveSwitch isSolve={isSolve} setIsSolve={setIsSolve} postId={id} />
+          {isCurrentUserAdmin ? (
+            <SolveSwitch
+              isSolve={isSolve}
+              setIsSolve={setIsSolve}
+              postId={id}
+            />
+          ) : (
+            ""
+          )}
           <PostCard
             isAnonymous={post.isAnonymous}
             email={post.userId}

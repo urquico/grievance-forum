@@ -259,11 +259,16 @@ function User({
                       marginLeft: "0.500rem",
                       marginTop: "-0.150rem",
                       borderRadius: "50px",
+                      cursor: isCurrentUserAdmin ? "pointer" : "context-menu",
                     }}
                     variant="filled"
                     color={isStarComment ? "yellow" : "gray"}
                   >
-                    <IconStar size={16} onClick={starComment} color="white" />
+                    <IconStar
+                      size={16}
+                      onClick={isCurrentUserAdmin ? starComment : ""}
+                      color="white"
+                    />
                   </ActionIcon>
                 </>
               ) : (
