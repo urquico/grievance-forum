@@ -115,16 +115,18 @@ function CommentLayout() {
           });
         }, 3000);
 
-        axios
-          .post(`${PORT}/notifyPublisher`, {
-            notificationType: "reply",
-            notifier: localStorage.getItem("name"),
-            postId: id,
-            userId: post.userId,
-          })
-          .catch((err) => {
-            console.log(err.message);
-          });
+        if (localStorage.getItem("email") !== post.userId) {
+          axios
+            .post(`${PORT}/notifyPublisher`, {
+              notificationType: "reply",
+              notifier: localStorage.getItem("name"),
+              postId: id,
+              userId: post.userId,
+            })
+            .catch((err) => {
+              console.log(err.message);
+            });
+        }
       })
       .catch((error) => {
         console.log(error.message);

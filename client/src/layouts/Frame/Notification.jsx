@@ -27,14 +27,15 @@ function Notification() {
   useLayoutEffect(() => {
     getNotifications(localStorage.getItem("email")).then((result) => {
       if (!result.empty) {
-        console.log(result.docs);
+        let count = 0;
         result.docs.forEach((notification) => {
           const isOpened =
             notification._document.data.value.mapValue.fields.isOpened
               .booleanValue;
 
           if (!isOpened) {
-            setNotificationCount(notificationCount + 1);
+            count += 1;
+            setNotificationCount(count);
           }
         });
       }
@@ -62,10 +63,6 @@ function Notification() {
         console.log(error.message);
       });
   };
-
-  console.log(notifications);
-  console.log(isLoading);
-  console.log(empty);
 
   return (
     <Indicator
@@ -117,7 +114,6 @@ function Notification() {
                 <>
                   {notifications?.map((notification) => {
                     let timeDisplay = "";
-                    let cardVerb = "";
                     let messageNotification = "";
                     const timeCurrent = new Date(notification.readTime * 1000);
                     const timePosted = new Date(
@@ -131,29 +127,21 @@ function Notification() {
 
                     if (Math.floor(time) < 1) {
                       if (Math.floor(time * 60) <= 1) {
-                        timeDisplay = `${cardVerb} ${Math.floor(
-                          time * 60
-                        )} minute ago`;
+                        timeDisplay = `${Math.floor(time * 60)} minute ago`;
                       } else {
-                        timeDisplay = `${cardVerb} ${Math.floor(
-                          time * 60
-                        )} minutes ago`;
+                        timeDisplay = `${Math.floor(time * 60)} minutes ago`;
                       }
                     } else if (Math.floor(time) === 1) {
-                      timeDisplay = `${cardVerb} ${Math.floor(time)} hour ago`;
+                      timeDisplay = `${Math.floor(time)} hour ago`;
                     } else if (Math.floor(time) >= 2 && Math.floor(time) < 24) {
-                      timeDisplay = `${cardVerb} ${Math.floor(time)} hours ago`;
+                      timeDisplay = `${Math.floor(time)} hours ago`;
                     } else if (
                       Math.floor(time) >= 24 &&
                       Math.floor(time) <= 48
                     ) {
-                      timeDisplay = `${cardVerb} ${Math.floor(
-                        time / 24
-                      )} day ago`;
+                      timeDisplay = `${Math.floor(time / 24)} day ago`;
                     } else if (Math.floor(time) > 48) {
-                      timeDisplay = `${cardVerb} ${Math.floor(
-                        time / 24
-                      )} days ago`;
+                      timeDisplay = `${Math.floor(time / 24)} days ago`;
                     }
 
                     if (notification.notificationType === "reply") {
