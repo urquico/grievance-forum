@@ -19,6 +19,8 @@ import { PORT } from "../Globals";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
 import EndPost from "../layouts/EndPost";
+import env from "react-dotenv";
+import emailjs from "@emailjs/browser";
 
 function Comment() {
   let { id } = useParams();
@@ -126,6 +128,30 @@ function CommentLayout() {
               notifier: localStorage.getItem("name"),
               postId: id,
               userId: post.userId,
+            })
+            .then(() => {
+              console.log(
+                env.EMAILJS_SERVICE_ID,
+                env.EMAILJS_TEMPLATE_ID,
+                env.EMAILJS_PUBLIC_KEY
+              );
+              emailjs
+                .send(
+                  env.EMAILJS_SERVICE_ID,
+                  env.EMAILJS_TEMPLATE_ID,
+                  {
+                    receiver_email: post.userId,
+                    sender_name: localStorage.getItem("name"),
+                    reply: text,
+                  },
+                  env.EMAILJS_PUBLIC_KEY
+                )
+                .then((result) => {
+                  console.log(result);
+                })
+                .catch((err) => {
+                  console.log(err.message);
+                });
             })
             .catch((err) => {
               console.log(err.message);

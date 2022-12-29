@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emailjs/browser": "^3.10.0",
     "@emotion/react": "^11.10.5",
     "@mantine/core": "^5.9.2",
     "@mantine/hooks": "^5.9.2",
@@ -49,6 +50,9 @@
   },
   "react-dotenv": {
     "whitelist": [
+      "EMAILJS_SERVICE_ID",
+      "EMAILJS_TEMPLATE_ID",
+      "EMAILJS_PUBLIC_KEY",
       "API_KEY",
       "AUTH_DOMAIN",
       "PROJECT_ID",

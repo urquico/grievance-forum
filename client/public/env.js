@@ -1,4 +1,7 @@
 window.env = {
+  "EMAILJS_SERVICE_ID": "service_s24u07s",
+  "EMAILJS_TEMPLATE_ID": "template_w3szqis",
+  "EMAILJS_PUBLIC_KEY": "user_GkTQSGJiz26R1kNhQMO1G",
   "API_KEY": "AIzaSyAeEygaF-UkDzHHf5d7eEA5exnj52iKxCw",
   "AUTH_DOMAIN": "haribon-e-wall.firebaseapp.com",
   "PROJECT_ID": "haribon-e-wall",
