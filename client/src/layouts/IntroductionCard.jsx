@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, useMantineTheme } from "@mantine/core";
+import { Text, useMantineTheme, TypographyStylesProvider } from "@mantine/core";
 
 function IntroductionCard({ name, message }) {
   const theme = useMantineTheme();
@@ -20,14 +20,16 @@ function IntroductionCard({ name, message }) {
         boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
       }}
     >
-      <Text style={{ fontWeight: "bold" }}>Hi! {name}</Text>
+      <Text style={{ fontWeight: "bold" }}>HELLO, {name}</Text>
       <Text
         style={{
           color:
             theme.colorScheme === "dark" ? theme.colors.gray[6] : "#3E3E3E",
         }}
       >
-        {message}
+        <TypographyStylesProvider>
+          <div dangerouslySetInnerHTML={{ __html: message }} />
+        </TypographyStylesProvider>
       </Text>
     </div>
   );

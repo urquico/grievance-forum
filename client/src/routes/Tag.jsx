@@ -15,7 +15,10 @@ function TagLayout() {
 
   return (
     <div>
-      <IntroductionCard name={localStorage.getItem("name")} message={id} />
+      <IntroductionCard
+        name={localStorage.getItem("name")}
+        message={`Posts under the <<b><i>${id.toUpperCase()}</i></b>> tag`}
+      />
       <InfiniteScrolling type="tag" tag={id} />
     </div>
   );

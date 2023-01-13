@@ -12,7 +12,7 @@ function ProfileLayout() {
     <>
       <IntroductionCard
         name={localStorage.getItem("name")}
-        message={"Welcome to your profile!"}
+        message={"Welcome to your profile, you can see your activities here"}
       />
       <InfiniteScrolling type="profile" />
     </>

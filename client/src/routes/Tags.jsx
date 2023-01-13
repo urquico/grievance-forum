@@ -24,13 +24,11 @@ function TagsLayout() {
     });
   }, []);
 
-  console.log(tags);
-
   return (
     <div>
       <IntroductionCard
         name={localStorage.getItem("name")}
-        message={"Tags Shit"}
+        message={"List of tags created by the community."}
       />
       <div style={{ marginTop: "0.625rem" }}>
         {tags.length === 0 ? (

@@ -85,7 +85,7 @@ function AsideLayout() {
           >
             <Links title={"Terms of Services"} path={"terms-of-services"} />
             <Links title={"Privacy Policy"} path={"privacy-policy"} />
-            <Links title={"Accessibility"} path={"accessibility"} />
+            <Links title={"Features"} path={"features"} />
           </div>
           <Text fz="xs" style={{ marginLeft: "0.75rem", opacity: "0.7" }}>
             &copy; 2022 Haribon E-Wall

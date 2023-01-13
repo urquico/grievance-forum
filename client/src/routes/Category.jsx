@@ -26,13 +26,11 @@ function CategoryLayout() {
       });
   }, []);
 
-  console.log(categories.length === 0);
-
   return (
     <>
       <IntroductionCard
         name={localStorage.getItem("name")}
-        message={"Category Shit"}
+        message={"Description of categories available in this platform."}
       />
       <div
         style={{

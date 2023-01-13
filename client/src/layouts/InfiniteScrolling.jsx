@@ -50,8 +50,6 @@ function InfiniteScrolling({ type, tag, category }) {
     }
   };
 
-  console.log(posts);
-
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       {posts.length === 0 && !isEmpty ? (

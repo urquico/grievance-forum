@@ -66,8 +66,6 @@ function User({
     }
   }, []);
 
-  console.log(isStarComment);
-
   const generateRandomColor = () => {
     return avatarColors[Math.floor(Math.random() * avatarColors.length)];
   };

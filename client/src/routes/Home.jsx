@@ -12,7 +12,7 @@ function HomeLayout() {
     <div>
       <IntroductionCard
         name={localStorage.getItem("name")}
-        message={"Welcome to Haribon Knights E-Wall!"}
+        message={"Welcome to Haribon E-Wall!"}
       />
       <InfiniteScrolling type="home" />
     </div>

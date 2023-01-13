@@ -175,7 +175,11 @@ function CommentLayout() {
 
   return (
     <div>
-      <IntroductionCard name={localStorage.getItem("name")} message={id} />
+      <IntroductionCard
+        name={localStorage.getItem("name")}
+        message={`<br/>Welcome to the comment section. <br/> <i>Please <b>avoid the use of offensive language</b> that would make others uncomfortable. </i>
+`}
+      />
       {isLoading ? (
         <>
           <LoadingPost />
@@ -224,6 +228,10 @@ function CommentLayout() {
             previewOnly={false}
             isComment={false}
           />
+          <RichTextBox text={text} setText={setText} disabled={true} />
+          <Button style={{ marginTop: "0.500rem" }} onClick={submitComment}>
+            Submit Comment
+          </Button>
           <div>
             {isEmpty ? (
               <EndPost content="No comments yet" />
@@ -292,12 +300,7 @@ function CommentLayout() {
               boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
               flexDirection: "column",
             }}
-          >
-            <RichTextBox text={text} setText={setText} disabled={true} />
-            <Button style={{ marginTop: "0.500rem" }} onClick={submitComment}>
-              Submit Comment
-            </Button>
-          </div>
+          ></div>
         </div>
       )}
     </div>
