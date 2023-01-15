@@ -228,10 +228,28 @@ function CommentLayout() {
             previewOnly={false}
             isComment={false}
           />
-          <RichTextBox text={text} setText={setText} disabled={true} />
-          <Button style={{ marginTop: "0.500rem" }} onClick={submitComment}>
-            Submit Comment
-          </Button>
+          <div
+            style={{
+              display: isSolve ? "none" : "flex",
+              height: "auto",
+              backgroundColor:
+                theme.colorScheme === "dark"
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[0],
+              marginTop: isEmpty ? "1rem" : "1rem",
+              borderRadius: "13px",
+              padding: "2.375rem",
+
+              boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+              flexDirection: "column",
+            }}
+          >
+            <RichTextBox text={text} setText={setText} disabled={true} />
+            <Button style={{ marginTop: "0.500rem" }} onClick={submitComment}>
+              Submit Comment
+            </Button>
+          </div>
+
           <div>
             {isEmpty ? (
               <EndPost content="No comments yet" />
@@ -284,23 +302,6 @@ function CommentLayout() {
               </>
             )}
           </div>
-          <div
-            style={{
-              display: isSolve ? "none" : "flex",
-              height: "auto",
-              backgroundColor:
-                theme.colorScheme === "dark"
-                  ? theme.colors.dark[6]
-                  : theme.colors.gray[0],
-              marginTop: isEmpty ? "" : "1rem",
-              marginLeft: "2rem",
-              borderRadius: "13px",
-              padding: "2.375rem",
-
-              boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
-              flexDirection: "column",
-            }}
-          ></div>
         </div>
       )}
     </div>

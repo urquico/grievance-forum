@@ -43,7 +43,7 @@ function AsideLayout() {
           >
             Trending Topics
           </Text>
-          {tags.length === 0 ? (
+          {tags.length && !isEmpty === 0 ? (
             <>
               <TagLoader />
               <TagLoader />

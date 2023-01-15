@@ -135,8 +135,20 @@ const writeTags = async ({ tags }) => {
   });
 };
 
-const deletePost = async ({ postId }) => {
-  await db.collection("Posts").doc(postId).delete();
+const deletePost = async ({ postId, userId }) => {
+  await db
+    .collection("Posts")
+    .doc(postId)
+    .delete()
+    .then(async () => {
+      const comments = await db
+        .collection("Comments")
+        .where("postId", "==", postId)
+        .get();
+      comments?.forEach((doc) => {
+        deleteComment({ commentId: doc.id });
+      });
+    });
 };
 
 const deleteComment = async ({ commentId }) => {
@@ -160,6 +172,13 @@ const deleteTagCount = async ({ tags }) => {
     db.collection("Tags")
       .doc(tag.toLowerCase())
       .update({ tagCount: FieldValue.increment(-1) });
+  });
+};
+
+const deleteZeroTagCount = async () => {
+  const tags = await db.collection("Tags").where("tagCount", "==", 0).get();
+  tags?.forEach((doc) => {
+    db.collection("Tags").doc(doc.id).delete();
   });
 };
 
@@ -205,6 +224,7 @@ module.exports = {
   deleteComment: deleteComment,
   deleteVotedPost: deleteVotedPost,
   deleteTagCount: deleteTagCount,
+  deleteZeroTagCount: deleteZeroTagCount,
   toggleSolve: toggleSolve,
   toggleStar: toggleStar,
   readNotification: readNotification,

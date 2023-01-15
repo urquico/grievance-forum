@@ -10,7 +10,7 @@ import { Navbar, Button } from "@mantine/core";
 import NavLinks from "./NavLinks";
 function NavBarLayout({ opened, logOut }) {
   return (
-    <div>
+    <div style={{ zIndex: "99" }}>
       <Navbar
         p="md"
         hiddenBreakpoint="sm"

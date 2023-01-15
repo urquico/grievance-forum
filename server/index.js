@@ -19,6 +19,7 @@ const {
   toggleStar,
   readNotification,
   notifyPublisher,
+  deleteZeroTagCount,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -103,6 +104,7 @@ app.post("/deletePost", async (req, res) => {
       res.send(result);
       deleteVotedPost({ userId: req.body.userId, postId: req.body.postId });
       deleteTagCount({ tags: req.body.tags });
+      deleteZeroTagCount();
     })
     .catch((error) => {
       res.send(error.message);
