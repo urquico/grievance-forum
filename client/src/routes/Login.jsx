@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
-import { Button, useMantineTheme, Text } from "@mantine/core";
+import { Button, useMantineTheme, Text, Image } from "@mantine/core";
 import microsoftLogo from "../assets/ms-logo.svg";
+import hariBirdLogo from "../assets/hariBirdLogo.svg";
+import backDrop from "../assets/backdrop.svg";
 import DarkModeButton from "../layouts/DarkModeButton";
 import { signInWithMicrosoft } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +35,17 @@ function Login() {
   };
 
   return (
-    <>
+    <div
+      style={{
+        margin: "0",
+        backgroundImage: `url(${backDrop})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        width: "100%",
+        height: "100vh",
+        backgroundPosition: "bottom center",
+      }}
+    >
       <DarkModeButton />
       <div
         style={{
@@ -43,23 +55,46 @@ function Login() {
           height: "80vh",
         }}
       >
-        <Text
-          fz="xl"
-          fw={500}
+        <div
           style={{
             margin: "auto",
             marginBottom: "0",
-            fontFamily: "Poor Story",
+            textAlign: "center",
           }}
         >
-          Haribon Grievance Forum
-        </Text>
+          <div style={{ width: 240, marginLeft: "auto", marginRight: "auto" }}>
+            <Image src={hariBirdLogo} alt="Haribon Logo" />
+          </div>
+          <Text
+            fw={500}
+            style={{
+              margin: "auto",
+              marginBottom: "0",
+              fontFamily: "Poor Story",
+              fontSize: "3rem",
+              padding: "0",
+            }}
+          >
+            Welcome to Haribon E-Wall!
+          </Text>
+          <Text
+            style={{
+              marginTop: "-1rem",
+              fontSize: "0.750rem",
+              fontFamily: "Lexend Deca",
+              color: theme.colorScheme === "dark" ? "#fff" : "#5e5e5e",
+            }}
+          >
+            Pamantasan ng Lungsod ng Maynila Computer Science Department
+            Grievance Forum
+          </Text>
+        </div>
         <Button
           variant={theme.colorScheme === "dark" ? "none" : "outline"}
           color={theme.colorScheme === "dark" ? "none" : "gray"}
           style={{
             margin: "auto",
-            marginTop: "0",
+            marginTop: "1.000rem",
             fontFamily: "Segoe UI",
             fontSize: "0.938rem",
             height: "2.563rem",
@@ -72,7 +107,7 @@ function Login() {
           Sign in with Microsoft
         </Button>
       </div>
-    </>
+    </div>
   );
 }
 
