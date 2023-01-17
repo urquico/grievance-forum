@@ -1,7 +1,8 @@
 import React from "react";
-import { Header, MediaQuery, Burger, Text } from "@mantine/core";
+import { Header, MediaQuery, Burger, Text, Image } from "@mantine/core";
 import DarkModeButton from "../DarkModeButton";
 import Notification from "../Frame/Notification";
+import hariBirdLogo from "../../assets/hariBirdTransparent.svg";
 
 function HeaderLayout({ opened, setOpened, dark, theme, toggleColorScheme }) {
   return (
@@ -27,8 +28,24 @@ function HeaderLayout({ opened, setOpened, dark, theme, toggleColorScheme }) {
           </MediaQuery>
         </div>
 
-        <div style={{ fontFamily: "Poor Story" }}>
-          <Text style={{ fontFamily: "Poor Story", fontSize: "1.25rem" }}>
+        <div
+          style={{
+            fontFamily: "Poor Story",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <div style={{ width: 70 }}>
+            <Image src={hariBirdLogo} alt="Haribon Logo" />
+          </div>
+          <Text
+            style={{
+              fontFamily: "Poor Story",
+              fontSize: "1.25rem",
+              marginTop: "0.200rem",
+              marginLeft: "-1rem",
+            }}
+          >
             Haribon E-Wall
           </Text>
         </div>
