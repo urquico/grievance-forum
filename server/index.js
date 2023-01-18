@@ -30,22 +30,22 @@ app.get("/", (req, res) => res.send("Hello World!"));
 app.post("/addUser", async (req, res) => {
   // functional, add new user to the database
   await addUser({ email: req.body.email, name: req.body.name })
-    .then((result) => {
-      console.log(result);
+    .then(() => {
+      console.log(`${req.body.email} has logged in`);
     })
     .catch((error) => {
       console.log(error.message);
     });
-  //   res.send()
 });
 
 app.post("/generateVotePoint", async (req, res) => {
   await generateVotePoint()
     .then((result) => {
       res.send(result);
+      console.log("Vote Point Generation Success!");
     })
     .catch((error) => {
-      res.send(error.message);
+      console.log(error.message);
     });
 });
 
@@ -59,8 +59,23 @@ app.post("/writePost", async (req, res) => {
   })
     .then((result) => {
       res.send(result);
-      generateVotePoint();
-      writeTags({ tags: req.body.tags });
+      console.log("A post has been written");
+
+      generateVotePoint()
+        .then(() => {
+          console.log("Vote Point Generation Success!");
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+
+      writeTags({ tags: req.body.tags })
+        .then(() => {
+          console.log("Tags has been written successfully");
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
     })
     .catch((error) => {
       console.log(error.message);
@@ -75,7 +90,15 @@ app.post("/writeComment", async (req, res) => {
   })
     .then((result) => {
       res.send(result);
-      generateVotePoint();
+      console.log("A comment has been written");
+
+      generateVotePoint()
+        .then(() => {
+          console.log("Vote Point Generation Success!");
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
     })
     .catch((error) => {
       console.log(error.message);
@@ -91,10 +114,19 @@ app.post("/votePost", async (req, res) => {
   })
     .then((result) => {
       res.send(result);
-      generateVotePoint();
+      console.log(`A post has been voted (${req.body.voteType})`);
+
+      generateVotePoint()
+        .then(() => {
+          console.log("Vote Point Generation Success!");
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
     })
     .catch((error) => {
       res.send(error.message);
+      console.log(error.message);
     });
 });
 
@@ -102,11 +134,36 @@ app.post("/deletePost", async (req, res) => {
   await deletePost({ postId: req.body.postId })
     .then((result) => {
       res.send(result);
-      deleteVotedPost({ userId: req.body.userId, postId: req.body.postId });
-      deleteTagCount({ tags: req.body.tags });
-      deleteZeroTagCount();
+      console.log(`A post has been deleted`);
+
+      deleteVotedPost({ userId: req.body.userId, postId: req.body.postId })
+        .then(() => {
+          console.log("Voted Post Data has been deleted");
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+
+      deleteTagCount({ tags: req.body.tags })
+        .then(() => {
+          console.log("Tag Count Decremented Successfully");
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+
+      deleteZeroTagCount()
+        .then(() => {
+          console.log(
+            "Tag Count with zero values has been deleted Successfully"
+          );
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
     })
     .catch((error) => {
+      console.log(error.message);
       res.send(error.message);
     });
 });
@@ -115,38 +172,46 @@ app.post("/deleteComment", async (req, res) => {
   await deleteComment({ commentId: req.body.postId })
     .then((result) => {
       res.send(result);
+      console.log(`A comment has been deleted`);
     })
     .catch((error) => {
       res.send(error.message);
+      console.log(error.message);
     });
 });
 
 app.post("/toggleSolve", async (req, res) => {
   await toggleSolve({ isSolved: req.body.isSolved, postId: req.body.postId })
     .then((result) => {
+      console.log(`Solved state toggled`);
       res.send(result);
     })
     .catch((error) => {
       res.send(error.message);
+      console.log(error.message);
     });
 });
 
 app.post("/toggleStar", async (req, res) => {
   await toggleStar({ star: req.body.star, commentId: req.body.commentId })
     .then((result) => {
+      console.log(`Toggled Star comment`);
       res.send(result);
     })
     .catch((error) => {
       res.send(error.message);
+      console.log(error.message);
     });
 });
 
 app.post("/readNotification", async (req, res) => {
   await readNotification({ notificationId: req.body.notificationId })
     .then((result) => {
+      console.log(`Notification has been viewed`);
       res.send(result);
     })
     .catch((error) => {
+      console.log(error.message);
       res.send(error.message);
     });
 });
@@ -159,10 +224,12 @@ app.post("/notifyPublisher", async (req, res) => {
     userId: req.body.userId,
   })
     .then((result) => {
+      console.log(`Notified Publisher`);
       res.send(result);
     })
     .catch((error) => {
       res.send(error.message);
+      console.log(error.message);
     });
 });
 
