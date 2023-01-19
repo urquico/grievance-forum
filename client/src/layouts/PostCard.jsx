@@ -298,7 +298,8 @@ function PostCard({
         <Text
           onClick={() => setReadMore(!readMore)}
           style={{
-            color: theme.colors.gray[0],
+            color:
+              theme.colorScheme === "dark" ? theme.colors.gray[6] : "#3E3E3E",
             cursor: "pointer",
             margin: "auto",
             marginRight: "1rem",
