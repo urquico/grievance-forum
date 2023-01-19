@@ -195,3 +195,15 @@ export const getNotifications = async (userId) => {
   const data = await getDocs(q);
   return data;
 };
+
+export const getColleges = async () => {
+  const ref = collection(db, "Colleges");
+  const data = await getDocs(ref);
+  return data.docs;
+};
+
+export const getPrograms = async (collegeId) => {
+  const ref = collection(db, "Colleges", collegeId, "Programs");
+  const data = await getDocs(ref);
+  return data.docs;
+};

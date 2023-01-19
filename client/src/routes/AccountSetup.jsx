@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 import {
   Modal,
@@ -9,11 +9,16 @@ import {
   Checkbox,
   Anchor,
   FileInput,
-  NumberInput,
+  Select,
 } from "@mantine/core";
-import { IconUpload } from "@tabler/icons";
+import { DatePicker } from "@mantine/dates";
+import { showNotification, updateNotification } from "@mantine/notifications";
+import { IconUpload, IconHash, IconCheck, IconX } from "@tabler/icons";
 import { useNavigate } from "react-router-dom";
 import Frame from "../layouts/Frame/Frame";
+import { getColleges, getPrograms } from "../firebase-config";
+import axios from "axios";
+import { PORT } from "../Globals";
 
 function AccountSetup() {
   useDocumentTitle("Account Setup");
@@ -27,29 +32,124 @@ function AccountSetupLayout() {
   const [file, setFile] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [age, setAge] = useState(0);
+  const [birthday, setBirthday] = useState();
   const [termsAgreement, setTermsAgreement] = useState(false);
+  const [age, setAge] = useState(0);
+  const [college, setCollege] = useState("");
+  const [program, setProgram] = useState("");
+
+  const [collegeList, setCollegeList] = useState([]);
+  const [programList, setProgramList] = useState([]);
 
   const [firstNameError, setFirstNameError] = useState(false);
   const [lastNameError, setLastNameError] = useState(false);
-  const [ageError, setAgeError] = useState(false);
+  const [birthdayError, setBirthdayError] = useState(false);
   const [termsAgreementError, setTermsAgreementError] = useState(false);
+  const [collegeError, setCollegeError] = useState(false);
+  const [programError, setProgramError] = useState(false);
+
+  useLayoutEffect(() => {
+    getColleges().then((result) => {
+      setCollegeList(
+        result.map((college) => ({
+          value: college.id,
+          label: college.data().label,
+        }))
+      );
+    });
+  }, []);
 
   const submitData = () => {
-    const submissionPermitted = false;
     if (firstName === "") {
       setFirstNameError(true);
     }
     if (lastName === "") {
       setLastNameError(true);
     }
-    if (age === 0 || age === undefined) {
-      setAgeError(true);
+    if (
+      birthday === undefined ||
+      birthday === null ||
+      age === "Please Enter your real birthday"
+    ) {
+      setBirthdayError(true);
     }
     if (termsAgreement === false) {
       setTermsAgreementError(true);
     }
-    console.log(age);
+    if (college === "") {
+      setCollegeError(true);
+    }
+    if (program === "") {
+      setProgramError(true);
+    }
+
+    const submissionPermitted =
+      lastName !== "" &&
+      firstName !== "" &&
+      age > 10 &&
+      college !== "" &&
+      program !== "" &&
+      termsAgreement === true;
+    if (submissionPermitted) {
+      showNotification({
+        id: "load-data",
+        loading: true,
+        title: "Updating your data",
+        message: "Please Wait!",
+        autoClose: false,
+        disallowClose: true,
+      });
+      axios
+        .post(`${PORT}/updateUserData`, {
+          userId: localStorage.getItem("email"),
+          firstName: firstName,
+          lastName: lastName,
+          birthday: birthday,
+          college: college,
+          program: program,
+          userAgreedSLA: termsAgreement,
+        })
+        .then((result) => {
+          console.log(result);
+          setTimeout(() => {
+            updateNotification({
+              id: "load-data",
+              color: "teal",
+              title: "Success!",
+              message: "Post has been Submitted",
+              icon: <IconCheck size={16} />,
+              autoClose: 2000,
+            });
+          }, 3000);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setTimeout(() => {
+            updateNotification({
+              id: "load-data",
+              color: "red",
+              title: "Error!!",
+              message: error.message,
+              icon: <IconX size={16} />,
+              autoClose: 2000,
+            });
+          }, 3000);
+        });
+    }
+  };
+
+  const collegeSelected = (val) => {
+    setCollege(val);
+    setCollegeError(false);
+    getPrograms(val).then((result) => {
+      setProgramList(
+        result.map((program) => ({
+          value: program.id,
+          label: program.data().label,
+        }))
+      );
+    });
+    setProgram("");
   };
 
   const exitSetup = () => {
@@ -83,7 +183,6 @@ function AccountSetupLayout() {
           radius="xs"
           disabled
         />
-
         <FileInput
           value={file}
           onChange={setFile}
@@ -94,7 +193,6 @@ function AccountSetupLayout() {
           accept="image/png,image/jpeg"
           icon={<IconUpload size={14} />}
         />
-
         <TextInput
           placeholder="Thom"
           label="First name"
@@ -113,26 +211,58 @@ function AccountSetupLayout() {
           label="Last name"
           radius="xs"
           withAsterisk
-          error={lastNameError ? "field required" : ""}
+          error={lastNameError ? "Enter valid date" : ""}
           value={lastName}
           onChange={(event) => {
             setLastName(event.currentTarget.value);
             setLastNameError(false);
           }}
         />
-
-        <NumberInput
-          placeholder="Your age"
-          label="Age"
+        <DatePicker
+          placeholder="Pick date"
+          label="Birthday"
           withAsterisk
-          error={ageError ? "field required" : ""}
-          value={age}
+          error={birthdayError ? "field required" : ""}
+          value={birthday}
           onChange={(val) => {
-            setAge(val);
-            setAgeError(false);
+            const dateToday = new Date();
+            setBirthday(val);
+            setBirthdayError(false);
+            const generatedAge =
+              (dateToday.getTime() - val.getTime()) / 1000 / 31536000;
+            if (generatedAge <= 10) {
+              setAge("Please Enter your real birthday");
+            } else {
+              setAge(Math.floor(generatedAge));
+            }
           }}
-          stepHoldDelay={500}
-          stepHoldInterval={100}
+        />
+
+        <TextInput label="Age" radius="xs" value={age} disabled />
+
+        <Select
+          label="College"
+          placeholder="Pick one"
+          data={collegeList}
+          value={college}
+          onChange={(val) => {
+            collegeSelected(val);
+          }}
+          error={collegeError}
+          required
+        />
+
+        <Select
+          label="Program"
+          placeholder="Pick one"
+          data={programList}
+          value={program}
+          onChange={(val) => {
+            setProgram(val);
+            setProgramError(false);
+          }}
+          error={programError}
+          required
         />
 
         <Checkbox
@@ -156,7 +286,6 @@ function AccountSetupLayout() {
           }
           style={{ marginTop: "0.750rem" }}
         />
-
         <Button
           style={{ marginTop: "0.750rem" }}
           fullWidth

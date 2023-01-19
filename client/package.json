@@ -6,6 +6,7 @@
     "@emailjs/browser": "^3.10.0",
     "@emotion/react": "^11.10.5",
     "@mantine/core": "^5.9.2",
+    "@mantine/dates": "^5.10.1",
     "@mantine/hooks": "^5.9.2",
     "@mantine/notifications": "^5.8.4",
     "@mantine/rte": "^5.9.2",

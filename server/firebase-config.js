@@ -31,6 +31,26 @@ const addUser = async ({ name, email }) => {
   }
 };
 
+const updateUserData = async ({
+  userId,
+  firstName,
+  lastName,
+  birthday,
+  college,
+  program,
+  userAgreedSLA,
+}) => {
+  const ref = await db.collection("UserData").doc(userId);
+  ref.update({
+    firstName: firstName,
+    lastName: lastName,
+    birthday: birthday,
+    college: college,
+    program: program,
+    userAgreedSLA: userAgreedSLA,
+  });
+};
+
 const redditAlgorithm = (post) => {
   const timePosted = new Date(post.data().timePosted._seconds);
   const currentDate = new Date(Timestamp.fromDate(new Date())._seconds);
@@ -215,6 +235,7 @@ const notifyPublisher = async ({
 
 module.exports = {
   addUser: addUser,
+  updateUserData: updateUserData,
   generateVotePoint: generateVotePoint,
   writePost: writePost,
   votePost: votePost,

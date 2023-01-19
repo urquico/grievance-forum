@@ -20,6 +20,7 @@ const {
   readNotification,
   notifyPublisher,
   deleteZeroTagCount,
+  updateUserData,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -32,6 +33,26 @@ app.post("/addUser", async (req, res) => {
   await addUser({ email: req.body.email, name: req.body.name })
     .then(() => {
       console.log(`${req.body.email} has logged in`);
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+});
+
+app.post("/updateUserData", async (req, res) => {
+  // functional, add new user to the database
+  await updateUserData({
+    userId: req.body.userId,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    birthday: req.body.birthday,
+    college: req.body.college,
+    program: req.body.program,
+    userAgreedSLA: req.body.userAgreedSLA,
+  })
+    .then((result) => {
+      res.send(result);
+      console.log(`${req.body.email}'s User data has been updated`);
     })
     .catch((error) => {
       console.log(error.message);
