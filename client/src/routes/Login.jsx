@@ -50,7 +50,7 @@ function Login() {
         backgroundPosition: "bottom center",
       }}
     >
-      {os.toString() === "ios" || os === "macos" ? (
+      {os.toString() === "ios" || os === "macos" || os === "undetermined" ? (
         <div
           style={{
             position: "absolute",
