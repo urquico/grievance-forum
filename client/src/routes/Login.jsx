@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { Button, useMantineTheme, Text, Image } from "@mantine/core";
+import { Button, useMantineTheme, Text, Image, Alert } from "@mantine/core";
+import { IconAlertCircle } from "@tabler/icons";
 import microsoftLogo from "../assets/ms-logo.svg";
 import hariBirdLogo from "../assets/hariBirdLogo.svg";
 import backDrop from "../assets/backdrop.svg";
@@ -8,13 +9,14 @@ import { signInWithMicrosoft } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { PORT } from "../Globals";
-import { useDocumentTitle } from "@mantine/hooks";
+import { useDocumentTitle, useOs } from "@mantine/hooks";
 
 function Login() {
   const theme = useMantineTheme();
   const navigate = useNavigate();
-  useDocumentTitle("Haribon E-Wall");
+  const os = useOs();
 
+  useDocumentTitle("Haribon E-Wall");
   useEffect(() => {
     axios.post(`${PORT}/generateVotePoint`);
   });
@@ -48,6 +50,32 @@ function Login() {
         backgroundPosition: "bottom center",
       }}
     >
+      {os.toString() === "ios" || os === "macos" ? (
+        <div
+          style={{
+            position: "absolute",
+            left: "50%",
+            transform: "translate(-50%, 0)",
+            zIndex: 999,
+          }}
+        >
+          <Alert
+            icon={<IconAlertCircle size={16} />}
+            style={{ width: "90vw" }}
+            title="Warning!"
+            color="red"
+            radius="xl"
+            variant="filled"
+          >
+            We detected that you are possibly using safari or in-app browsers.
+            If so, kindly use a different browser to proceed to the system.
+            <br /> <br /> Ignore this message if you are already using a
+            different browser
+          </Alert>
+        </div>
+      ) : (
+        <></>
+      )}
       <DarkModeButton />
       <div
         style={{
