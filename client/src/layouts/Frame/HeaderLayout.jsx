@@ -35,7 +35,7 @@ function HeaderLayout({ opened, setOpened, dark, theme, toggleColorScheme }) {
             flexDirection: "row",
           }}
         >
-          <div style={{ width: 70, marginLeft: "-0.750rem" }}>
+          <div style={{ width: 65, marginLeft: "-1.rem" }}>
             <Image src={hariBirdLogo} alt="Haribon Logo" />
           </div>
           <Text
