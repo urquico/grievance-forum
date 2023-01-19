@@ -6,8 +6,10 @@ import { getCategories } from "../firebase-config";
 import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 import TagLoader from "../layouts/Loading/TagLoader";
+import { useDocumentTitle } from "@mantine/hooks";
 
 function Category() {
+  useDocumentTitle("Category");
   return <Frame content={<CategoryLayout />} path={"/category"} />;
 }
 

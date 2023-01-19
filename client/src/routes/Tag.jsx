@@ -4,9 +4,11 @@ import { useParams } from "react-router-dom";
 import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 import InfiniteScrolling from "../layouts/InfiniteScrolling";
+import { useDocumentTitle } from "@mantine/hooks";
 
 function Tag() {
   let { id } = useParams();
+  useDocumentTitle(`${id.toUpperCase()} TAG`);
   return <Frame content={<TagLayout />} path={`/tags/${id}`} />;
 }
 

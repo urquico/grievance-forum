@@ -5,6 +5,7 @@ import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 import TagLinks from "../layouts/Frame/TagLinks";
 import TagLoader from "../layouts/Loading/TagLoader";
+import { useDocumentTitle } from "@mantine/hooks";
 
 function Tags() {
   return <Frame content={<TagsLayout />} path="/tags" />;
@@ -12,6 +13,7 @@ function Tags() {
 
 function TagsLayout() {
   const [tags, setTags] = useState([]);
+  useDocumentTitle("Tags");
 
   useLayoutEffect(() => {
     getAllTrends().then((result) => {

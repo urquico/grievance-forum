@@ -2,9 +2,10 @@ import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { MantineProvider, ColorSchemeProvider } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
-import { useLocalStorage } from "@mantine/hooks";
+import { useLocalStorage, useFavicon } from "@mantine/hooks";
 
 import Loading from "./layouts/Loading/Loading";
+import haribonFavicon from "../src/assets/hariBirdLogo.svg";
 
 const Login = lazy(() => import("./routes/Login"));
 const Home = lazy(() => import("./routes/Home"));
@@ -25,6 +26,9 @@ function App() {
   });
   const toggleColorScheme = (ColorScheme) =>
     setColorScheme(colorScheme === "dark" ? "light" : "dark");
+
+  useFavicon(haribonFavicon);
+
   return (
     <Router>
       <Suspense fallback={<Loading />}>

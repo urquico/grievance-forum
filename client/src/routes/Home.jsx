@@ -2,8 +2,11 @@ import React from "react";
 import Frame from "../layouts/Frame/Frame";
 import InfiniteScrolling from "../layouts/InfiniteScrolling";
 import IntroductionCard from "../layouts/IntroductionCard";
+import { useDocumentTitle } from "@mantine/hooks";
 
 function Home() {
+  useDocumentTitle("Home");
+
   return <Frame content={<HomeLayout />} path={"/home"} />;
 }
 

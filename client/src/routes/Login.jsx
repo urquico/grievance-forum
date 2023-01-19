@@ -8,10 +8,12 @@ import { signInWithMicrosoft } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { PORT } from "../Globals";
+import { useDocumentTitle } from "@mantine/hooks";
 
 function Login() {
   const theme = useMantineTheme();
   const navigate = useNavigate();
+  useDocumentTitle("Haribon E-Wall");
 
   useEffect(() => {
     axios.post(`${PORT}/generateVotePoint`);
@@ -62,7 +64,7 @@ function Login() {
             textAlign: "center",
           }}
         >
-          <div style={{ width: 240, marginLeft: "auto", marginRight: "auto" }}>
+          <div style={{ width: 100, marginLeft: "auto", marginRight: "auto" }}>
             <Image src={hariBirdLogo} alt="Haribon Logo" />
           </div>
           <Text

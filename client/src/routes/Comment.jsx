@@ -21,9 +21,11 @@ import { IconCheck, IconX } from "@tabler/icons";
 import EndPost from "../layouts/EndPost";
 import env from "react-dotenv";
 import emailjs from "@emailjs/browser";
+import { useDocumentTitle } from "@mantine/hooks";
 
 function Comment() {
   let { id } = useParams();
+  useDocumentTitle("Comments");
   return <Frame content={<CommentLayout />} path={`/comment/${id}`} />;
 }
 

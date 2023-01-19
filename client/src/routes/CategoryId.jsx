@@ -4,9 +4,12 @@ import { useParams } from "react-router-dom";
 import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 import InfiniteScrolling from "../layouts/InfiniteScrolling";
+import { useDocumentTitle } from "@mantine/hooks";
 
 function CategoryId() {
   let { id } = useParams();
+  useDocumentTitle(id.toLocaleUpperCase());
+
   return <Frame content={<CategoryIdLayout />} path={`/category/${id}`} />;
 }
 

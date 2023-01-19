@@ -8,6 +8,7 @@ import {
   Group,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+import { useDocumentTitle } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -53,6 +54,7 @@ const useStyles = createStyles((theme) => ({
 function Error() {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  useDocumentTitle("Error");
 
   const backToHome = () => {
     if (localStorage.getItem("name") != null) {

@@ -2,8 +2,10 @@ import React from "react";
 import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 import WritePostCard from "../layouts/WritePostCard";
+import { useDocumentTitle } from "@mantine/hooks";
 
 function Post() {
+  useDocumentTitle(Post);
   return <Frame content={<PostLayout />} path={"/post"} />;
 }
 
