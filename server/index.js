@@ -233,4 +233,6 @@ app.post("/notifyPublisher", async (req, res) => {
     });
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () =>
+  console.log(`Haribon Server listening on port ${port}!`)
+);
