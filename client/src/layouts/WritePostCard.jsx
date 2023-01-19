@@ -25,11 +25,16 @@ function WritePostCard() {
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedTags, setSelectedTags] = useState([]);
   const [opened, setOpened] = useState(false);
+  const [categoryError, setCategoryError] = useState(false);
 
   const theme = useMantineTheme();
 
   const submitPost = () => {
-    setOpened(true);
+    if (selectedCategory === undefined) {
+      setCategoryError(true);
+    } else {
+      setOpened(true);
+    }
   };
 
   const writePostQuery = () => {
@@ -129,6 +134,8 @@ function WritePostCard() {
         isAnonymous={isAnonymous}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
+        categoryError={categoryError}
+        setCategoryError={setCategoryError}
       />
       <RichTextBox text={text} setText={setText} />
       <AddTags selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
@@ -214,6 +221,8 @@ function ChooseCategory({
   isAnonymous,
   selectedCategory,
   setSelectedCategory,
+  categoryError,
+  setCategoryError,
 }) {
   return (
     <>
@@ -225,8 +234,12 @@ function ChooseCategory({
           // borderColor: "blue",
         }}
         value={selectedCategory}
-        onChange={setSelectedCategory}
+        onChange={(val) => {
+          setSelectedCategory(val);
+          setCategoryError(false);
+        }}
         placeholder="Category"
+        error={categoryError ? "please choose a category" : ""}
         data={[
           { value: "personal-concerns", label: "Personal" },
           { value: "academic-concerns", label: "Academic" },
