@@ -39,6 +39,7 @@ const updateUserData = async ({
   college,
   program,
   userAgreedSLA,
+  picture,
 }) => {
   const ref = await db.collection("UserData").doc(userId);
   ref.update({
@@ -48,6 +49,7 @@ const updateUserData = async ({
     college: college,
     program: program,
     userAgreedSLA: userAgreedSLA,
+    picture: `${picture}`,
   });
 };
 

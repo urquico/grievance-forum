@@ -49,10 +49,11 @@ app.post("/updateUserData", async (req, res) => {
     college: req.body.college,
     program: req.body.program,
     userAgreedSLA: req.body.userAgreedSLA,
+    picture: req.body.picture,
   })
     .then((result) => {
       res.send(result);
-      console.log(`${req.body.email}'s User data has been updated`);
+      console.log(`${req.body.userId}'s User data has been updated`);
     })
     .catch((error) => {
       console.log(error.message);

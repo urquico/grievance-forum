@@ -16,7 +16,13 @@ import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconUpload, IconHash, IconCheck, IconX } from "@tabler/icons";
 import { useNavigate } from "react-router-dom";
 import Frame from "../layouts/Frame/Frame";
-import { getColleges, getPrograms } from "../firebase-config";
+import {
+  getColleges,
+  getPrograms,
+  getUser,
+  getCollegeInfo,
+  getProgramInfo,
+} from "../firebase-config";
 import axios from "axios";
 import { PORT } from "../Globals";
 
@@ -29,6 +35,7 @@ function AccountSetupLayout() {
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const [existingUserData, setExistingUserData] = useState();
   const [file, setFile] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -36,7 +43,9 @@ function AccountSetupLayout() {
   const [termsAgreement, setTermsAgreement] = useState(false);
   const [age, setAge] = useState(0);
   const [college, setCollege] = useState("");
+  const [collegePlaceholder, setCollegePlaceholder] = useState("");
   const [program, setProgram] = useState("");
+  const [programPlaceholder, setProgramPlaceholder] = useState("");
 
   const [collegeList, setCollegeList] = useState([]);
   const [programList, setProgramList] = useState([]);
@@ -48,6 +57,8 @@ function AccountSetupLayout() {
   const [collegeError, setCollegeError] = useState(false);
   const [programError, setProgramError] = useState(false);
 
+  const dateToday = new Date();
+
   useLayoutEffect(() => {
     getColleges().then((result) => {
       setCollegeList(
@@ -57,6 +68,26 @@ function AccountSetupLayout() {
         }))
       );
     });
+  }, []);
+
+  useLayoutEffect(() => {
+    getUser(localStorage.getItem("email")).then((result) => {
+      setExistingUserData(result);
+    });
+  }, []);
+
+  useLayoutEffect(() => {
+    getCollegeInfo(existingUserData?.college).then((result) => {
+      setCollegePlaceholder(result.label);
+    });
+  }, []);
+
+  useLayoutEffect(() => {
+    getProgramInfo(existingUserData?.college, existingUserData?.program).then(
+      (result) => {
+        setProgramPlaceholder(result.label);
+      }
+    );
   }, []);
 
   const submitData = () => {
@@ -108,9 +139,9 @@ function AccountSetupLayout() {
           college: college,
           program: program,
           userAgreedSLA: termsAgreement,
+          picture: file,
         })
         .then((result) => {
-          console.log(result);
           setTimeout(() => {
             updateNotification({
               id: "load-data",
@@ -188,13 +219,18 @@ function AccountSetupLayout() {
           onChange={setFile}
           placeholder="Pick Image file"
           label="Profile Picture"
-          description="please submit low resolution images only"
+          description="please submit low resolution image only"
           multiple={false}
-          accept="image/png,image/jpeg"
+          accept="image/jpeg"
           icon={<IconUpload size={14} />}
         />
         <TextInput
-          placeholder="Thom"
+          placeholder={
+            existingUserData?.firstName === "" ||
+            existingUserData?.firstName === undefined
+              ? "Thom"
+              : existingUserData?.firstName
+          }
           label="First name"
           radius="xs"
           withAsterisk
@@ -207,7 +243,12 @@ function AccountSetupLayout() {
         />
 
         <TextInput
-          placeholder="Yorke"
+          placeholder={
+            existingUserData?.lastName === "" ||
+            existingUserData?.lastName === undefined
+              ? "Yorke"
+              : existingUserData?.lastName
+          }
           label="Last name"
           radius="xs"
           withAsterisk
@@ -219,13 +260,23 @@ function AccountSetupLayout() {
           }}
         />
         <DatePicker
-          placeholder="Pick date"
+          placeholder={
+            existingUserData?.birthday === "" ||
+            existingUserData?.birthday === undefined
+              ? "Pick date"
+              : `${
+                  new Date(existingUserData?.birthday).getMonth() + 1
+                } / ${new Date(
+                  existingUserData?.birthday
+                ).getDate()} / ${new Date(
+                  existingUserData?.birthday
+                ).getFullYear()}`
+          }
           label="Birthday"
           withAsterisk
           error={birthdayError ? "field required" : ""}
           value={birthday}
           onChange={(val) => {
-            const dateToday = new Date();
             setBirthday(val);
             setBirthdayError(false);
             const generatedAge =
@@ -242,7 +293,12 @@ function AccountSetupLayout() {
 
         <Select
           label="College"
-          placeholder="Pick one"
+          placeholder={
+            existingUserData?.college === "" ||
+            existingUserData?.college === undefined
+              ? "Pick one"
+              : collegePlaceholder
+          }
           data={collegeList}
           value={college}
           onChange={(val) => {
@@ -254,7 +310,12 @@ function AccountSetupLayout() {
 
         <Select
           label="Program"
-          placeholder="Pick one"
+          placeholder={
+            existingUserData?.program === "" ||
+            existingUserData?.program === undefined
+              ? "Pick one"
+              : programPlaceholder
+          }
           data={programList}
           value={program}
           onChange={(val) => {

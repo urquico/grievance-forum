@@ -202,8 +202,24 @@ export const getColleges = async () => {
   return data.docs;
 };
 
+export const getCollegeInfo = async (collegeId) => {
+  const ref = doc(db, "Colleges", collegeId);
+  const fetchedDoc = await getDoc(ref);
+  if (fetchedDoc.exists()) {
+    return fetchedDoc.data();
+  }
+};
+
 export const getPrograms = async (collegeId) => {
   const ref = collection(db, "Colleges", collegeId, "Programs");
   const data = await getDocs(ref);
   return data.docs;
+};
+
+export const getProgramInfo = async (collegeId, programId) => {
+  const ref = doc(db, "Colleges", collegeId, "Programs", programId);
+  const fetchedDoc = await getDoc(ref);
+  if (fetchedDoc.exists()) {
+    return fetchedDoc.data();
+  }
 };
