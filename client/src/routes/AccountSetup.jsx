@@ -56,6 +56,7 @@ function AccountSetupLayout() {
   const [termsAgreementError, setTermsAgreementError] = useState(false);
   const [collegeError, setCollegeError] = useState(false);
   const [programError, setProgramError] = useState(false);
+  const [fetchedAge, setFetchedAge] = useState(0);
 
   const dateToday = new Date();
 
@@ -73,14 +74,22 @@ function AccountSetupLayout() {
   useLayoutEffect(() => {
     getUser(localStorage.getItem("email")).then((result) => {
       setExistingUserData(result);
+      const fetchedBirthday = new Date(result?.birthday);
+      setFetchedAge(
+        (dateToday.getTime() - fetchedBirthday.getTime()) / 1000 / 31536000
+      );
     });
   }, []);
 
   useLayoutEffect(() => {
     getCollegeInfo(existingUserData?.college).then((result) => {
-      setCollegePlaceholder(result.label);
+      initializeCollegeData(result.label);
     });
-  }, []);
+  });
+
+  const initializeCollegeData = (collegeData) => {
+    setCollegePlaceholder(collegeData);
+  };
 
   useLayoutEffect(() => {
     getProgramInfo(existingUserData?.college, existingUserData?.program).then(
@@ -88,7 +97,7 @@ function AccountSetupLayout() {
         setProgramPlaceholder(result.label);
       }
     );
-  }, []);
+  });
 
   const submitData = () => {
     if (firstName === "") {
@@ -218,7 +227,7 @@ function AccountSetupLayout() {
           value={file}
           onChange={setFile}
           placeholder="Pick Image file"
-          label="Profile Picture"
+          label="Change Profile Picture"
           description="please submit low resolution image only"
           multiple={false}
           accept="image/jpeg"
@@ -285,11 +294,22 @@ function AccountSetupLayout() {
               setAge("Please Enter your real birthday");
             } else {
               setAge(Math.floor(generatedAge));
+              setFetchedAge(Math.floor(generatedAge));
             }
           }}
         />
 
-        <TextInput label="Age" radius="xs" value={age} disabled />
+        <TextInput
+          label="Age"
+          radius="xs"
+          disabled
+          placeholder={
+            existingUserData?.birthday === "" ||
+            existingUserData?.birthday === undefined
+              ? age
+              : Math.floor(fetchedAge)
+          }
+        />
 
         <Select
           label="College"
