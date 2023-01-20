@@ -5,7 +5,7 @@ import microsoftLogo from "../assets/ms-logo.svg";
 import hariBirdLogo from "../assets/hariBirdLogo.svg";
 import backDrop from "../assets/backdrop.svg";
 import DarkModeButton from "../layouts/DarkModeButton";
-import { signInWithMicrosoft } from "../firebase-config";
+import { signInWithMicrosoft, getUser } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { PORT } from "../Globals";
@@ -30,7 +30,14 @@ function Login() {
           email: result.user.email,
           name: result.user.displayName,
         });
-        navigate("/home");
+        // navigate("/home");
+        getUser(localStorage.getItem("email")).then((result) => {
+          if (!result.userAgreedSLA) {
+            navigate("/setup");
+          } else {
+            navigate("/home");
+          }
+        });
       })
       .catch((error) => {
         console.log(error.message);

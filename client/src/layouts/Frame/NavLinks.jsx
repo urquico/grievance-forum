@@ -1,8 +1,14 @@
 import React from "react";
-import { UnstyledButton, Group, ThemeIcon, Text } from "@mantine/core";
+import {
+  UnstyledButton,
+  Group,
+  ThemeIcon,
+  Text,
+  Indicator,
+} from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 
-function NavLinks({ title, icon, color, isLastElement, path }) {
+function NavLinks({ title, icon, color, isLastElement, path, indicator }) {
   const navigate = useNavigate();
 
   const linkToPath = () => {
@@ -34,7 +40,17 @@ function NavLinks({ title, icon, color, isLastElement, path }) {
           {icon}
         </ThemeIcon>
 
-        <Text size="sm">{title}</Text>
+        <Indicator
+          disabled={!indicator}
+          color={"red"}
+          withBorder
+          label="!"
+          size={20}
+          dot
+          offset={1}
+        >
+          <Text size="sm">{title}</Text>
+        </Indicator>
       </Group>
     </UnstyledButton>
   );

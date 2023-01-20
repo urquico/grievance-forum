@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useLayoutEffect } from "react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 import {
@@ -130,6 +131,7 @@ function AccountSetupLayout() {
       college !== "" &&
       program !== "" &&
       termsAgreement === true;
+
     if (submissionPermitted) {
       showNotification({
         id: "load-data",
@@ -156,10 +158,11 @@ function AccountSetupLayout() {
               id: "load-data",
               color: "teal",
               title: "Success!",
-              message: "Post has been Submitted",
+              message: "User Data has been Updated",
               icon: <IconCheck size={16} />,
               autoClose: 2000,
             });
+            navigate("/home");
           }, 3000);
         })
         .catch((error) => {
