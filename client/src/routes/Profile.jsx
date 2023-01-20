@@ -5,7 +5,7 @@ import IntroductionCard from "../layouts/IntroductionCard";
 import { useDocumentTitle } from "@mantine/hooks";
 
 function Profile() {
-  useDocumentTitle(Profile);
+  useDocumentTitle("Profile");
   return <Frame content={<ProfileLayout />} path={"/profile"} />;
 }
 

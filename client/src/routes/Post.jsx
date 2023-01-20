@@ -5,7 +5,7 @@ import WritePostCard from "../layouts/WritePostCard";
 import { useDocumentTitle } from "@mantine/hooks";
 
 function Post() {
-  useDocumentTitle(Post);
+  useDocumentTitle("Post");
   return <Frame content={<PostLayout />} path={"/post"} />;
 }
 
