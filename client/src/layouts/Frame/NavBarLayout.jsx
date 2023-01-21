@@ -8,7 +8,7 @@ import {
   IconTags,
   IconChartBar,
   IconExplicit,
-  IconBrandAmongus
+  IconBrandAmongus,
 } from "@tabler/icons";
 import { Navbar, Button, Divider, Text } from "@mantine/core";
 import NavLinks from "./NavLinks";
@@ -81,10 +81,7 @@ function NavBarLayout({ opened, logOut }) {
 
         {isUserAdmin ? (
           <>
-            <Divider my="sm" />
-            <Text fz="xs" fw={700} style={{ marginLeft: "0.750rem" }}>
-              Admin Controls
-            </Text>
+            <Divider my="xs" label="Admin Controls" labelPosition="center" />
             <NavLinks
               title={"Profanities"}
               icon={<IconExplicit size={16} />}

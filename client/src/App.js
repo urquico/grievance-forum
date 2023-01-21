@@ -19,6 +19,9 @@ const Tag = lazy(() => import("./routes/Tag"));
 const Comment = lazy(() => import("./routes/Comment"));
 const AccountSetup = lazy(() => import("./routes/AccountSetup"));
 
+//! Admin Controls
+const Profanities = lazy(() => import("./routes/Profanities"));
+
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage({
     key: "mantine-color-scheme",
@@ -56,6 +59,7 @@ function App() {
                 <Route path={"/tags/:id"} element={<Tag />} />
                 <Route path={"/comment/:id"} element={<Comment />} />
                 <Route path={"/edit/:id"} element={<Tag />} />
+                <Route path={"/profanities"} element={<Profanities />} />
                 <Route path={"*"} element={<Error />} />
               </Routes>
             </NotificationsProvider>
