@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   useMantineTheme,
   Text,
@@ -28,6 +29,7 @@ function WritePostCard() {
   const [categoryError, setCategoryError] = useState(false);
 
   const theme = useMantineTheme();
+  const navigate = useNavigate();
 
   const submitPost = () => {
     if (selectedCategory === undefined) {
@@ -65,6 +67,7 @@ function WritePostCard() {
             icon: <IconCheck size={16} />,
             autoClose: 2000,
           });
+          navigate("/home");
         }, 3000);
       })
       .catch((error) => {

@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { RichTextEditor } from "@mantine/rte";
 import { Button } from "@mantine/core";
 
@@ -31,6 +31,7 @@ function Comment() {
 
 function CommentLayout() {
   const initialValue = "<p><b>Share</b> your <i>thoughts</i> ...</p>";
+  const navigate = useNavigate();
 
   let { id } = useParams();
   const [post, setPost] = useState([]);
@@ -121,6 +122,7 @@ function CommentLayout() {
             icon: <IconCheck size={16} />,
             autoClose: 2000,
           });
+          navigate("/home");
         }, 3000);
 
         if (localStorage.getItem("email") !== post.userId) {
