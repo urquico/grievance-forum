@@ -12,9 +12,6 @@ var Filter = require("bad-words"),
     replaceRegex: /[A-Za-z0-9가-힣_]/g,
   });
 
-const { someBadWords } = require("./someBadWords");
-filter.addWords(...someBadWords);
-
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL:
@@ -118,7 +115,20 @@ const votePost = async ({ voteType, userId, postId, weight }) => {
     });
 };
 
+const getProfanityList = async () => {
+  let data = [];
+  const ref = db.collection("Profanities");
+  const snapshot = await ref.get();
+  snapshot.forEach((doc) => {
+    data.push(doc.id);
+  });
+
+  return data;
+};
+
 const writePost = async ({ category, isAnonymous, message, userId, tags }) => {
+  const profanityList = await getProfanityList();
+  filter.addWords(...profanityList);
   await db.collection("Posts").add({
     categoryId: category,
     downVote: 0,
@@ -134,6 +144,8 @@ const writePost = async ({ category, isAnonymous, message, userId, tags }) => {
 };
 
 const writeComment = async ({ postId, reply, userId }) => {
+  const profanityList = await getProfanityList();
+  filter.addWords(...profanityList);
   await db.collection("Comments").add({
     postId: postId,
     reply: filter.clean(reply),
