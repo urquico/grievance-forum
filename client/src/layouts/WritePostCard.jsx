@@ -273,12 +273,12 @@ function AddTags({ selectedTags, setSelectedTags }) {
   const ref = useRef(0);
   const [data, setData] = useState([
     {
-      value: "Depression",
+      value: "depression",
       label: "Depression",
       group: "personal",
     },
     {
-      value: "How to file LOA",
+      value: "how to file loa",
       label: "How to file LOA",
       group: "academic",
     },
