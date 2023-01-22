@@ -18,7 +18,7 @@ import { PORT } from "../Globals";
 import User from "./User";
 import PostCard from "./PostCard";
 
-const initialValue = "<p><b>Share</b> your <i>thoughts</i> ...</p>";
+const initialValue = "";
 
 function WritePostCard() {
   const [text, setText] = useState(initialValue);
@@ -260,6 +260,7 @@ function RichTextBox({ text, setText }) {
       onChange={setText}
       sticky={true}
       stickyOffset={60}
+      placeholder={"Share your thoughts"}
       controls={[
         ["bold", "italic", "underline", "link", "strike", "clean"],
         ["unorderedList", "orderedList", "h1", "h2", "h3", "h4"],

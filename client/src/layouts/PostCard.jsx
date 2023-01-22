@@ -97,7 +97,7 @@ function PostCard({
       setVoteCount(voteCount - weight);
       setDownVote(true);
       setUpVote(false);
-      votePost("Down Voted", false);
+      votePost("Down Voting", false);
     }
   };
 
@@ -106,7 +106,7 @@ function PostCard({
       setVoteCount(voteCount + weight);
       setUpVote(true);
       setDownVote(false);
-      votePost("Up Voted", true);
+      votePost("Up Voting", true);
     }
   };
 

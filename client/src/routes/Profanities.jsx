@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 
-import { useMantineTheme, Input, Button } from "@mantine/core";
+import {
+  useMantineTheme,
+  Input,
+  Button,
+  Text,
+  List,
+  ThemeIcon,
+} from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import { IconHash, IconCheck, IconX } from "@tabler/icons";
+import { IconCheck, IconX } from "@tabler/icons";
 import axios from "axios";
 import { getAllProfanities } from "../firebase-config";
 import { PORT } from "../Globals";
+import TagLoader from "../layouts/Loading/TagLoader";
 
 function Profanities() {
   useDocumentTitle("Profanities");
@@ -18,12 +26,19 @@ function Profanities() {
 function ProfanitiesLayout() {
   const theme = useMantineTheme();
   const [profanity, setProfanity] = useState("");
+  const [profanityList, setProfanityList] = useState([]);
+
+  useLayoutEffect(() => {
+    getAllProfanities().then((result) => {
+      setProfanityList(result.docs);
+    });
+  }, []);
 
   const addProfanity = () => {
     showNotification({
       id: "load-data",
       loading: true,
-      title: "Submitting your post",
+      title: "Bl*cking a Profanity",
       message: "Please Wait!",
       autoClose: false,
       disallowClose: true,
@@ -34,7 +49,7 @@ function ProfanitiesLayout() {
         dataProfanities.push(badWords.id);
       });
 
-      if (!dataProfanities.includes(profanity)) {
+      if (!dataProfanities.includes(profanity) && profanity !== "") {
         axios
           .post(`${PORT}/addProfanity`, {
             profanity: profanity,
@@ -64,6 +79,17 @@ function ProfanitiesLayout() {
               });
             }, 3000);
           });
+      } else if (profanity === "") {
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "red",
+            title: "Error!!",
+            message: "Please enter something",
+            icon: <IconX size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
       } else {
         setTimeout(() => {
           updateNotification({
@@ -112,6 +138,38 @@ function ProfanitiesLayout() {
         <Button style={{ marginTop: "0.750rem" }} onClick={addProfanity}>
           Block
         </Button>
+
+        <Text
+          style={{ marginTop: "1rem", marginBottom: "0.750rem" }}
+          fz="md"
+          fw="bold"
+        >
+          Here are the list of blocked words
+        </Text>
+        <List>
+          {profanityList.length === 0 ? (
+            <>
+              <TagLoader />
+              <TagLoader />
+              <TagLoader />
+            </>
+          ) : (
+            profanityList?.map((bad) => {
+              return (
+                <List.Item
+                  icon={
+                    <ThemeIcon color="red" size={20} radius="xl">
+                      <IconX size={16} />
+                    </ThemeIcon>
+                  }
+                  style={{ marginLeft: "0.750rem" }}
+                >
+                  <Text fz="sm">{bad.id}</Text>
+                </List.Item>
+              );
+            })
+          )}
+        </List>
       </div>
     </div>
   );
