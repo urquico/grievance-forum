@@ -33,7 +33,12 @@ function IntroductionCard({ name, message }) {
         {userName?.firstName === "" ? (
           name
         ) : (
-          <>{userName?.firstName.toUpperCase()}!</>
+          <>
+            {typeof userName?.firstName === "string"
+              ? userName?.firstName.toUpperCase()
+              : ""}
+            !
+          </>
         )}
       </Text>
       <Text
