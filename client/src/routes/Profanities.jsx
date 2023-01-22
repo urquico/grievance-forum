@@ -9,6 +9,7 @@ import {
   Text,
   List,
   SimpleGrid,
+  Divider,
 } from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
 import { showNotification, updateNotification } from "@mantine/notifications";
@@ -144,10 +145,18 @@ function ProfanitiesLayout() {
           Block
         </Button>
 
-        <Text style={{ marginTop: "1rem" }} fz="md" fw="bold">
-          Here are the list of blocked words
-        </Text>
-        <Text style={{ marginBottom: "1.0rem" }} fz="xs">
+        <Divider
+          my="sm"
+          label={
+            <>
+              <Text style={{ marginTop: "0" }} fz="md" fw="bold">
+                Here are the list of blocked words
+              </Text>
+            </>
+          }
+        />
+
+        <Text style={{ marginBottom: "1.0rem", marginTop: "-1rem" }} fz="xs">
           It is recommended to block a single word profanity only
         </Text>
         <List>
