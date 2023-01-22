@@ -1,4 +1,5 @@
 import React, { useState, useLayoutEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 
@@ -15,7 +16,7 @@ import { useDocumentTitle } from "@mantine/hooks";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
 import axios from "axios";
-import { getAllProfanities } from "../firebase-config";
+import { getAllProfanities, getUser } from "../firebase-config";
 import { PORT } from "../Globals";
 import TagLoader from "../layouts/Loading/TagLoader";
 import ProfanityList from "../layouts/ProfanityList";
@@ -27,12 +28,21 @@ function Profanities() {
 
 function ProfanitiesLayout() {
   const theme = useMantineTheme();
+  const navigate = useNavigate();
   const [profanity, setProfanity] = useState("");
   const [profanityList, setProfanityList] = useState([]);
 
   useLayoutEffect(() => {
     getAllProfanities().then((result) => {
       setProfanityList(result.docs);
+    });
+  }, []);
+
+  useLayoutEffect(() => {
+    getUser(localStorage.getItem("email")).then((result) => {
+      if (!result.isAdmin) {
+        navigate("/home");
+      }
     });
   }, []);
 
@@ -156,7 +166,7 @@ function ProfanitiesLayout() {
           }
         />
 
-        <Text style={{ marginBottom: "1.0rem", marginTop: "-1rem" }} fz="xs">
+        <Text style={{ marginBottom: "1.4rem", marginTop: "-1rem" }} fz="xs">
           It is recommended to block a single word profanity only
         </Text>
         <List>

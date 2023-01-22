@@ -21,7 +21,6 @@ function TagLinks({ tag, tagCount }) {
             : theme.colors.gray[0],
         padding: "0.75rem",
         borderRadius: "13px",
-        marginBottom: "0.625rem",
       }}
     >
       <Text
