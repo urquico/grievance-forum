@@ -223,3 +223,9 @@ export const getProgramInfo = async (collegeId, programId) => {
     return fetchedDoc.data();
   }
 };
+
+export const getAllProfanities = async () => {
+  const ref = collection(db, "Profanities");
+  const data = await getDocs(ref);
+  return data;
+};

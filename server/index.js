@@ -21,6 +21,7 @@ const {
   notifyPublisher,
   deleteZeroTagCount,
   updateUserData,
+  addProfanity,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -252,6 +253,16 @@ app.post("/notifyPublisher", async (req, res) => {
     .catch((error) => {
       res.send(error.message);
       console.log(error.message);
+    });
+});
+
+app.post("/addProfanity", async (req, res) => {
+  await addProfanity(req.body.profanity, req.body.userId)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((error) => {
+      res.send(error.message);
     });
 });
 

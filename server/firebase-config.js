@@ -247,6 +247,12 @@ const notifyPublisher = async ({
   });
 };
 
+const addProfanity = async (profanity, blockerId) => {
+  await db.collection("Profanities").doc(profanity).set({
+    blocker: blockerId,
+  });
+};
+
 module.exports = {
   addUser: addUser,
   updateUserData: updateUserData,
@@ -264,4 +270,5 @@ module.exports = {
   toggleStar: toggleStar,
   readNotification: readNotification,
   notifyPublisher: notifyPublisher,
+  addProfanity: addProfanity,
 };
