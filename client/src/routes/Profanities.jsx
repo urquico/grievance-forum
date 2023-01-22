@@ -8,7 +8,7 @@ import {
   Button,
   Text,
   List,
-  ThemeIcon,
+  SimpleGrid,
 } from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
 import { showNotification, updateNotification } from "@mantine/notifications";
@@ -17,6 +17,7 @@ import axios from "axios";
 import { getAllProfanities } from "../firebase-config";
 import { PORT } from "../Globals";
 import TagLoader from "../layouts/Loading/TagLoader";
+import ProfanityList from "../layouts/ProfanityList";
 
 function Profanities() {
   useDocumentTitle("Profanities");
@@ -66,6 +67,10 @@ function ProfanitiesLayout() {
                 autoClose: 2000,
               });
             }, 3000);
+            setProfanityList((currentList) => [
+              ...currentList,
+              { id: profanity },
+            ]);
           })
           .catch((error) => {
             setTimeout(() => {
@@ -139,36 +144,34 @@ function ProfanitiesLayout() {
           Block
         </Button>
 
-        <Text
-          style={{ marginTop: "1rem", marginBottom: "0.750rem" }}
-          fz="md"
-          fw="bold"
-        >
+        <Text style={{ marginTop: "1rem" }} fz="md" fw="bold">
           Here are the list of blocked words
         </Text>
+        <Text style={{ marginBottom: "1.0rem" }} fz="xs">
+          It is recommended to block a single word profanity only
+        </Text>
         <List>
-          {profanityList.length === 0 ? (
-            <>
-              <TagLoader />
-              <TagLoader />
-              <TagLoader />
-            </>
-          ) : (
-            profanityList?.map((bad) => {
-              return (
-                <List.Item
-                  icon={
-                    <ThemeIcon color="red" size={20} radius="xl">
-                      <IconX size={16} />
-                    </ThemeIcon>
-                  }
-                  style={{ marginLeft: "0.750rem" }}
-                >
-                  <Text fz="sm">{bad.id}</Text>
-                </List.Item>
-              );
-            })
-          )}
+          <SimpleGrid
+            cols={4}
+            spacing="lg"
+            breakpoints={[
+              { maxWidth: 980, cols: 3, spacing: "md" },
+              { maxWidth: 755, cols: 2, spacing: "sm" },
+              { maxWidth: 600, cols: 1, spacing: "sm" },
+            ]}
+          >
+            {profanityList.length === 0 ? (
+              <>
+                <TagLoader />
+                <TagLoader />
+                <TagLoader />
+              </>
+            ) : (
+              profanityList?.map((bad) => {
+                return <ProfanityList badword={bad.id} />;
+              })
+            )}
+          </SimpleGrid>
         </List>
       </div>
     </div>

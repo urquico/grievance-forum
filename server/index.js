@@ -22,6 +22,7 @@ const {
   deleteZeroTagCount,
   updateUserData,
   addProfanity,
+  deleteProfanity,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -260,9 +261,22 @@ app.post("/addProfanity", async (req, res) => {
   await addProfanity(req.body.profanity, req.body.userId)
     .then((result) => {
       res.send(result);
+      console.log(req.body.profanity, ":Added by", req.body.userId);
     })
     .catch((error) => {
       res.send(error.message);
+      console.log("error on adding profanity to the database");
+    });
+});
+
+app.post("/deleteProfanity", async (req, res) => {
+  await deleteProfanity(req.body.profanity)
+    .then((result) => {
+      res.send(result);
+      console.log(req.body.profanity, ":Deleted");
+    })
+    .catch((error) => {
+      console.log("error on deleting profanity to the database");
     });
 });
 

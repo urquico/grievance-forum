@@ -253,6 +253,10 @@ const addProfanity = async (profanity, blockerId) => {
   });
 };
 
+const deleteProfanity = async (profanity) => {
+  await db.collection("Profanities").doc(profanity).delete();
+};
+
 module.exports = {
   addUser: addUser,
   updateUserData: updateUserData,
@@ -271,4 +275,5 @@ module.exports = {
   readNotification: readNotification,
   notifyPublisher: notifyPublisher,
   addProfanity: addProfanity,
+  deleteProfanity: deleteProfanity,
 };
