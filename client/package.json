@@ -10,6 +10,8 @@
     "@mantine/hooks": "^5.9.2",
     "@mantine/notifications": "^5.8.4",
     "@mantine/rte": "^5.9.2",
+    "@nivo/core": "^0.80.0",
+    "@nivo/pie": "^0.80.0",
     "@tabler/icons": "^1.114.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

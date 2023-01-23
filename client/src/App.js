@@ -21,6 +21,7 @@ const AccountSetup = lazy(() => import("./routes/AccountSetup"));
 
 //! Admin Controls
 const Profanities = lazy(() => import("./routes/Profanities"));
+const Reviews = lazy(() => import("./routes/Reviews"));
 
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage({
@@ -60,6 +61,7 @@ function App() {
                 <Route path={"/comment/:id"} element={<Comment />} />
                 <Route path={"/edit/:id"} element={<Tag />} />
                 <Route path={"/profanities"} element={<Profanities />} />
+                <Route path={"/reviews"} element={<Reviews />} />
                 <Route path={"*"} element={<Error />} />
               </Routes>
             </NotificationsProvider>

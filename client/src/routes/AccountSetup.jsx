@@ -14,7 +14,7 @@ import {
 } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import { IconUpload, IconHash, IconCheck, IconX } from "@tabler/icons";
+import { IconUpload, IconCheck, IconX } from "@tabler/icons";
 import { useNavigate } from "react-router-dom";
 import Frame from "../layouts/Frame/Frame";
 import {
