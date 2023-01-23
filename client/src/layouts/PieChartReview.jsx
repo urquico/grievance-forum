@@ -1,43 +1,11 @@
 import React from "react";
 import { ResponsivePie } from "@nivo/pie";
 
-function PieChartReview() {
-  const data = [
-    {
-      id: "make",
-      label: "make",
-      value: 151,
-      color: "hsl(85, 70%, 50%)",
-    },
-    {
-      id: "go",
-      label: "go",
-      value: 53,
-      color: "hsl(80, 70%, 50%)",
-    },
-    {
-      id: "ruby",
-      label: "ruby",
-      value: 264,
-      color: "hsl(109, 70%, 50%)",
-    },
-    {
-      id: "c",
-      label: "c",
-      value: 168,
-      color: "hsl(129, 70%, 50%)",
-    },
-    {
-      id: "elixir",
-      label: "elixir",
-      value: 318,
-      color: "hsl(129, 70%, 50%)",
-    },
-  ];
-
+function PieChartReview({ data }) {
   return (
-    <div>
+    <div style={{ width: "100%", height: "50vh", display: "flex" }}>
       <ResponsivePie
+        style={{ margin: "auto" }}
         data={data}
         margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
         innerRadius={0.5}
