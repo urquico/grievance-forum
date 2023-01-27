@@ -1,7 +1,8 @@
 import React, { useState, useLayoutEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useMantineTheme } from "@mantine/core";
 import { getUser, getCollegeInfo, getProgramInfo } from "../firebase-config";
-import { Loader, Center, Stack, TextInput } from "@mantine/core";
+import { Loader, Center, Stack, TextInput, Button } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 
 function AccountInformation() {
@@ -12,6 +13,7 @@ function AccountInformation() {
   const [college, setCollege] = useState("");
   const [program, setProgram] = useState("");
   const dateToday = new Date();
+  const navigate = useNavigate();
 
   useLayoutEffect(() => {
     getUser(localStorage.getItem("email")).then((result) => {
@@ -35,6 +37,10 @@ function AccountInformation() {
       setProgram(result.label);
     });
   });
+
+  const editInfo = () => {
+    navigate("/setup");
+  };
 
   return (
     <div
@@ -97,7 +103,7 @@ function AccountInformation() {
                 disabled
               />
               <TextInput
-                label="Age"
+                label="Age:"
                 radius="xs"
                 disabled
                 placeholder={Math.floor(fetchedAge)}
@@ -125,6 +131,7 @@ function AccountInformation() {
               />
             </>
           )}
+          <Button onClick={editInfo}>Edit Information</Button>
         </Stack>
       )}
     </div>
