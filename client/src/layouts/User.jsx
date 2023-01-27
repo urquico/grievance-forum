@@ -18,7 +18,7 @@ import {
   IconStar,
 } from "@tabler/icons";
 import { PORT } from "../Globals";
-import { checkStarComment } from "../firebase-config";
+import { checkStarComment, getUser } from "../firebase-config";
 import axios from "axios";
 
 function User({
@@ -37,6 +37,7 @@ function User({
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const [isStarComment, setIsStarComment] = useState();
+  const [profilePic, setProfilePic] = useState(null);
 
   const avatarColors = [
     "red",
@@ -52,6 +53,14 @@ function User({
     "yellow",
     "orange",
   ];
+
+  useLayoutEffect(() => {
+    getUser(email).then((result) => {
+      if (result?.picture !== null && result?.picture !== undefined) {
+        console.log(result.picture);
+      }
+    });
+  }, []);
 
   useLayoutEffect(() => {
     if (isComment) {

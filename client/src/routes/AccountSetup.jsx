@@ -101,6 +101,7 @@ function AccountSetupLayout() {
   });
 
   const submitData = () => {
+    console.log(file);
     if (firstName === "") {
       setFirstNameError(true);
     }

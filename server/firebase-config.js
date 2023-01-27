@@ -46,7 +46,7 @@ const updateUserData = async ({
     college: college,
     program: program,
     userAgreedSLA: userAgreedSLA,
-    picture: `${picture}`,
+    picture: picture,
   });
 };
 
