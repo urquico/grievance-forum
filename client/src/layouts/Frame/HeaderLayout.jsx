@@ -2,6 +2,7 @@ import React from "react";
 import { Header, MediaQuery, Burger, Text, Image } from "@mantine/core";
 import DarkModeButton from "../DarkModeButton";
 import Notification from "../Frame/Notification";
+import SearchBar from "../SearchBar";
 import hariBirdLogo from "../../assets/hariBirdTransparent.svg";
 
 function HeaderLayout({ opened, setOpened, dark, theme, toggleColorScheme }) {
@@ -50,6 +51,7 @@ function HeaderLayout({ opened, setOpened, dark, theme, toggleColorScheme }) {
           </Text>
         </div>
       </div>
+      <SearchBar />
       <Notification />
       <DarkModeButton />
     </Header>

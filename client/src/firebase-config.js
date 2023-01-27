@@ -122,6 +122,12 @@ export const getMorePosts = async (lastDoc, type, userId, tag, category) => {
   }
 };
 
+export const getAllPosts = async () => {
+  const ref = collection(db, "Posts");
+  const data = await getDocs(ref);
+  return data;
+};
+
 export const getUser = async (userId) => {
   // can be used when accessing the name and isAdmin of a user
   const ref = doc(db, "UserData", userId);
@@ -228,4 +234,12 @@ export const getAllProfanities = async () => {
   const ref = collection(db, "Profanities");
   const data = await getDocs(ref);
   return data;
+};
+
+export const removeHTMLTags = (str) => {
+  //? src: https://www.geeksforgeeks.org/how-to-strip-out-html-tags-from-a-string-using-javascript/
+  if (str === null || str === "") return false;
+  else str = str.toString();
+
+  return str.replace(/(<([^>]+)>)/gi, "");
 };
