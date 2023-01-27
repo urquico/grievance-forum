@@ -4,7 +4,6 @@ import { useMantineTheme } from "@mantine/core";
 
 function PieChartReview({ data }) {
   const theme = useMantineTheme();
-  console.log(theme.colorScheme);
 
   return (
     <div style={{ width: "100%", height: "50vh", display: "flex" }}>
