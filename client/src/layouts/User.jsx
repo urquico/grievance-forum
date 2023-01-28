@@ -20,6 +20,7 @@ import {
 import { PORT } from "../Globals";
 import { checkStarComment, getUser } from "../firebase-config";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function User({
   publisher,
@@ -38,6 +39,7 @@ function User({
   const [opened, setOpened] = useState(false);
   const [isStarComment, setIsStarComment] = useState();
   const [profilePic, setProfilePic] = useState(null);
+  const navigate = useNavigate();
 
   const avatarColors = [
     "red",
@@ -91,6 +93,9 @@ function User({
       });
       deletePost();
       setOpened(false);
+      if (!isComment) {
+        navigate("/home");
+      }
     }
   };
 

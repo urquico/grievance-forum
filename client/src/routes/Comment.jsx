@@ -12,6 +12,7 @@ import {
   getComments,
   checkSolveState,
   getUser,
+  removeHTMLTags,
 } from "../firebase-config";
 import { useMantineTheme, Timeline, Switch, Text } from "@mantine/core";
 import axios from "axios";
@@ -134,11 +135,6 @@ function CommentLayout() {
               userId: post.userId,
             })
             .then(() => {
-              console.log(
-                env.EMAILJS_SERVICE_ID,
-                env.EMAILJS_TEMPLATE_ID,
-                env.EMAILJS_PUBLIC_KEY
-              );
               emailjs
                 .send(
                   env.EMAILJS_SERVICE_ID,
@@ -146,7 +142,7 @@ function CommentLayout() {
                   {
                     receiver_email: post.userId,
                     sender_name: localStorage.getItem("name"),
-                    reply: text,
+                    reply: removeHTMLTags(text),
                   },
                   env.EMAILJS_PUBLIC_KEY
                 )
