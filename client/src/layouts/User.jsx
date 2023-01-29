@@ -38,7 +38,6 @@ function User({
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const [isStarComment, setIsStarComment] = useState();
-  const [profilePic, setProfilePic] = useState(null);
   const navigate = useNavigate();
 
   const avatarColors = [

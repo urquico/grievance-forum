@@ -51,7 +51,6 @@ app.post("/updateUserData", async (req, res) => {
     college: req.body.college,
     program: req.body.program,
     userAgreedSLA: req.body.userAgreedSLA,
-    picture: req.body.picture,
   })
     .then((result) => {
       res.send(result);

@@ -34,9 +34,9 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 const provider = new OAuthProvider("microsoft.com");
+provider.addScope("Contacts.Read");
+provider.addScope("Contacts.ReadWrite");
 
-// TODO: add the access token, credential, and idToken
-// TODO: using the OAuth access token call the microsoft graph api
 export const signInWithMicrosoft = async () =>
   await signInWithPopup(
     auth,

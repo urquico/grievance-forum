@@ -9,12 +9,11 @@ import {
   Text,
   Checkbox,
   Anchor,
-  FileInput,
   Select,
 } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import { IconUpload, IconCheck, IconX } from "@tabler/icons";
+import { IconCheck, IconX } from "@tabler/icons";
 import { useNavigate } from "react-router-dom";
 import Frame from "../layouts/Frame/Frame";
 import {
@@ -37,7 +36,6 @@ function AccountSetupLayout() {
   const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [existingUserData, setExistingUserData] = useState();
-  const [file, setFile] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [birthday, setBirthday] = useState();
@@ -101,7 +99,6 @@ function AccountSetupLayout() {
   });
 
   const submitData = () => {
-    console.log(file);
     if (firstName === "") {
       setFirstNameError(true);
     }
@@ -151,7 +148,6 @@ function AccountSetupLayout() {
           college: college,
           program: program,
           userAgreedSLA: termsAgreement,
-          picture: file,
         })
         .then((result) => {
           setTimeout(() => {
@@ -227,16 +223,7 @@ function AccountSetupLayout() {
           radius="xs"
           disabled
         />
-        <FileInput
-          value={file}
-          onChange={setFile}
-          placeholder="Pick Image file"
-          label="Change Profile Picture"
-          description="please submit low resolution image only"
-          multiple={false}
-          accept="image/jpeg"
-          icon={<IconUpload size={14} />}
-        />
+
         <TextInput
           placeholder={
             existingUserData?.firstName === "" ||
