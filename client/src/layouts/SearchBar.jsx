@@ -56,9 +56,12 @@ function SearchBar() {
       result.docs.map((post) => {
         registerSpotlightActions([
           {
-            group: "search",
+            group: "posts",
             id: post.id,
-            title: post._document.data.value.mapValue.fields.userId.stringValue,
+            title: post._document.data.value.mapValue.fields.isAnonymous
+              .booleanValue
+              ? "HARONYMOUS"
+              : post._document.data.value.mapValue.fields.userId.stringValue,
             description: removeHTMLTags(
               post._document.data.value.mapValue.fields.message.stringValue
             ),

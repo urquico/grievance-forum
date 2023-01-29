@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   useMantineTheme,
@@ -276,14 +276,21 @@ function AddTags({ selectedTags, setSelectedTags }) {
     {
       value: "depression",
       label: "Depression",
-      group: "personal",
+      group: "Personal",
     },
     {
-      value: "how to file loa",
-      label: "How to file LOA",
-      group: "academic",
+      value: "exams",
+      label: "Exams",
+      group: "Academic",
+    },
+    {
+      value: "loa",
+      label: "LOA",
+      group: "Academic",
     },
   ]);
+
+  useLayoutEffect(() => {}, []);
 
   return (
     <div>
