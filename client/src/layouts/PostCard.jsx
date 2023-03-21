@@ -18,7 +18,7 @@ import { IconCheck, IconX } from "@tabler/icons";
 import { IconHome2 } from "@tabler/icons-react";
 import axios from "axios";
 import User from "./User";
-import { getUser, getVotePostData } from "../firebase-config";
+import { getUser, getVotePostData, getCollegeInfo } from "../firebase-config";
 import { PORT } from "../Globals";
 
 function PostCard({
@@ -33,7 +33,6 @@ function PostCard({
   voteNumber,
   previewOnly,
   isComment,
-  college,
 }) {
   const theme = useMantineTheme();
   const [publisher, setPublisher] = useState("");
@@ -45,6 +44,7 @@ function PostCard({
   const [readMore, setReadMore] = useState(false);
   const [voteUI, setVoteUI] = useState(undefined);
   const [isVisible, setIsVisible] = useState(false);
+  const [college, setCollege] = useState("");
 
   const navigate = useNavigate();
   let timeDisplay = "";
@@ -55,6 +55,10 @@ function PostCard({
     getUser(email).then((result) => {
       setPublisher(result.name);
       setIsAdmin(result.isAdmin); // check if the publisher is admin
+      getCollegeInfo(result.college).then((result) => {
+        setCollege(result.label);
+        console.log(result.label);
+      });
     });
   }, [email]);
 
@@ -213,13 +217,10 @@ function PostCard({
         tags={tags}
         setIsVisible={setIsVisible}
         isComment={isComment}
-        college={college}
       />
       <div style={{ marginLeft: "2.500rem" }}>
         {/* College */}
-        <Badge style={{}} variant="outline">
-          {college}
-        </Badge>
+        {college === "" ? "" : <Badge variant="outline">{college}</Badge>}
       </div>
 
       <div style={{ marginTop: "0.063rem" }}>

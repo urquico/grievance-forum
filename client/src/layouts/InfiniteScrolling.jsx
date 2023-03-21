@@ -14,15 +14,6 @@ function InfiniteScrolling({ type, tag, category }) {
   const [posts, setPosts] = useState([]);
   const [lastDoc, setLastDoc] = useState();
   const [isEmpty, setIsEmpty] = useState(false);
-  const [college, setCollege] = useState("");
-
-  useLayoutEffect(() => {
-    getUser(localStorage.getItem("email")).then((result) => {
-      getCollegeInfo(result.college).then((result) => {
-        setCollege(result.label);
-      });
-    });
-  }, []);
 
   useLayoutEffect(() => {
     getPost(type, localStorage.getItem("email"), tag, category).then(
@@ -100,7 +91,6 @@ function InfiniteScrolling({ type, tag, category }) {
               voteNumber={post.upVote - post.downVote}
               previewOnly={false}
               isComment={false}
-              college={college}
             />
           </div>
         );
