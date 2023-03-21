@@ -11,10 +11,13 @@ import {
   List,
   SimpleGrid,
   Divider,
+  ActionIcon,
 } from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import { IconCheck, IconX } from "@tabler/icons";
+import { IconCheck, IconX, IconEye } from "@tabler/icons";
+import { IconEyeClosed } from "@tabler/icons-react";
+
 import axios from "axios";
 import { getAllProfanities, getUser } from "../firebase-config";
 import { PORT } from "../Globals";
@@ -31,6 +34,7 @@ function ProfanitiesLayout() {
   const navigate = useNavigate();
   const [profanity, setProfanity] = useState("");
   const [profanityList, setProfanityList] = useState([]);
+  const [isHidden, setIsHidden] = useState(true);
 
   useLayoutEffect(() => {
     getAllProfanities().then((result) => {
@@ -121,6 +125,10 @@ function ProfanitiesLayout() {
     });
   };
 
+  const toggleHide = () => {
+    setIsHidden(!isHidden);
+  };
+
   return (
     <div>
       <IntroductionCard
@@ -162,6 +170,16 @@ function ProfanitiesLayout() {
               <Text style={{ marginTop: "0" }} fz="md" fw="bold">
                 Here are the list of blocked words
               </Text>
+
+              {isHidden ? (
+                <ActionIcon onClick={toggleHide}>
+                  <IconEyeClosed size={16} variant="transparent" />
+                </ActionIcon>
+              ) : (
+                <ActionIcon onClick={toggleHide}>
+                  <IconEye size={16} variant="transparent" />
+                </ActionIcon>
+              )}
             </>
           }
         />
@@ -187,7 +205,7 @@ function ProfanitiesLayout() {
               </>
             ) : (
               profanityList?.map((bad) => {
-                return <ProfanityList badword={bad.id} />;
+                return <ProfanityList badword={bad.id} hideWord={isHidden} />;
               })
             )}
           </SimpleGrid>

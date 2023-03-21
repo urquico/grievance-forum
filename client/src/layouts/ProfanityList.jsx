@@ -5,7 +5,7 @@ import { IconX } from "@tabler/icons";
 import axios from "axios";
 import { PORT } from "../Globals";
 
-function ProfanityList({ badword }) {
+function ProfanityList({ badword, hideWord }) {
   const [isHidden, setIsHidden] = useState(false);
 
   const deleteProfanity = () => {
@@ -17,6 +17,16 @@ function ProfanityList({ badword }) {
       .catch((err) => {
         console.log(err.message);
       });
+  };
+
+  const hideCharacters = (word) => {
+    let hideWord = "";
+
+    for (let i = 0; i <= word.length; i++) {
+      hideWord += "*";
+    }
+
+    return hideWord;
   };
 
   return (
@@ -34,7 +44,9 @@ function ProfanityList({ badword }) {
       }
       style={{ marginLeft: "0.750rem", display: isHidden ? "none" : "" }}
     >
-      <Text fz="sm">{badword}</Text>
+      <Text fz="sm">
+        {hideWord ? <>{hideCharacters(badword)}</> : <>{badword}</>}
+      </Text>
     </List.Item>
   );
 }
