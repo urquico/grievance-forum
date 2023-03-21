@@ -15,6 +15,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
+import { IconHome2 } from "@tabler/icons-react";
 import axios from "axios";
 import User from "./User";
 import { getUser, getVotePostData } from "../firebase-config";
@@ -32,6 +33,7 @@ function PostCard({
   voteNumber,
   previewOnly,
   isComment,
+  college,
 }) {
   const theme = useMantineTheme();
   const [publisher, setPublisher] = useState("");
@@ -211,7 +213,15 @@ function PostCard({
         tags={tags}
         setIsVisible={setIsVisible}
         isComment={isComment}
+        college={college}
       />
+      <div style={{ marginLeft: "2.500rem" }}>
+        {/* College */}
+        <Badge style={{}} variant="outline">
+          {college}
+        </Badge>
+      </div>
+
       <div style={{ marginTop: "0.063rem" }}>
         {/* Category */}
         {isComment ? (
