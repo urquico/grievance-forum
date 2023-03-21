@@ -90,7 +90,20 @@ function PostCard({
     timeDisplay = `${cardVerb} ${Math.floor(time / 24)} day ago`;
   } else if (Math.floor(time) > 48) {
     timeDisplay = `${cardVerb} ${Math.floor(time / 24)} days ago`;
+  } else if (
+    parseFloat(time.replace(",", "")) / 24 / 30.437 >= 1 &&
+    parseFloat(time.replace(",", "")) / 24 / 30.437 <= 2
+  ) {
+    timeDisplay = `${cardVerb} ${Math.floor(
+      parseFloat(time.replace(",", "")) / 24 / 30.437
+    )} month ago`;
+  } else {
+    timeDisplay = `${cardVerb} ${Math.floor(
+      parseFloat(time.replace(",", "")) / 24 / 30.437
+    )} months ago`;
   }
+
+  console.log();
 
   const voteDown = async () => {
     if (!downVote) {
