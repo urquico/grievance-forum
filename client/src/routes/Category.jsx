@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Text, useMantineTheme, Badge, Accordion } from "@mantine/core";
+import { Text, useMantineTheme, Accordion, Button } from "@mantine/core";
 
 import { getCategories } from "../firebase-config";
 import Frame from "../layouts/Frame/Frame";
@@ -73,6 +73,20 @@ function CategoryLayout() {
                       <Text fw="bold">{category}</Text>
                     </Accordion.Control>
                     <Accordion.Panel>{description}</Accordion.Panel>
+                    <Accordion.Panel style={{ display: "flex", width: "100%" }}>
+                      <Button
+                        variant="subtle"
+                        color="dark"
+                        style={{ marginRight: "auto" }}
+                        onClick={() =>
+                          navigate(
+                            `/category/${category.toLowerCase()}-concerns`
+                          )
+                        }
+                      >
+                        <u>View Posts</u>
+                      </Button>
+                    </Accordion.Panel>
                   </Accordion.Item>
                 );
               })}
