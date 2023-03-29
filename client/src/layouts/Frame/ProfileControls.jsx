@@ -13,7 +13,7 @@ function ProfileControls({ logOut }) {
   const [profileOpened, { toggle }] = useDisclosure(false);
 
   return (
-    <div style={{ position: "sticky" }}>
+    <div>
       <Button
         style={{ marginTop: "auto", height: "auto", marginRight: "auto" }}
         onClick={toggle}
