@@ -49,7 +49,7 @@ function AdminControls() {
           title={"Pending Posts"}
           icon={<IconBrandAmongus size={16} />}
           color="green"
-          path={"/Pending"}
+          path={"/pending"}
           indicator={false}
         />
         <NavLinks

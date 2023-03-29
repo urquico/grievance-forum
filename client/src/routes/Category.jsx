@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Text, useMantineTheme, Badge } from "@mantine/core";
+import { Text, useMantineTheme, Badge, Accordion } from "@mantine/core";
 
 import { getCategories } from "../firebase-config";
 import Frame from "../layouts/Frame/Frame";
@@ -59,38 +59,26 @@ function CategoryLayout() {
           </>
         ) : (
           <>
-            {" "}
-            {categories?.map((cat) => {
-              const category =
-                cat._document.data.value.mapValue.fields.category.stringValue;
-              const description =
-                cat._document.data.value.mapValue.fields.description
-                  .stringValue;
-              return (
-                <>
-                  <div style={{ width: "50%", marginTop: "1.500rem" }}>
-                    <Badge
-                      variant="gradient"
-                      gradient={
-                        category === "Academic"
-                          ? { from: "orange", to: "red" }
-                          : { from: "teal", to: "lime", deg: 105 }
-                      }
-                      style={{ cursor: "pointer" }}
-                      onClick={() => {
-                        navigate(
-                          `/category/${category.toLowerCase()}-concerns`
-                        );
-                      }}
-                      size="xl"
-                    >
-                      {category + "-concerns"}
-                    </Badge>
-                  </div>
-                  <Text style={{ marginLeft: "2.500rem" }}>{description}</Text>
-                </>
-              );
-            })}
+            {/* accordion */}
+            <Accordion chevronPosition="left" variant="separated">
+              {categories?.map((cat) => {
+                const category =
+                  cat._document.data.value.mapValue.fields.category.stringValue;
+                const description =
+                  cat._document.data.value.mapValue.fields.description
+                    .stringValue;
+                return (
+                  <Accordion.Item value={category}>
+                    <Accordion.Control>
+                      <Text fw="bold">{category}</Text>
+                    </Accordion.Control>
+                    <Accordion.Panel>{description}</Accordion.Panel>
+                  </Accordion.Item>
+                );
+              })}
+            </Accordion>
+
+            {/* accordion */}
           </>
         )}
       </div>
