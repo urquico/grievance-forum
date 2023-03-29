@@ -58,9 +58,9 @@ function UserControls({ isUserAdmin, isUserAgreedSLA }) {
             style={{ fontSize: "0.700rem" }}
             rightIcon={
               moreOpened ? (
-                <IconChevronDown size="14" />
-              ) : (
                 <IconChevronUp size="14" />
+              ) : (
+                <IconChevronDown size="14" />
               )
             }
             onClick={toggle}

@@ -11,7 +11,7 @@ import { Button, Divider, Collapse } from "@mantine/core";
 import NavLinks from "./NavLinks";
 
 function AdminControls() {
-  const [adminOpened, { toggle }] = useDisclosure(true);
+  const [adminOpened, { toggle }] = useDisclosure(false);
 
   return (
     <>
@@ -25,9 +25,9 @@ function AdminControls() {
             style={{ fontSize: "0.700rem" }}
             rightIcon={
               adminOpened ? (
-                <IconChevronDown size="14" />
-              ) : (
                 <IconChevronUp size="14" />
+              ) : (
+                <IconChevronDown size="14" />
               )
             }
             onClick={toggle}

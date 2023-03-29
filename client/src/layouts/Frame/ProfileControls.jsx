@@ -13,9 +13,9 @@ function ProfileControls({ logOut }) {
   const [profileOpened, { toggle }] = useDisclosure(false);
 
   return (
-    <div>
+    <>
       <Button
-        style={{ marginTop: "auto", height: "auto", marginRight: "auto" }}
+        style={{ height: "auto", marginRight: "auto", marginTop: "0" }}
         onClick={toggle}
         color="dark"
         variant="subtle"
@@ -37,25 +37,28 @@ function ProfileControls({ logOut }) {
           )}
         </Group>
       </Button>
-      <Collapse in={profileOpened} style={{ marginTop: "0.250rem" }}>
+      <Collapse
+        in={profileOpened}
+        style={{ marginTop: "0.250rem", marginLeft: "3rem" }}
+      >
         <NavLinks
           title={"Profile"}
           icon={<IconAddressBook size={16} />}
-          color="orange"
+          color="dark"
           path={"/profile"}
           indicator={false}
         />
         <NavLinks
           title={"Logout"}
           icon={<IconLogout size={16} />}
-          color="gray"
+          color="dark"
           path={"/"}
           indicator={false}
           log={true}
           logOut={logOut}
         />
       </Collapse>
-    </div>
+    </>
   );
 }
 
