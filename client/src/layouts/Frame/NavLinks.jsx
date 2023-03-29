@@ -8,11 +8,25 @@ import {
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 
-function NavLinks({ title, icon, color, isLastElement, path, indicator }) {
+function NavLinks({
+  title,
+  icon,
+  color,
+  isLastElement,
+  path,
+  indicator,
+  log,
+  logOut,
+}) {
   const navigate = useNavigate();
 
   const linkToPath = () => {
-    navigate(path);
+    if (log) {
+      logOut();
+      navigate("/");
+    } else {
+      navigate(path);
+    }
   };
 
   return (
