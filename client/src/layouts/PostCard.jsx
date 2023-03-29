@@ -45,6 +45,7 @@ function PostCard({
   const [voteUI, setVoteUI] = useState(undefined);
   const [isVisible, setIsVisible] = useState(false);
   const [college, setCollege] = useState("");
+  const [program, setProgram] = useState("");
 
   const navigate = useNavigate();
   let timeDisplay = "";
@@ -55,9 +56,9 @@ function PostCard({
     getUser(email).then((result) => {
       setPublisher(result.name);
       setIsAdmin(result.isAdmin); // check if the publisher is admin
-      getCollegeInfo(result.college).then((result) => {
-        setCollege(result.label);
-        console.log(result.label);
+      getCollegeInfo(result.college).then((resultData) => {
+        setCollege(resultData.label);
+        setProgram(result.program);
       });
     });
   }, [email]);
@@ -220,7 +221,22 @@ function PostCard({
       />
       <div style={{ marginLeft: "2.500rem" }}>
         {/* College */}
-        {college === "" ? "" : <Badge variant="outline">{college}</Badge>}
+        {college === "" ? (
+          ""
+        ) : (
+          <>
+            <Badge variant="outline" color="pink">
+              {college}
+            </Badge>
+            <Badge
+              variant="outline"
+              color="orange"
+              style={{ marginLeft: "0.200rem" }}
+            >
+              {program}
+            </Badge>
+          </>
+        )}
       </div>
 
       <div style={{ marginTop: "0.063rem" }}>
