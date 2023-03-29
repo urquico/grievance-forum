@@ -31,11 +31,9 @@ function NavBarLayout({ opened, logOut }) {
         />
 
         {isUserAdmin ? <AdminControls /> : ""}
-
-        {/* <Button color="gray" onClick={logOut} variant="outline">
-          Logout
-        </Button> */}
-        <ProfileControls logOut={logOut} />
+        <div style={{ marginTop: "auto" }}>
+          <ProfileControls logOut={logOut} />
+        </div>
       </Navbar>
     </div>
   );
