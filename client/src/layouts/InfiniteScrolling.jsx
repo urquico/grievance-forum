@@ -1,11 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
 import { Button } from "@mantine/core";
-import {
-  getPost,
-  getMorePosts,
-  getUser,
-  getCollegeInfo,
-} from "../firebase-config";
+import { getPost, getMorePosts } from "../firebase-config";
 import EndPost from "./EndPost";
 import LoadingPost from "./Loading/LoadingPost";
 import PostCard from "./PostCard";
@@ -91,6 +86,7 @@ function InfiniteScrolling({ type, tag, category }) {
               voteNumber={post.upVote - post.downVote}
               previewOnly={false}
               isComment={false}
+              isPendingPost={false}
             />
           </div>
         );

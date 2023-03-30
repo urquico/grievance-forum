@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useDocumentTitle } from "@mantine/hooks";
 import { getUser } from "../firebase-config";
 
-import { useMantineTheme, Text } from "@mantine/core";
-
 import Frame from "../layouts/Frame/Frame";
 import PendingPosts from "../layouts/PendingPosts";
+import IntroductionCard from "../layouts/IntroductionCard";
 
 function Reviews() {
   useDocumentTitle("Pending");
@@ -15,7 +14,6 @@ function Reviews() {
 
 function PendingLayout() {
   const navigate = useNavigate();
-  const theme = useMantineTheme();
 
   useLayoutEffect(() => {
     getUser(localStorage.getItem("email")).then((result) => {
@@ -27,26 +25,17 @@ function PendingLayout() {
 
   return (
     <>
-      <div
-        style={{
-          height: "auto",
-          backgroundColor:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[6]
-              : theme.colors.gray[0],
+      <IntroductionCard
+        name={localStorage.getItem("name")}
+        message={"Admin ka so pwede ka mag approve or decline ng posts"}
+      />
 
-          borderRadius: "13px",
-          padding: "2.375rem",
-          fontSize: "1.125rem",
-
-          boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
-        }}
-      >
-        <Text fz="xl" fw="bold">
-          Pending Posts
-        </Text>
-      </div>
-      <PendingPosts />
+      <PendingPosts
+        post="<p>Everything in its Right Place</p>"
+        email={"kjeurquico2020@plm.edu.ph"}
+        publisher="Kurt Jacob E. Urquico"
+        time={10}
+      />
     </>
   );
 }

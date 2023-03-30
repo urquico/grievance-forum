@@ -131,7 +131,6 @@ function User({
   };
 
   const starComment = () => {
-    console.log(postId);
     if (isComment) {
       showNotification({
         id: "load-data",
@@ -279,12 +278,15 @@ function User({
         <div style={{ margin: "auto", marginRight: "1rem" }}>
           {localStorage.getItem("email") === email || isCurrentUserAdmin ? (
             <div style={{ display: "flex" }}>
-              <ActionIcon>
-                <IconCheck onClick={deleteBtn} />
-              </ActionIcon>
-              <ActionIcon>
-                <IconTrash onClick={deleteBtn} />
-              </ActionIcon>
+              {isPendingPost ? (
+                <></>
+              ) : (
+                <>
+                  <ActionIcon>
+                    <IconTrash onClick={deleteBtn} />
+                  </ActionIcon>
+                </>
+              )}
             </div>
           ) : (
             <></>

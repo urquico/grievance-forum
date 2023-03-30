@@ -15,7 +15,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
-import { IconHome2 } from "@tabler/icons-react";
 import axios from "axios";
 import User from "./User";
 import { getUser, getVotePostData, getCollegeInfo } from "../firebase-config";
@@ -33,6 +32,7 @@ function PostCard({
   voteNumber,
   previewOnly,
   isComment,
+  isPendingPost,
 }) {
   const theme = useMantineTheme();
   const [publisher, setPublisher] = useState("");
@@ -109,8 +109,6 @@ function PostCard({
       parseFloat(time.replace(",", "")) / 24 / 30.437
     )} months ago`;
   }
-
-  console.log();
 
   const voteDown = async () => {
     if (!downVote) {
@@ -218,6 +216,7 @@ function PostCard({
         tags={tags}
         setIsVisible={setIsVisible}
         isComment={isComment}
+        isPendingPost={isPendingPost}
       />
       <div style={{ marginLeft: "2.500rem" }}>
         {/* College */}
@@ -317,22 +316,23 @@ function PostCard({
             </div>
           </>
         )}
-        <Text
-          lineClamp={readMore ? 0 : 4}
-          style={{
-            marginTop: "1.375rem",
-            marginBottom: "0.500rem",
-            marginLeft: "1rem",
-            marginRight: "1rem",
-            color:
-              theme.colorScheme === "dark" ? theme.colors.gray[6] : "#3E3E3E",
-            textAlign: "justify",
-          }}
-        >
-          <TypographyStylesProvider>
-            <div dangerouslySetInnerHTML={{ __html: post }} />
-          </TypographyStylesProvider>
-        </Text>
+          <Text
+            lineClamp={readMore ? 0 : 4}
+            style={{
+              marginTop: "1.375rem",
+              marginBottom: "0.500rem",
+              marginLeft: "1rem",
+              marginRight: "1rem",
+              color:
+                theme.colorScheme === "dark" ? theme.colors.gray[6] : "#3E3E3E",
+              textAlign: "justify",
+            }}
+          >
+            <TypographyStylesProvider>
+              <div dangerouslySetInnerHTML={{ __html: post }} />
+            </TypographyStylesProvider>
+          </Text>
+     
       </div>
       {post.split("").length > 155 ? (
         <Text
