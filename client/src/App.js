@@ -18,6 +18,7 @@ const Tags = lazy(() => import("./routes/Tags"));
 const Tag = lazy(() => import("./routes/Tag"));
 const Comment = lazy(() => import("./routes/Comment"));
 const AccountSetup = lazy(() => import("./routes/AccountSetup"));
+const Pending = lazy(() => import("./routes/Pending"));
 
 //! Admin Controls
 const Profanities = lazy(() => import("./routes/Profanities"));
@@ -62,6 +63,7 @@ function App() {
                 <Route path={"/edit/:id"} element={<Tag />} />
                 <Route path={"/profanities"} element={<Profanities />} />
                 <Route path={"/reviews"} element={<Reviews />} />
+                <Route path={"/pending"} element={<Pending />} />
                 <Route path={"*"} element={<Error />} />
               </Routes>
             </NotificationsProvider>

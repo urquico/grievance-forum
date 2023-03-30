@@ -10,13 +10,9 @@ import {
   Center,
 } from "@mantine/core";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import {
-  IconTrash,
-  IconCheck,
-  IconX,
-  IconAlertTriangle,
-  IconStar,
-} from "@tabler/icons";
+import { IconTrash, IconX, IconAlertTriangle, IconStar } from "@tabler/icons";
+import { IconCheck } from "@tabler/icons-react";
+
 import { PORT } from "../Globals";
 import { checkStarComment, getUser } from "../firebase-config";
 import axios from "axios";
@@ -34,15 +30,14 @@ function User({
   tags,
   setIsVisible,
   isComment,
+  isPendingPost,
 }) {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const [isStarComment, setIsStarComment] = useState();
   const navigate = useNavigate();
 
-  const avatarColors = [
-    "red",
-  ];
+  const avatarColors = ["red"];
 
   useLayoutEffect(() => {
     getUser(email).then((result) => {
@@ -283,9 +278,14 @@ function User({
       ) : (
         <div style={{ margin: "auto", marginRight: "1rem" }}>
           {localStorage.getItem("email") === email || isCurrentUserAdmin ? (
-            <ActionIcon>
-              <IconTrash onClick={deleteBtn} />
-            </ActionIcon>
+            <div style={{ display: "flex" }}>
+              <ActionIcon>
+                <IconCheck onClick={deleteBtn} />
+              </ActionIcon>
+              <ActionIcon>
+                <IconTrash onClick={deleteBtn} />
+              </ActionIcon>
+            </div>
           ) : (
             <></>
           )}
