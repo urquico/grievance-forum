@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { Navbar } from "@mantine/core";
+import { Navbar, ScrollArea } from "@mantine/core";
 import { getUser } from "../../firebase-config";
 import UserControls from "./UserControls";
 import AdminControls from "./AdminControls";
@@ -25,15 +25,17 @@ function NavBarLayout({ opened, logOut }) {
         width={{ sm: 200, lg: 300 }}
         style={{ zIndex: "1" }}
       >
-        <UserControls
-          isUserAgreedSLA={isUserAgreedSLA}
-          isUserAdmin={isUserAdmin}
-        />
-        {isUserAdmin ? <AdminControls /> : ""}
+        <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
+          <UserControls
+            isUserAgreedSLA={isUserAgreedSLA}
+            isUserAdmin={isUserAdmin}
+          />
+          {isUserAdmin ? <AdminControls /> : ""}
 
-        <div style={{ marginTop: "1rem" }}>
-          <ProfileControls logOut={logOut} />
-        </div>
+          <div style={{ marginTop: "1rem" }}>
+            <ProfileControls logOut={logOut} />
+          </div>
+        </Navbar.Section>
       </Navbar>
     </div>
   );
