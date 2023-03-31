@@ -125,6 +125,31 @@ const getProfanityList = async () => {
 };
 
 const writePost = async ({ category, isAnonymous, message, userId, tags }) => {
+  //! writing a post goes to the pending post collection first
+  const profanityList = await getProfanityList();
+  filter.addWords(...profanityList);
+  await db.collection("Pending").add({
+    categoryId: category,
+    downVote: 0,
+    upVote: 0,
+    isAnonymous: isAnonymous,
+    isSolved: false,
+    message: filter.clean(message),
+    tags: tags,
+    timePosted: Timestamp.fromDate(new Date()),
+    userId: userId,
+    votePoint: 0,
+  });
+};
+
+const approvePost = async ({
+  category,
+  isAnonymous,
+  message,
+  userId,
+  tags,
+  admin,
+}) => {
   const profanityList = await getProfanityList();
   filter.addWords(...profanityList);
   await db.collection("Posts").add({
@@ -138,6 +163,7 @@ const writePost = async ({ category, isAnonymous, message, userId, tags }) => {
     timePosted: Timestamp.fromDate(new Date()),
     userId: userId,
     votePoint: 0,
+    approvedBy: admin,
   });
 };
 
@@ -167,7 +193,7 @@ const writeTags = async ({ tags }) => {
   });
 };
 
-const deletePost = async ({ postId, userId }) => {
+const deletePost = async ({ postId }) => {
   await db
     .collection("Posts")
     .doc(postId)
@@ -181,6 +207,10 @@ const deletePost = async ({ postId, userId }) => {
         deleteComment({ commentId: doc.id });
       });
     });
+};
+
+const deletePendingPost = async ({ postId }) => {
+  await db.collection("Pending").doc(postId).delete();
 };
 
 const deleteComment = async ({ commentId }) => {
@@ -274,4 +304,6 @@ module.exports = {
   notifyPublisher: notifyPublisher,
   addProfanity: addProfanity,
   deleteProfanity: deleteProfanity,
+  approvePost: approvePost,
+  deletePendingPost: deletePendingPost,
 };

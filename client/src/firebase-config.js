@@ -128,6 +128,12 @@ export const getAllPosts = async () => {
   return data;
 };
 
+export const getAllPendingPosts = async () => {
+  const ref = collection(db, "Pending");
+  const data = await getDocs(ref);
+  return data;
+};
+
 export const getUser = async (userId) => {
   // can be used when accessing the name and isAdmin of a user
   const ref = doc(db, "UserData", userId);

@@ -7,28 +7,124 @@ import {
   TypographyStylesProvider,
   Badge,
 } from "@mantine/core";
+import { updateNotification, showNotification } from "@mantine/notifications";
+
 import User from "../layouts/User";
 import { getUser, getCollegeInfo } from "../firebase-config";
 import { IconCheck, IconX } from "@tabler/icons-react";
+import axios from "axios";
+import { PORT } from "../Globals";
 
-function PendingPosts({ post, email, publisher, time }) {
+function PendingPosts({
+  post,
+  email,
+  time,
+  isAnonymous,
+  category,
+  tags,
+  postId,
+}) {
   const theme = useMantineTheme();
   const [isVisible, setIsVisible] = useState(false);
   const [college, setCollege] = useState("");
   const [program, setProgram] = useState("");
   const [isAdmin, setIsAdmin] = useState("");
+  const [name, setName] = useState("");
   let timeDisplay = "";
   const cardVerb = "Submitted";
 
   useLayoutEffect(() => {
     getUser(email).then((result) => {
       setIsAdmin(result.isAdmin);
+      setName(result.name);
       getCollegeInfo(result.college).then((resultData) => {
         setCollege(resultData.label);
         setProgram(result.program);
       });
     });
   }, [email]);
+
+  const approvePost = () => {
+    showNotification({
+      id: "load-data",
+      loading: true,
+      title: "Approving Post...",
+      message: "Please Wait!",
+      autoClose: false,
+      disallowClose: true,
+    });
+    axios
+      .post(`${PORT}/approvePost`, {
+        category: category,
+        isAnonymous: isAnonymous,
+        message: post,
+        userId: email,
+        tags: tags,
+        admin: localStorage.getItem("email"),
+        postId: postId,
+      })
+      .then(() => {
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "teal",
+            title: "Success!",
+            message: `Post has been approved`,
+            icon: <IconCheck size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
+      })
+      .catch((error) => {
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "red",
+            title: "Error!!",
+            message: error.message,
+            icon: <IconX size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
+      });
+  };
+
+  const declinePost = () => {
+    showNotification({
+      id: "load-data",
+      loading: true,
+      title: "Declining Post...",
+      message: "Please Wait!",
+      autoClose: false,
+      disallowClose: true,
+    });
+    axios
+      .post(`${PORT}/deletePendingPost`, { postId: postId })
+      .then(() => {
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "teal",
+            title: "Success!",
+            message: `Post has been declined`,
+            icon: <IconCheck size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
+      })
+      .catch((error) => {
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "red",
+            title: "Error!!",
+            message: error.message,
+            icon: <IconX size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
+      });
+  };
 
   if (Math.floor(time) < 1) {
     if (Math.floor(time * 60) <= 1) {
@@ -76,8 +172,8 @@ function PendingPosts({ post, email, publisher, time }) {
       }}
     >
       <User
-        publisher={publisher}
-        isAnonymous={false}
+        publisher={name}
+        isAnonymous={isAnonymous}
         email={email}
         isAdmin={isAdmin}
         isCurrentUserAdmin={true}
@@ -121,7 +217,11 @@ function PendingPosts({ post, email, publisher, time }) {
         </Text>
       </Paper>
 
-      <Button style={{ marginTop: "1rem" }} leftIcon={<IconCheck size="17" />}>
+      <Button
+        style={{ marginTop: "1rem" }}
+        leftIcon={<IconCheck size="17" />}
+        onClick={approvePost}
+      >
         Approve
       </Button>
       <Button
@@ -129,6 +229,7 @@ function PendingPosts({ post, email, publisher, time }) {
         style={{ marginTop: "0.500rem" }}
         variant="outline"
         color={theme.colorScheme === "dark" ? "gray" : "dark"}
+        onClick={declinePost}
       >
         Decline
       </Button>

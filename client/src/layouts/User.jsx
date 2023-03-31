@@ -284,21 +284,26 @@ function User({
       ) : (
         <div style={{ margin: "auto", marginRight: "1rem" }}>
           {localStorage.getItem("email") === email || isCurrentUserAdmin ? (
-            <div style={{ display: "flex" }}>
-              {/* if post is solved, show archive button */}
-              <>
-                {isSolved ? (
-                  <ActionIcon>
-                    <IconArchive />
-                  </ActionIcon>
-                ) : (
-                  ""
-                )}
-                <ActionIcon>
-                  <IconTrash onClick={deleteBtn} />
-                </ActionIcon>
-              </>
-            </div>
+            <>
+              {isPendingPost ? (
+                ""
+              ) : (
+                <div style={{ display: "flex" }}>
+                  <>
+                    {isSolved ? (
+                      <ActionIcon>
+                        <IconArchive />
+                      </ActionIcon>
+                    ) : (
+                      ""
+                    )}
+                    <ActionIcon>
+                      <IconTrash onClick={deleteBtn} />
+                    </ActionIcon>
+                  </>
+                </div>
+              )}
+            </>
           ) : (
             <></>
           )}

@@ -23,6 +23,8 @@ const {
   updateUserData,
   addProfanity,
   deleteProfanity,
+  approvePost,
+  deletePendingPost,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -91,6 +93,32 @@ app.post("/writePost", async (req, res) => {
         .catch((error) => {
           console.log(error.message);
         });
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+});
+
+app.post("/approvePost", async (req, res) => {
+  await approvePost({
+    category: req.body.category,
+    isAnonymous: !!req.body.isAnonymous,
+    message: req.body.message,
+    userId: req.body.userId,
+    tags: req.body.tags,
+    admin: req.body.admin,
+  })
+    .then((result) => {
+      res.send(result);
+      console.log("A post has been written");
+
+      generateVotePoint()
+        .then(() => {
+          console.log("Vote Point Generation Success!");
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
 
       writeTags({ tags: req.body.tags })
         .then(() => {
@@ -99,6 +127,8 @@ app.post("/writePost", async (req, res) => {
         .catch((error) => {
           console.log(error.message);
         });
+
+      deletePendingPost({ postId: req.body.postId });
     })
     .catch((error) => {
       console.log(error.message);
@@ -146,6 +176,18 @@ app.post("/votePost", async (req, res) => {
         .catch((error) => {
           console.log(error.message);
         });
+    })
+    .catch((error) => {
+      res.send(error.message);
+      console.log(error.message);
+    });
+});
+
+app.post("/deletePendingPost", async (req, res) => {
+  await deletePendingPost({ postId: req.body.postId })
+    .then((result) => {
+      res.send(result);
+      console.log("post: " + req.body.postId + " has been declined");
     })
     .catch((error) => {
       res.send(error.message);
