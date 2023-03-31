@@ -11,10 +11,10 @@ import {
 } from "@mantine/core";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconTrash, IconX, IconAlertTriangle, IconStar } from "@tabler/icons";
-import { IconCheck } from "@tabler/icons-react";
+import { IconCheck, IconArchive } from "@tabler/icons-react";
 
 import { PORT } from "../Globals";
-import { checkStarComment, getUser } from "../firebase-config";
+import { checkStarComment, getUser, checkSolveState } from "../firebase-config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -35,17 +35,24 @@ function User({
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const [isStarComment, setIsStarComment] = useState();
+  const [isSolved, setIsSolved] = useState(false);
   const navigate = useNavigate();
 
   const avatarColors = ["red"];
 
+  // useLayoutEffect(() => {
+  //   getUser(email).then((result) => {
+  //     if (result?.picture !== null && result?.picture !== undefined) {
+  //       console.log(result.picture);
+  //     }
+  //   });
+  // }, []);
+
   useLayoutEffect(() => {
-    getUser(email).then((result) => {
-      if (result?.picture !== null && result?.picture !== undefined) {
-        console.log(result.picture);
-      }
+    checkSolveState(postId).then((result) => {
+      setIsSolved(result);
     });
-  }, []);
+  });
 
   useLayoutEffect(() => {
     if (isComment) {
@@ -278,15 +285,19 @@ function User({
         <div style={{ margin: "auto", marginRight: "1rem" }}>
           {localStorage.getItem("email") === email || isCurrentUserAdmin ? (
             <div style={{ display: "flex" }}>
-              {isPendingPost ? (
-                <></>
-              ) : (
-                <>
+              {/* if post is solved, show archive button */}
+              <>
+                {isSolved ? (
                   <ActionIcon>
-                    <IconTrash onClick={deleteBtn} />
+                    <IconArchive />
                   </ActionIcon>
-                </>
-              )}
+                ) : (
+                  ""
+                )}
+                <ActionIcon>
+                  <IconTrash onClick={deleteBtn} />
+                </ActionIcon>
+              </>
             </div>
           ) : (
             <></>
