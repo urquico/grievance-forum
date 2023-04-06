@@ -33,6 +33,7 @@ function PostCard({
   previewOnly,
   isComment,
   isPendingPost,
+  isArchive,
 }) {
   const theme = useMantineTheme();
   const [publisher, setPublisher] = useState("");
@@ -42,7 +43,6 @@ function PostCard({
   const [downVote, setDownVote] = useState(false);
   const [voteCount, setVoteCount] = useState(voteNumber);
   const [readMore, setReadMore] = useState(false);
-  const [voteUI, setVoteUI] = useState(undefined);
   const [isVisible, setIsVisible] = useState(false);
   const [college, setCollege] = useState("");
   const [program, setProgram] = useState("");
@@ -71,7 +71,6 @@ function PostCard({
 
   useLayoutEffect(() => {
     getVotePostData(postId, localStorage.getItem("email")).then((result) => {
-      setVoteUI(result);
       voteState(result?.voteType, result?.postId);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -111,7 +110,7 @@ function PostCard({
   }
 
   const voteDown = async () => {
-    if (!downVote) {
+    if (!downVote && !isArchive) {
       setVoteCount(voteCount - weight);
       setDownVote(true);
       setUpVote(false);
@@ -120,7 +119,7 @@ function PostCard({
   };
 
   const voteUp = async () => {
-    if (!upVote) {
+    if (!upVote && !isArchive) {
       setVoteCount(voteCount + weight);
       setUpVote(true);
       setDownVote(false);
@@ -172,7 +171,9 @@ function PostCard({
 
   const writeComment = () => {
     if (!previewOnly) {
-      navigate(`/comment/${postId}`);
+      isArchive
+        ? navigate(`/comment/archive/${postId}`)
+        : navigate(`/comment/${postId}`);
     }
   };
 
@@ -217,6 +218,7 @@ function PostCard({
         setIsVisible={setIsVisible}
         isComment={isComment}
         isPendingPost={isPendingPost}
+        isArchive={isArchive}
       />
       <div style={{ marginLeft: "2.500rem" }}>
         {/* College */}
@@ -316,23 +318,22 @@ function PostCard({
             </div>
           </>
         )}
-          <Text
-            lineClamp={readMore ? 0 : 4}
-            style={{
-              marginTop: "1.375rem",
-              marginBottom: "0.500rem",
-              marginLeft: "1rem",
-              marginRight: "1rem",
-              color:
-                theme.colorScheme === "dark" ? theme.colors.gray[6] : "#3E3E3E",
-              textAlign: "justify",
-            }}
-          >
-            <TypographyStylesProvider>
-              <div dangerouslySetInnerHTML={{ __html: post }} />
-            </TypographyStylesProvider>
-          </Text>
-     
+        <Text
+          lineClamp={readMore ? 0 : 4}
+          style={{
+            marginTop: "1.375rem",
+            marginBottom: "0.500rem",
+            marginLeft: "1rem",
+            marginRight: "1rem",
+            color:
+              theme.colorScheme === "dark" ? theme.colors.gray[6] : "#3E3E3E",
+            textAlign: "justify",
+          }}
+        >
+          <TypographyStylesProvider>
+            <div dangerouslySetInnerHTML={{ __html: post }} />
+          </TypographyStylesProvider>
+        </Text>
       </div>
       {post.split("").length > 155 ? (
         <Text
@@ -379,7 +380,12 @@ function PostCard({
         <></>
       ) : (
         <>
-          <div style={{ display: "flex", marginLeft: "2.5rem" }}>
+          <div
+            style={{
+              display: "flex",
+              marginLeft: "2.5rem",
+            }}
+          >
             <Button
               leftIcon={<IconMessage size={20} />}
               variant="subtle"

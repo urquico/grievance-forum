@@ -14,7 +14,7 @@ import { IconTrash, IconX, IconAlertTriangle, IconStar } from "@tabler/icons";
 import { IconCheck, IconArchive } from "@tabler/icons-react";
 
 import { PORT } from "../Globals";
-import { checkStarComment, getUser, checkSolveState } from "../firebase-config";
+import { checkStarComment, checkSolveState } from "../firebase-config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -31,22 +31,16 @@ function User({
   setIsVisible,
   isComment,
   isPendingPost,
+  isArchive,
 }) {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
+  const [archiveOpened, setArchiveOpened] = useState(false);
   const [isStarComment, setIsStarComment] = useState();
   const [isSolved, setIsSolved] = useState(false);
   const navigate = useNavigate();
 
   const avatarColors = ["red"];
-
-  // useLayoutEffect(() => {
-  //   getUser(email).then((result) => {
-  //     if (result?.picture !== null && result?.picture !== undefined) {
-  //       console.log(result.picture);
-  //     }
-  //   });
-  // }, []);
 
   useLayoutEffect(() => {
     checkSolveState(postId).then((result) => {
@@ -71,6 +65,68 @@ function User({
     return avatarColors[Math.floor(Math.random() * avatarColors.length)];
   };
 
+  const archiveBtn = () => {
+    if (!previewOnly) {
+      setArchiveOpened(true);
+    }
+  };
+
+  const deleteBtn = () => {
+    if (!previewOnly) {
+      setOpened(true);
+    }
+  };
+
+  const confirmArchive = () => {
+    if (!previewOnly) {
+      showNotification({
+        id: "load-data",
+        loading: true,
+        title: "Deleting",
+        message: "Please Wait!",
+        autoClose: false,
+        disallowClose: true,
+      });
+      archivePost();
+      setArchiveOpened(false);
+      navigate("/home");
+    }
+  };
+
+  const archivePost = () => {
+    axios
+      .post(`${PORT}/archivePost`, {
+        postId: postId,
+      })
+      .then(() => {
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "teal",
+            title: "Success!",
+            message: "Post has been Archived",
+            icon: <IconCheck size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
+
+        setIsVisible(true);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setTimeout(() => {
+          updateNotification({
+            id: "load-data",
+            color: "red",
+            title: "Error!!",
+            message: error.message,
+            icon: <IconX size={16} />,
+            autoClose: 2000,
+          });
+        }, 3000);
+      });
+  };
+
   const confirmDelete = () => {
     if (!previewOnly) {
       showNotification({
@@ -89,18 +145,16 @@ function User({
     }
   };
 
-  const deleteBtn = () => {
-    if (!previewOnly) {
-      setOpened(true);
-    }
-  };
-
   const deletePost = () => {
     let endPoint = "";
     if (isComment) {
       endPoint = "/deleteComment";
     } else {
-      endPoint = "/deletePost";
+      if (isArchive) {
+        endPoint = "/deleteArchive";
+      } else {
+        endPoint = "/deletePost";
+      }
     }
     axios
       .post(`${PORT}${endPoint}`, {
@@ -183,37 +237,18 @@ function User({
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
-      <Modal
+      <ConfirmationDialog
         opened={opened}
-        onClose={() => setOpened(false)}
-        radius="md"
-        centered
-        size="md"
-      >
-        <Center>
-          <IconAlertTriangle size={100} style={{ marginTop: "-3rem" }} />
-        </Center>
-        <Center>
-          <Text fz="xl" fw={500}>
-            Are you sure?
-          </Text>
-        </Center>
-        <Center>
-          <Text style={{ marginBottom: "0.500rem" }} fz="sm">
-            You won't be able to revert this
-          </Text>
-        </Center>
-        <Center>
-          <Button
-            style={{ marginRight: "0.25rem" }}
-            color="red"
-            onClick={() => setOpened(false)}
-          >
-            Cancel
-          </Button>
-          <Button onClick={confirmDelete}>Yes, Delete it</Button>
-        </Center>
-      </Modal>
+        setOpened={setOpened}
+        confirmDelete={confirmDelete}
+        verb="Delete"
+      />
+      <ConfirmationDialog
+        opened={archiveOpened}
+        setOpened={setArchiveOpened}
+        confirmDelete={confirmArchive}
+        verb="Archive"
+      />
       <Avatar src={null} alt={publisher} color={generateRandomColor()}>
         {isAnonymous ? "H" : email?.toUpperCase()[0] + publisher[0]}
       </Avatar>
@@ -292,7 +327,7 @@ function User({
                   <>
                     {isSolved ? (
                       <ActionIcon>
-                        <IconArchive />
+                        <IconArchive onClick={archiveBtn} />
                       </ActionIcon>
                     ) : (
                       ""
@@ -310,6 +345,45 @@ function User({
         </div>
       )}
     </div>
+  );
+}
+
+function ConfirmationDialog({ opened, setOpened, confirmDelete, verb }) {
+  return (
+    <>
+      {" "}
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        radius="md"
+        centered
+        size="md"
+      >
+        <Center>
+          <IconAlertTriangle size={100} style={{ marginTop: "-3rem" }} />
+        </Center>
+        <Center>
+          <Text fz="xl" fw={500}>
+            Are you sure?
+          </Text>
+        </Center>
+        <Center>
+          <Text style={{ marginBottom: "0.500rem" }} fz="sm">
+            You won't be able to revert this
+          </Text>
+        </Center>
+        <Center>
+          <Button
+            style={{ marginRight: "0.25rem" }}
+            color="red"
+            onClick={() => setOpened(false)}
+          >
+            Cancel
+          </Button>
+          <Button onClick={confirmDelete}>Yes, {verb} it</Button>
+        </Center>
+      </Modal>
+    </>
   );
 }
 

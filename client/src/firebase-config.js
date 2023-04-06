@@ -78,6 +78,11 @@ export const getPost = async (type, userId, tag, category) => {
     const q = query(ref, where("categoryId", "==", category), limit(5));
     const data = await getDocs(q);
     return data;
+  } else if (type === "archive") {
+    const archiveRef = collection(db, "Archive");
+    const q = query(archiveRef, orderBy("votePoint", "desc"), limit(5));
+    const data = await getDocs(q);
+    return data;
   }
 };
 
@@ -114,6 +119,16 @@ export const getMorePosts = async (lastDoc, type, userId, tag, category) => {
     const q = query(
       ref,
       where("categoryId", "==", category),
+      startAfter(lastDoc),
+      limit(5)
+    );
+    const data = await getDocs(q);
+    return data;
+  } else if (type === "archive") {
+    const archiveRef = collection(db, "Archive");
+    const q = query(
+      archiveRef,
+      orderBy("votePoint", "desc"),
       startAfter(lastDoc),
       limit(5)
     );
@@ -175,8 +190,8 @@ export const getCategories = async () => {
   return data.docs;
 };
 
-export const getSinglePost = async (postId) => {
-  const ref = doc(db, "Posts", postId);
+export const getSinglePost = async (postId, type) => {
+  const ref = doc(db, type, postId);
   const fetchedDoc = await getDoc(ref);
   if (fetchedDoc.exists()) {
     return fetchedDoc;

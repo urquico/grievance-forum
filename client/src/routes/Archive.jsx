@@ -4,22 +4,22 @@ import InfiniteScrolling from "../layouts/InfiniteScrolling";
 import IntroductionCard from "../layouts/IntroductionCard";
 import { useDocumentTitle } from "@mantine/hooks";
 
-function Home() {
+function Archive() {
   useDocumentTitle("Home");
 
-  return <Frame content={<HomeLayout />} path={"/home"} />;
+  return <Frame content={<ArchiveLayout />} path={"/posts/archive"} />;
 }
 
-function HomeLayout() {
+function ArchiveLayout() {
   return (
     <div>
       <IntroductionCard
         name={localStorage.getItem("name")}
         message={"Welcome to Haribon E-Wall!"}
       />
-      <InfiniteScrolling type="home" isArchive={false} />
+      <InfiniteScrolling type="archive" isArchive={true} />
     </div>
   );
 }
 
-export default Home;
+export default Archive;

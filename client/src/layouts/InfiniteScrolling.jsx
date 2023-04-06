@@ -5,7 +5,7 @@ import EndPost from "./EndPost";
 import LoadingPost from "./Loading/LoadingPost";
 import PostCard from "./PostCard";
 
-function InfiniteScrolling({ type, tag, category }) {
+function InfiniteScrolling({ type, tag, category, isArchive }) {
   const [posts, setPosts] = useState([]);
   const [lastDoc, setLastDoc] = useState();
   const [isEmpty, setIsEmpty] = useState(false);
@@ -71,7 +71,7 @@ function InfiniteScrolling({ type, tag, category }) {
 
         const hour =
           (timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600;
-
+        console.log(timeCurrent, timePosted, hour);
         return (
           <div key={index}>
             <PostCard
@@ -87,6 +87,7 @@ function InfiniteScrolling({ type, tag, category }) {
               previewOnly={false}
               isComment={false}
               isPendingPost={false}
+              isArchive={isArchive}
             />
           </div>
         );

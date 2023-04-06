@@ -19,7 +19,7 @@ function CategoryIdLayout() {
   return (
     <div>
       <IntroductionCard name={localStorage.getItem("name")} message={id} />
-      <InfiniteScrolling type="category" category={id} />
+      <InfiniteScrolling type="category" category={id} isArchive={false} />
     </div>
   );
 }

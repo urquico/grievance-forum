@@ -39,7 +39,7 @@ function ProfileLayout() {
       />
 
       {view === "posts" ? (
-        <InfiniteScrolling type="profile" />
+        <InfiniteScrolling type="profile" isArchive={false} />
       ) : (
         <AccountInformation />
       )}

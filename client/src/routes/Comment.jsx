@@ -38,19 +38,19 @@ function CommentLayout() {
   const [post, setPost] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isCommentsLoading, setIsCommentsLoading] = useState(true);
-  const [timeCurrent, setTimeCurrent] = useState(0);
-  const [timePosted, setTimePosted] = useState(0);
-  const [hour, setHour] = useState(0);
   const [text, setText] = useState(initialValue);
   const [comments, setComments] = useState([]);
   const [isEmpty, setIsEmpty] = useState(false);
   const [isSolve, setIsSolve] = useState();
   const [isCurrentUserAdmin, setIsCurrentUserAdmin] = useState(false);
+  let timeCurrent = 0,
+    timePosted = 0,
+    hour = 0;
 
   const theme = useMantineTheme();
 
   useLayoutEffect(() => {
-    getSinglePost(id).then((result) => {
+    getSinglePost(id, "Posts").then((result) => {
       setPost({
         ...result.data(),
         id: result.id,
@@ -58,9 +58,9 @@ function CommentLayout() {
       });
       setIsLoading(false);
       // result._document.data.value.mapValue.fields.isSolved.booleanValue
-      setTimeCurrent(Date(post.readTime * 1000));
-      setTimePosted(Date(post.timePosted.seconds * 1000));
-      setHour((timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600);
+      // setTimeCurrent(Date(post.readTime * 1000));
+      // setTimePosted(Date(post.timePosted?.seconds * 1000));
+      // setHour((timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600);
     });
   }, []);
 
@@ -82,6 +82,15 @@ function CommentLayout() {
       setIsCommentsLoading(false);
     });
   }, []);
+
+  const generateTime = () => {
+    timeCurrent = new Date(post?.readTime * 1000);
+    timePosted = new Date(post?.timePosted?.seconds * 1000);
+
+    hour = (timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600;
+
+    return hour;
+  };
 
   const commentState = (result) => {
     const isCollectionEmpty = result.size === 0;
@@ -215,19 +224,26 @@ function CommentLayout() {
           ) : (
             ""
           )}
-          <PostCard
-            isAnonymous={post.isAnonymous}
-            email={post.userId}
-            tags={post.tags}
-            category={post.categoryId}
-            time={hour.toLocaleString()}
-            post={post.message}
-            postId={id}
-            isSolved={isSolve}
-            voteNumber={post.upVote - post.downVote}
-            previewOnly={false}
-            isComment={false}
-          />
+          {post?.length !== 0 ? (
+            <>
+              <PostCard
+                isAnonymous={post.isAnonymous}
+                email={post.userId}
+                tags={post.tags}
+                category={post.categoryId}
+                time={generateTime().toLocaleString()}
+                post={post.message}
+                postId={id}
+                isSolved={isSolve}
+                voteNumber={post.upVote - post.downVote}
+                previewOnly={false}
+                isComment={false}
+              />
+            </>
+          ) : (
+            "asd"
+          )}
+
           <div
             style={{
               display: isSolve ? "none" : "flex",

@@ -19,6 +19,8 @@ const Tag = lazy(() => import("./routes/Tag"));
 const Comment = lazy(() => import("./routes/Comment"));
 const AccountSetup = lazy(() => import("./routes/AccountSetup"));
 const Pending = lazy(() => import("./routes/Pending"));
+const Archive = lazy(() => import("./routes/Archive"));
+const CommentArchive = lazy(() => import("./routes/CommentArchive"));
 
 //! Admin Controls
 const Profanities = lazy(() => import("./routes/Profanities"));
@@ -54,12 +56,17 @@ function App() {
                 <Route path={"/setup"} element={<AccountSetup />} />
                 <Route path={"/home"} element={<Home />} />
                 <Route path={"/post"} element={<Post />} />
+                <Route path={"/posts/archive"} element={<Archive />} />
                 <Route path={"/profile"} element={<Profile />} />
                 <Route path={"/category"} element={<Category />} />
                 <Route path={"/category/:id"} element={<CategoryId />} />
                 <Route path={"/tags"} element={<Tags />} />
                 <Route path={"/tags/:id"} element={<Tag />} />
                 <Route path={"/comment/:id"} element={<Comment />} />
+                <Route
+                  path={"/comment/archive/:id"}
+                  element={<CommentArchive />}
+                />
                 <Route path={"/edit/:id"} element={<Tag />} />
                 <Route path={"/profanities"} element={<Profanities />} />
                 <Route path={"/reviews"} element={<Reviews />} />

@@ -25,6 +25,8 @@ const {
   deleteProfanity,
   approvePost,
   deletePendingPost,
+  archivePost,
+  deleteArchive,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -196,7 +198,7 @@ app.post("/deletePendingPost", async (req, res) => {
 });
 
 app.post("/deletePost", async (req, res) => {
-  await deletePost({ postId: req.body.postId })
+  await deletePost({ postId: req.body.postId, archive: false })
     .then((result) => {
       res.send(result);
       console.log(`A post has been deleted`);
@@ -233,11 +235,43 @@ app.post("/deletePost", async (req, res) => {
     });
 });
 
+app.post("/archivePost", async (req, res) => {
+  await archivePost({ postId: req.body.postId })
+    .then((result) => {
+      res.send(result);
+      console.log(`A post has been archived`);
+
+      generateVotePoint()
+        .then(() => {
+          console.log("Vote Point Generation Success!");
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    })
+    .catch((error) => {
+      console.log(error.message);
+      res.send(error.message);
+    });
+});
+
 app.post("/deleteComment", async (req, res) => {
   await deleteComment({ commentId: req.body.postId })
     .then((result) => {
       res.send(result);
       console.log(`A comment has been deleted`);
+    })
+    .catch((error) => {
+      res.send(error.message);
+      console.log(error.message);
+    });
+});
+
+app.post("/deleteArchive", async (req, res) => {
+  await deleteArchive({ postId: req.body.postId })
+    .then((result) => {
+      res.send(result);
+      console.log(`A post from archive has been deleted`);
     })
     .catch((error) => {
       res.send(error.message);

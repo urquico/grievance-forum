@@ -77,11 +77,20 @@ const redditAlgorithm = (post) => {
 const generateVotePoint = async () => {
   // to update the vote count using the reddit algorithm
   const ref = await db.collection("Posts").get();
+  const archiveRef = await db.collection("Archive").get();
 
   if (!ref.empty) {
     ref.forEach((post) => {
-      // console.log(redditAlgorithm(post));
       const refPost = db.collection("Posts").doc(post.id);
+      refPost.update({
+        votePoint: redditAlgorithm(post),
+      });
+    });
+  }
+
+  if (!archiveRef.empty) {
+    archiveRef.forEach((post) => {
+      const refPost = db.collection("Archive").doc(post.id);
       refPost.update({
         votePoint: redditAlgorithm(post),
       });
@@ -193,7 +202,7 @@ const writeTags = async ({ tags }) => {
   });
 };
 
-const deletePost = async ({ postId }) => {
+const deletePost = async ({ postId, archive }) => {
   await db
     .collection("Posts")
     .doc(postId)
@@ -207,6 +216,29 @@ const deletePost = async ({ postId }) => {
         deleteComment({ commentId: doc.id });
       });
     });
+};
+
+const deleteArchive = async ({ postId }) => {
+  await db
+    .collection("Archive")
+    .doc(postId)
+    .delete()
+    .then(async () => {
+      const comments = await db
+        .collection("Comments")
+        .where("postId", "==", postId)
+        .get();
+      comments?.forEach((doc) => {
+        deleteComment({ commentId: doc.id });
+      });
+    });
+};
+
+const archivePost = async ({ postId }) => {
+  const post = await db.collection("Posts").doc(postId).get();
+  const archiveRef = db.collection("Archive").doc(postId);
+  archiveRef.set({ ...post.data() });
+  deletePost({ postId, archive: true });
 };
 
 const deletePendingPost = async ({ postId }) => {
@@ -306,4 +338,6 @@ module.exports = {
   deleteProfanity: deleteProfanity,
   approvePost: approvePost,
   deletePendingPost: deletePendingPost,
+  archivePost: archivePost,
+  deleteArchive: deleteArchive,
 };
