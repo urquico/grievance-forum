@@ -25,7 +25,7 @@ function PendingPosts({
   postId,
 }) {
   const theme = useMantineTheme();
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [college, setCollege] = useState("");
   const [program, setProgram] = useState("");
   const [isAdmin, setIsAdmin] = useState("");
@@ -74,6 +74,7 @@ function PendingPosts({
             autoClose: 2000,
           });
         }, 3000);
+        setIsVisible(false);
       })
       .catch((error) => {
         setTimeout(() => {
@@ -156,7 +157,7 @@ function PendingPosts({
   return (
     <div
       style={{
-        display: isVisible ? "none" : "flex",
+        display: isVisible ? "flex" : "none",
         height: "auto",
         backgroundColor:
           theme.colorScheme === "dark"

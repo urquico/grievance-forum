@@ -87,14 +87,6 @@ app.post("/writePost", async (req, res) => {
     .then((result) => {
       res.send(result);
       console.log("A post has been written");
-
-      generateVotePoint()
-        .then(() => {
-          console.log("Vote Point Generation Success!");
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
     })
     .catch((error) => {
       console.log(error.message);
@@ -113,14 +105,6 @@ app.post("/approvePost", async (req, res) => {
     .then((result) => {
       res.send(result);
       console.log("A post has been written");
-
-      generateVotePoint()
-        .then(() => {
-          console.log("Vote Point Generation Success!");
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
 
       writeTags({ tags: req.body.tags })
         .then(() => {
@@ -146,14 +130,6 @@ app.post("/writeComment", async (req, res) => {
     .then((result) => {
       res.send(result);
       console.log("A comment has been written");
-
-      generateVotePoint()
-        .then(() => {
-          console.log("Vote Point Generation Success!");
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
     })
     .catch((error) => {
       console.log(error.message);
