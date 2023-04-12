@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState, useLayoutEffect } from "react";
 import {
   IconHome2,
   IconBallpen,
-  IconAddressBook,
   IconCategory,
   IconUser,
   IconTags,
@@ -15,11 +14,14 @@ import { Button, Divider, Collapse } from "@mantine/core";
 import NavLinks from "./NavLinks";
 
 function UserControls({ isUserAdmin, isUserAgreedSLA }) {
-  const [moreOpened, { toggle }] = useDisclosure(false);
+  const [moreOpened, { toggle }] = useDisclosure(
+    localStorage.getItem("userControls")
+  );
+
+  console.log(localStorage.getItem("userControls"));
 
   return (
     <>
-      {" "}
       <NavLinks
         title={"Home"}
         icon={<IconHome2 size={16} />}
@@ -63,7 +65,10 @@ function UserControls({ isUserAdmin, isUserAgreedSLA }) {
                 <IconChevronDown size="14" />
               )
             }
-            onClick={toggle}
+            onClick={() => {
+              toggle();
+              localStorage.setItem("userControls", moreOpened);
+            }}
           >
             {moreOpened ? "Hide Posts" : "Show Posts"}
           </Button>
