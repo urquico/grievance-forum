@@ -158,7 +158,14 @@ export const getUser = async (userId) => {
 
 export const getUsers = async () => {
   const ref = collection(db, "UserData");
-  const q = query(ref, orderBy("name", "asc"));
+  const q = query(ref, orderBy("name", "asc"), limit(10));
+  const data = await getDocs(q);
+  return data;
+};
+
+export const getMoreUsers = async (lastDoc) => {
+  const ref = collection(db, "UserData");
+  const q = query(ref, orderBy("name", "asc"), startAfter(lastDoc), limit(10));
   const data = await getDocs(q);
   return data;
 };

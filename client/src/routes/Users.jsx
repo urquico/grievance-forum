@@ -13,6 +13,7 @@ import {
   Group,
   Progress,
   Badge,
+  Button,
 } from "@mantine/core";
 import {
   IconSearch,
@@ -25,6 +26,7 @@ import { IconUserCog } from "@tabler/icons-react";
 import TagLoader from "../layouts/Loading/TagLoader";
 import {
   getCollegeInfo,
+  getMoreUsers,
   getProgramInfo,
   getUser,
   getUsers,
@@ -93,18 +95,35 @@ function UsersLayout() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState("alpha");
+  const [lastDoc, setLastDoc] = useState();
 
   useLayoutEffect(() => {
     getUsers().then((result) => {
-      setUsers(() => [
+      updateState(result);
+      setIsLoading(false);
+    });
+  }, []);
+
+  const fetchMoreData = () => {
+    getMoreUsers(lastDoc).then((result) => {
+      updateState(result);
+    });
+  };
+
+  const updateState = (result) => {
+    const isCollectionEmpty = result.size === 0;
+    if (!isCollectionEmpty) {
+      setUsers((currentUser) => [
+        ...currentUser,
         ...result.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
         })),
       ]);
-      setIsLoading(false);
-    });
-  }, []);
+      const lastDoc = result.docs[result.docs.length - 1];
+      setLastDoc(lastDoc);
+    }
+  };
 
   useLayoutEffect(() => {
     getUser(localStorage.getItem("email")).then((result) => {
@@ -245,6 +264,21 @@ function UsersLayout() {
               : students()}
           </>
         )}
+
+        <div style={{ display: "flex" }}>
+          <Button
+            variant="subtle"
+            color="dark"
+            onClick={fetchMoreData}
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginTop: "1rem",
+            }}
+          >
+            Load more posts
+          </Button>
+        </div>
       </div>
 
       {users.length === 0 ? (
