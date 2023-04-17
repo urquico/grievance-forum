@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState } from "react";
 import {
   IconHome2,
   IconBallpen,
@@ -14,11 +14,12 @@ import { Button, Divider, Collapse } from "@mantine/core";
 import NavLinks from "./NavLinks";
 
 function UserControls({ isUserAdmin, isUserAgreedSLA }) {
-  const [moreOpened, { toggle }] = useDisclosure(
-    localStorage.getItem("userControls")
+  const [isOpened, setIsOpened] = useState(
+    localStorage.getItem("userControls") === "true" ? true : false
   );
+  const [moreOpened, handlers] = useDisclosure(isOpened);
 
-  console.log(localStorage.getItem("userControls"));
+  console.log(!!localStorage.getItem("userControls"));
 
   return (
     <>
@@ -66,8 +67,15 @@ function UserControls({ isUserAdmin, isUserAgreedSLA }) {
               )
             }
             onClick={() => {
-              toggle();
-              localStorage.setItem("userControls", moreOpened);
+              if (localStorage.getItem("userControls") === "true") {
+                setIsOpened(false);
+                // handlers.close();
+              } else {
+                setIsOpened(true);
+                // handlers.open();
+              }
+              handlers.toggle();
+              localStorage.setItem("userControls", isOpened);
             }}
           >
             {moreOpened ? "Hide Posts" : "Show Posts"}
