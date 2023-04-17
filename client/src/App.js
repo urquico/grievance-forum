@@ -18,13 +18,15 @@ const Tags = lazy(() => import("./routes/Tags"));
 const Tag = lazy(() => import("./routes/Tag"));
 const Comment = lazy(() => import("./routes/Comment"));
 const AccountSetup = lazy(() => import("./routes/AccountSetup"));
-const Pending = lazy(() => import("./routes/Pending"));
+
 const Archive = lazy(() => import("./routes/Archive"));
 const CommentArchive = lazy(() => import("./routes/CommentArchive"));
 
 //! Admin Controls
 const Profanities = lazy(() => import("./routes/Profanities"));
 const Reviews = lazy(() => import("./routes/Reviews"));
+const Pending = lazy(() => import("./routes/Pending"));
+const Users = lazy(() => import("./routes/Users"));
 
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage({
@@ -68,9 +70,12 @@ function App() {
                   element={<CommentArchive />}
                 />
                 <Route path={"/edit/:id"} element={<Tag />} />
+
                 <Route path={"/profanities"} element={<Profanities />} />
                 <Route path={"/reviews"} element={<Reviews />} />
                 <Route path={"/pending"} element={<Pending />} />
+                <Route path={"/users"} element={<Users />} />
+
                 <Route path={"*"} element={<Error />} />
               </Routes>
             </NotificationsProvider>

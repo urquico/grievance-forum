@@ -5,6 +5,7 @@ import {
   IconBrandAmongus,
   IconChevronDown,
   IconChevronUp,
+  IconUsers,
 } from "@tabler/icons";
 import { useDisclosure } from "@mantine/hooks";
 import { Button, Divider, Collapse } from "@mantine/core";
@@ -57,6 +58,14 @@ function AdminControls() {
           icon={<IconChartBar size={16} />}
           color="green"
           path={"/reviews"}
+          isLastElement={false}
+          indicator={false}
+        />
+        <NavLinks
+          title={"Users"}
+          icon={<IconUsers size={16} />}
+          color="green"
+          path={"/users"}
           isLastElement={true}
           indicator={false}
         />

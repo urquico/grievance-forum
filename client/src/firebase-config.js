@@ -156,6 +156,13 @@ export const getUser = async (userId) => {
   return fetchedDoc.data();
 };
 
+export const getUsers = async () => {
+  const ref = collection(db, "UserData");
+  const q = query(ref, orderBy("name", "asc"));
+  const data = await getDocs(q);
+  return data;
+};
+
 export const getVotePostData = async (postId, userId) => {
   const ref = doc(db, "VotedPosts", userId, "Vote", postId);
   const fetchedDoc = await getDoc(ref);
