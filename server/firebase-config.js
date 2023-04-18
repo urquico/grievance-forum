@@ -284,6 +284,10 @@ const toggleStar = async ({ star, commentId }) => {
   await db.collection("Comments").doc(commentId).update({ starComment: !star });
 };
 
+const toggleAdmin = async ({ userId, isAdmin }) => {
+  await db.collection("UserData").doc(userId).update({ isAdmin: isAdmin });
+};
+
 const readNotification = async ({ notificationId }) => {
   await db
     .collection("NotificationPosts")
@@ -340,4 +344,5 @@ module.exports = {
   deletePendingPost: deletePendingPost,
   archivePost: archivePost,
   deleteArchive: deleteArchive,
+  toggleAdmin: toggleAdmin,
 };

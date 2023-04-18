@@ -27,6 +27,7 @@ const {
   deletePendingPost,
   archivePost,
   deleteArchive,
+  toggleAdmin,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -259,6 +260,18 @@ app.post("/toggleSolve", async (req, res) => {
   await toggleSolve({ isSolved: req.body.isSolved, postId: req.body.postId })
     .then((result) => {
       console.log(`Solved state toggled`);
+      res.send(result);
+    })
+    .catch((error) => {
+      res.send(error.message);
+      console.log(error.message);
+    });
+});
+
+app.post("/toggleAdmin", async (req, res) => {
+  await toggleAdmin({ isAdmin: req.body.isAdmin, userId: req.body.userId })
+    .then((result) => {
+      console.log(`isAdmin toggled`);
       res.send(result);
     })
     .catch((error) => {

@@ -15,12 +15,15 @@ import {
   Badge,
   Button,
 } from "@mantine/core";
+import { showNotification, updateNotification } from "@mantine/notifications";
 import {
   IconSearch,
   IconDiscountCheck,
   IconAlertCircle,
   IconSchool,
   IconUser,
+  IconCheck,
+  IconX,
 } from "@tabler/icons";
 import { IconUserCog } from "@tabler/icons-react";
 import TagLoader from "../layouts/Loading/TagLoader";
@@ -35,6 +38,8 @@ import {
 import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 import EndPost from "../layouts/EndPost";
+import axios from "axios";
+import { PORT } from "../Globals";
 
 const data = [
   {
@@ -276,7 +281,7 @@ function UsersLayout() {
               marginTop: "1rem",
             }}
           >
-            Load more posts
+            Load more users
           </Button>
         </div>
       </div>
@@ -321,21 +326,97 @@ function AccordionUser({ collegeData, user, programData }) {
   const theme = useMantineTheme();
   const [college, setCollege] = useState("");
   const [program, setProgram] = useState("");
-
+  const [isAdmin, setIsAdmin] = useState();
   const solvedPost = Math.random() * 100;
   const unSolvedPost = 100 - solvedPost;
 
   const getCollegeData = () => {
-    getCollegeInfo(collegeData).then((result) => {
-      setCollege(result.label);
-    });
-    getProgramData();
+    if (user.userAgreedSLA) {
+      getCollegeInfo(collegeData).then((result) => {
+        setCollege(result.label);
+      });
+      getProgramData();
+      setIsAdmin(user.isAdmin);
+    }
   };
 
   const getProgramData = () => {
     getProgramInfo(collegeData, programData).then((result) => {
       setProgram(result.label);
     });
+  };
+
+  const toggleAdmin = () => {
+    showNotification({
+      id: "load-data",
+      loading: true,
+      title: "Processing",
+      message: "Please Wait!",
+      autoClose: false,
+      disallowClose: true,
+    });
+    if (isAdmin) {
+      console.log(user.id);
+      axios
+        .post(`${PORT}/toggleAdmin`, { isAdmin: false, userId: user.id })
+        .then(() => {
+          setTimeout(() => {
+            updateNotification({
+              id: "load-data",
+              color: "teal",
+              title: "Success!",
+              message: `${user.lastName} has been removed as admin`,
+              icon: <IconCheck size={16} />,
+              autoClose: 2000,
+            });
+          }, 3000);
+
+          setIsAdmin(false);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setTimeout(() => {
+            updateNotification({
+              id: "load-data",
+              color: "red",
+              title: "Error!!",
+              message: error.message,
+              icon: <IconX size={16} />,
+              autoClose: 2000,
+            });
+          }, 3000);
+        });
+    } else {
+      axios
+        .post(`${PORT}/toggleAdmin`, { isAdmin: true, userId: user.id })
+        .then(() => {
+          setTimeout(() => {
+            updateNotification({
+              id: "load-data",
+              color: "teal",
+              title: "Success!",
+              message: `${user.lastName} is now an admin`,
+              icon: <IconCheck size={16} />,
+              autoClose: 2000,
+            });
+          }, 3000);
+
+          setIsAdmin(true);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setTimeout(() => {
+            updateNotification({
+              id: "load-data",
+              color: "red",
+              title: "Error!!",
+              message: error.message,
+              icon: <IconX size={16} />,
+              autoClose: 2000,
+            });
+          }, 3000);
+        });
+    }
   };
 
   return (
@@ -389,12 +470,51 @@ function AccordionUser({ collegeData, user, programData }) {
           </div>
         </SimpleGrid>
       </Accordion.Control>
-      <Accordion.Panel>
-        {collegeData === undefined ? "wala" : college}
-      </Accordion.Panel>
-      <Accordion.Panel>
-        {programData === undefined ? "wala" : program}
-      </Accordion.Panel>
+      {user.userAgreedSLA === undefined ? (
+        <Accordion.Panel>
+          <Text ta="center" fw="bold">
+            Not Registered Yet!
+          </Text>
+        </Accordion.Panel>
+      ) : (
+        <>
+          <Accordion.Panel>
+            <Text fw="bold" fz="sm">
+              COLLEGE:
+              <Badge
+                color="pink"
+                variant="outline"
+                style={{ marginLeft: "1.300rem" }}
+              >
+                {college}
+              </Badge>
+            </Text>
+            <Text fw="bold" fz="sm" style={{ marginTop: "0.500rem" }}>
+              PROGRAM:
+              <Badge
+                color="orange"
+                variant="outline"
+                style={{ marginLeft: "0.500rem" }}
+              >
+                {program}
+              </Badge>
+            </Text>
+            <Button
+              variant="gradient"
+              onClick={toggleAdmin}
+              gradient={
+                isAdmin
+                  ? { from: "red", to: "orange" }
+                  : { from: "teal", to: "lime" }
+              }
+              fullWidth
+              style={{ marginTop: "0.750rem" }}
+            >
+              {isAdmin ? "Remove as Admin" : "Add as Admin"}
+            </Button>
+          </Accordion.Panel>
+        </>
+      )}
     </Accordion.Item>
   );
 }
