@@ -133,7 +133,15 @@ const getProfanityList = async () => {
   return data;
 };
 
-const writePost = async ({ category, isAnonymous, message, userId, tags }) => {
+const writePost = async ({
+  category,
+  isAnonymous,
+  message,
+  userId,
+  tags,
+  college,
+  program,
+}) => {
   //! writing a post goes to the pending post collection first
   const profanityList = await getProfanityList();
   filter.addWords(...profanityList);
@@ -148,6 +156,8 @@ const writePost = async ({ category, isAnonymous, message, userId, tags }) => {
     timePosted: Timestamp.fromDate(new Date()),
     userId: userId,
     votePoint: 0,
+    college: college,
+    program: program,
   });
 };
 
@@ -158,6 +168,8 @@ const approvePost = async ({
   userId,
   tags,
   admin,
+  college,
+  program,
 }) => {
   const profanityList = await getProfanityList();
   filter.addWords(...profanityList);
@@ -173,6 +185,8 @@ const approvePost = async ({
     userId: userId,
     votePoint: 0,
     approvedBy: admin,
+    college: college,
+    program: program,
   });
 };
 

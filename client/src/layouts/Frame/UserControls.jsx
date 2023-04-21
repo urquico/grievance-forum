@@ -88,14 +88,14 @@ function UserControls({ isUserAdmin, isUserAgreedSLA }) {
           title={"College Posts"}
           icon={<IconInbox size={16} />}
           color="blue"
-          path={"/posts/college"}
+          path={"/college"}
           indicator={false}
         />
         <NavLinks
           title={"Program Posts"}
           icon={<IconInbox size={16} />}
           color="pink"
-          path={"/posts/program"}
+          path={"/program"}
           indicator={false}
         />
         <NavLinks

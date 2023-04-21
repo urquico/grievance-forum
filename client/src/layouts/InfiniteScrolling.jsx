@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
 import { Button } from "@mantine/core";
-import { getPost, getMorePosts } from "../firebase-config";
+import { getPost, getMorePosts, getUser } from "../firebase-config";
 import EndPost from "./EndPost";
 import LoadingPost from "./Loading/LoadingPost";
 import PostCard from "./PostCard";
@@ -9,15 +9,34 @@ function InfiniteScrolling({ type, tag, category, isArchive }) {
   const [posts, setPosts] = useState([]);
   const [lastDoc, setLastDoc] = useState();
   const [isEmpty, setIsEmpty] = useState(false);
+  const [college, setCollege] = useState("");
+  const [program, setProgram] = useState("");
 
   useLayoutEffect(() => {
-    getPost(type, localStorage.getItem("email"), tag, category).then(
-      (result) => {
-        setPosts([]);
-        updateState(result);
-      }
-    );
+    if (type === "college") {
+      getUser(localStorage.getItem("email")).then((result) => {
+        setCollege(result.college);
+      });
+    } else if (type === "program") {
+      getUser(localStorage.getItem("email")).then((result) => {
+        setProgram(result.program);
+      });
+    }
   }, []);
+
+  useLayoutEffect(() => {
+    getPost(
+      type,
+      localStorage.getItem("email"),
+      tag,
+      category,
+      college,
+      program
+    ).then((result) => {
+      setPosts([]);
+      updateState(result);
+    });
+  }, [college, program]);
 
   const fetchMoreData = () => {
     getMorePosts(
@@ -25,7 +44,9 @@ function InfiniteScrolling({ type, tag, category, isArchive }) {
       type,
       localStorage.getItem("email"),
       tag,
-      category
+      category,
+      college,
+      program
     ).then((result) => {
       updateState(result);
     });
@@ -71,7 +92,7 @@ function InfiniteScrolling({ type, tag, category, isArchive }) {
 
         const hour =
           (timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600;
-        console.log(timeCurrent, timePosted, hour);
+
         return (
           <div key={index}>
             <PostCard

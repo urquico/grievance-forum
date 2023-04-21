@@ -23,13 +23,14 @@ function PendingPosts({
   category,
   tags,
   postId,
+  collegeId,
+  program,
 }) {
   const theme = useMantineTheme();
   const [isVisible, setIsVisible] = useState(true);
-  const [college, setCollege] = useState("");
-  const [program, setProgram] = useState("");
   const [isAdmin, setIsAdmin] = useState("");
   const [name, setName] = useState("");
+  const [college, setCollege] = useState("");
   let timeDisplay = "";
   const cardVerb = "Submitted";
 
@@ -37,9 +38,8 @@ function PendingPosts({
     getUser(email).then((result) => {
       setIsAdmin(result.isAdmin);
       setName(result.name);
-      getCollegeInfo(result.college).then((resultData) => {
-        setCollege(resultData.label);
-        setProgram(result.program);
+      getCollegeInfo(collegeId).then((result) => {
+        setCollege(result.label);
       });
     });
   }, [email]);
@@ -62,6 +62,8 @@ function PendingPosts({
         tags: tags,
         admin: localStorage.getItem("email"),
         postId: postId,
+        college: collegeId,
+        program: program,
       })
       .then(() => {
         setTimeout(() => {

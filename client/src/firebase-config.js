@@ -59,7 +59,14 @@ export const getComments = async (postId) => {
   return data;
 };
 
-export const getPost = async (type, userId, tag, category) => {
+export const getPost = async (
+  type,
+  userId,
+  tag,
+  category,
+  college,
+  program
+) => {
   const ref = collection(db, "Posts");
 
   if (type === "home") {
@@ -83,10 +90,26 @@ export const getPost = async (type, userId, tag, category) => {
     const q = query(archiveRef, orderBy("votePoint", "desc"), limit(5));
     const data = await getDocs(q);
     return data;
+  } else if (type === "college") {
+    const q = query(ref, where("college", "==", college), limit(5));
+    const data = await getDocs(q);
+    return data;
+  } else if (type === "program") {
+    const q = query(ref, where("program", "==", program), limit(5));
+    const data = await getDocs(q);
+    return data;
   }
 };
 
-export const getMorePosts = async (lastDoc, type, userId, tag, category) => {
+export const getMorePosts = async (
+  lastDoc,
+  type,
+  userId,
+  tag,
+  category,
+  college,
+  program
+) => {
   const ref = collection(db, "Posts");
   if (type === "home") {
     const q = query(
@@ -129,6 +152,24 @@ export const getMorePosts = async (lastDoc, type, userId, tag, category) => {
     const q = query(
       archiveRef,
       orderBy("votePoint", "desc"),
+      startAfter(lastDoc),
+      limit(5)
+    );
+    const data = await getDocs(q);
+    return data;
+  } else if (type === "college") {
+    const q = query(
+      ref,
+      where("college", "==", college),
+      startAfter(lastDoc),
+      limit(5)
+    );
+    const data = await getDocs(q);
+    return data;
+  } else if (type === "program") {
+    const q = query(
+      ref,
+      where("program", "==", program),
       startAfter(lastDoc),
       limit(5)
     );

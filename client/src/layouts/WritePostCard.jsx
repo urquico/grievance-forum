@@ -17,6 +17,7 @@ import axios from "axios";
 import { PORT } from "../Globals";
 import User from "./User";
 import PostCard from "./PostCard";
+import { getUser, getCollegeInfo } from "../firebase-config";
 
 const initialValue = "";
 
@@ -27,9 +28,19 @@ function WritePostCard() {
   const [selectedTags, setSelectedTags] = useState([]);
   const [opened, setOpened] = useState(false);
   const [categoryError, setCategoryError] = useState(false);
+  const [college, setCollege] = useState("");
+  const [program, setProgram] = useState("");
 
   const theme = useMantineTheme();
   const navigate = useNavigate();
+
+  useLayoutEffect(() => {
+    getUser(localStorage.getItem("email")).then((result) => {
+      setCollege(result.college);
+      setProgram(result.program);
+      console.log(result.college, result.program);
+    });
+  }, []);
 
   const submitPost = () => {
     if (selectedCategory === undefined) {
@@ -56,6 +67,8 @@ function WritePostCard() {
         message: text,
         userId: localStorage.getItem("email"),
         tags: selectedTags,
+        college: college,
+        program: program,
       })
       .then(() => {
         setTimeout(() => {

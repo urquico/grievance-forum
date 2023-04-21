@@ -84,6 +84,8 @@ app.post("/writePost", async (req, res) => {
     message: req.body.message,
     userId: req.body.userId,
     tags: req.body.tags,
+    college: req.body.college,
+    program: req.body.program,
   })
     .then((result) => {
       res.send(result);
@@ -102,6 +104,8 @@ app.post("/approvePost", async (req, res) => {
     userId: req.body.userId,
     tags: req.body.tags,
     admin: req.body.admin,
+    college: req.body.college,
+    program: req.body.program,
   })
     .then((result) => {
       res.send(result);

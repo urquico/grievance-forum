@@ -76,6 +76,8 @@ function PendingLayout() {
                   category={post.categoryId}
                   tags={post.tags}
                   postId={post.id}
+                  collegeId={post.college}
+                  program={post.program}
                 />
               </div>
             );

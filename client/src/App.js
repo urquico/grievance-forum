@@ -19,6 +19,8 @@ const Tag = lazy(() => import("./routes/Tag"));
 const Comment = lazy(() => import("./routes/Comment"));
 const AccountSetup = lazy(() => import("./routes/AccountSetup"));
 
+const College = lazy(() => import("./routes/College"));
+const Program = lazy(() => import("./routes/Program"));
 const Archive = lazy(() => import("./routes/Archive"));
 const CommentArchive = lazy(() => import("./routes/CommentArchive"));
 
@@ -59,6 +61,8 @@ function App() {
                 <Route path={"/home"} element={<Home />} />
                 <Route path={"/post"} element={<Post />} />
                 <Route path={"/posts/archive"} element={<Archive />} />
+                <Route path={"/college"} element={<College />} />
+                <Route path={"/program"} element={<Program />} />
                 <Route path={"/profile"} element={<Profile />} />
                 <Route path={"/category"} element={<Category />} />
                 <Route path={"/category/:id"} element={<CategoryId />} />
