@@ -100,7 +100,16 @@ function UsersLayout() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState("alpha");
+
   const [lastDoc, setLastDoc] = useState();
+
+  useLayoutEffect(() => {
+    getUser(localStorage.getItem("email")).then((result) => {
+      if (!result.isAdmin) {
+        navigate("/home");
+      }
+    });
+  }, []);
 
   useLayoutEffect(() => {
     getUsers().then((result) => {
@@ -130,16 +139,8 @@ function UsersLayout() {
     }
   };
 
-  useLayoutEffect(() => {
-    getUser(localStorage.getItem("email")).then((result) => {
-      if (!result.isAdmin) {
-        navigate("/home");
-      }
-    });
-  }, []);
-
   const alphabetizeData = () => {
-    const sortedUser = users;
+    let sortedUser = users;
 
     return <AccordionData data={sortedUser} caption="Here are the Users" />;
   };
@@ -221,17 +222,7 @@ function UsersLayout() {
           { maxWidth: 600, cols: 1, spacing: "sm" },
         ]}
       >
-        <SegmentedControl
-          fullWidth
-          onChange={setView}
-          data={data}
-          color="pink"
-        />
-        <TextInput
-          style={{ width: "100%" }}
-          icon={<IconSearch size="0.8rem" />}
-          placeholder="Enter a name"
-        ></TextInput>
+        <SegmentedControl onChange={setView} data={data} color="pink" />
       </SimpleGrid>
 
       <div
@@ -302,7 +293,7 @@ function UsersLayout() {
 function AccordionData({ data, caption }) {
   return (
     <>
-      <Text ta="center" fz="md" c="dimmed">
+      <Text ta="center" fz="md" c="dimmed" style={{ marginBottom: "1rem" }}>
         {caption}
       </Text>
       <Accordion>
@@ -327,8 +318,9 @@ function AccordionUser({ collegeData, user, programData }) {
   const [college, setCollege] = useState("");
   const [program, setProgram] = useState("");
   const [isAdmin, setIsAdmin] = useState();
-  const solvedPost = Math.random() * 100;
-  const unSolvedPost = 100 - solvedPost;
+
+  const [solvedPost, setSolvedPost] = useState(0);
+  const [unSolvedPost, setUnSolvedPost] = useState(0);
 
   const getCollegeData = () => {
     if (user.userAgreedSLA) {
@@ -337,6 +329,10 @@ function AccordionUser({ collegeData, user, programData }) {
       });
       getProgramData();
       setIsAdmin(user.isAdmin);
+      // Math.random() * 100
+      setSolvedPost(Math.random() * 100);
+      // 100 - solvedPost
+      setUnSolvedPost(100 - solvedPost);
     }
   };
 
@@ -438,36 +434,6 @@ function AccordionUser({ collegeData, user, programData }) {
               {user.isAdmin ? "Admin" : "Student"}
             </Badge>
           </div>
-          <div>
-            <Group position="apart">
-              <Text fz="xs" c="teal" weight={700}>
-                {solvedPost.toFixed(0)}%
-              </Text>
-              <Text fz="xs" c="red" weight={700}>
-                {unSolvedPost.toFixed(0)}%
-              </Text>
-            </Group>
-            <Progress
-              sections={[
-                {
-                  value: solvedPost,
-                  color:
-                    theme.colorScheme === "dark"
-                      ? theme.colors.teal[9]
-                      : theme.colors.teal[6],
-                  tooltip: "Solved",
-                },
-                {
-                  value: unSolvedPost,
-                  color:
-                    theme.colorScheme === "dark"
-                      ? theme.colors.red[9]
-                      : theme.colors.red[6],
-                  tooltip: "Unsolved",
-                },
-              ]}
-            />
-          </div>
         </SimpleGrid>
       </Accordion.Control>
       {user.userAgreedSLA === undefined ? (
@@ -512,6 +478,37 @@ function AccordionUser({ collegeData, user, programData }) {
             >
               {isAdmin ? "Remove as Admin" : "Add as Admin"}
             </Button>
+
+            <div>
+              <Group position="apart">
+                <Text fz="xs" c="teal" weight={700}>
+                  {solvedPost.toFixed(0)}%
+                </Text>
+                <Text fz="xs" c="red" weight={700}>
+                  {unSolvedPost.toFixed(0)}%
+                </Text>
+              </Group>
+              <Progress
+                sections={[
+                  {
+                    value: solvedPost,
+                    color:
+                      theme.colorScheme === "dark"
+                        ? theme.colors.teal[9]
+                        : theme.colors.teal[6],
+                    tooltip: "Solved",
+                  },
+                  {
+                    value: unSolvedPost,
+                    color:
+                      theme.colorScheme === "dark"
+                        ? theme.colors.red[9]
+                        : theme.colors.red[6],
+                    tooltip: "Unsolved",
+                  },
+                ]}
+              />
+            </div>
           </Accordion.Panel>
         </>
       )}
