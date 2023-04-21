@@ -102,7 +102,7 @@ function UserControls({ isUserAdmin, isUserAgreedSLA }) {
           title={"Archive Posts"}
           icon={<IconInbox size={16} />}
           color="violet"
-          path={"/posts/archive"}
+          path={"/archive"}
           indicator={false}
         />
       </Collapse>

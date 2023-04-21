@@ -60,7 +60,7 @@ function App() {
                 <Route path={"/setup"} element={<AccountSetup />} />
                 <Route path={"/home"} element={<Home />} />
                 <Route path={"/post"} element={<Post />} />
-                <Route path={"/posts/archive"} element={<Archive />} />
+                <Route path={"/archive"} element={<Archive />} />
                 <Route path={"/college"} element={<College />} />
                 <Route path={"/program"} element={<Program />} />
                 <Route path={"/profile"} element={<Profile />} />

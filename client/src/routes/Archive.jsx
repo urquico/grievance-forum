@@ -7,7 +7,7 @@ import { useDocumentTitle } from "@mantine/hooks";
 function Archive() {
   useDocumentTitle("Archive");
 
-  return <Frame content={<ArchiveLayout />} path={"/posts/archive"} />;
+  return <Frame content={<ArchiveLayout />} path={"/archive"} />;
 }
 
 function ArchiveLayout() {
