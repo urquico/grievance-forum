@@ -117,8 +117,6 @@ app.post("/approvePost", async (req, res) => {
       console.log(error.message);
     });
 
-  // enter notification for departments
-
   writeTags({ tags: req.body.tags })
     .then(() => {
       console.log("Tags has been written successfully");
@@ -155,17 +153,17 @@ app.post("/votePost", async (req, res) => {
     .then((result) => {
       res.send(result);
       console.log(`A post has been voted (${req.body.voteType})`);
-
-      generateVotePoint()
-        .then(() => {
-          console.log("Vote Point Generation Success!");
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
     })
     .catch((error) => {
       res.send(error.message);
+      console.log(error.message);
+    });
+
+  generateVotePoint()
+    .then(() => {
+      console.log("Vote Point Generation Success!");
+    })
+    .catch((error) => {
       console.log(error.message);
     });
 });
@@ -187,36 +185,34 @@ app.post("/deletePost", async (req, res) => {
     .then((result) => {
       res.send(result);
       console.log(`A post has been deleted`);
-
-      deleteVotedPost({ userId: req.body.userId, postId: req.body.postId })
-        .then(() => {
-          console.log("Voted Post Data has been deleted");
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-
-      deleteTagCount({ tags: req.body.tags })
-        .then(() => {
-          console.log("Tag Count Decremented Successfully");
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-
-      deleteZeroTagCount()
-        .then(() => {
-          console.log(
-            "Tag Count with zero values has been deleted Successfully"
-          );
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
     })
     .catch((error) => {
       console.log(error.message);
       res.send(error.message);
+    });
+
+  deleteVotedPost({ userId: req.body.userId, postId: req.body.postId })
+    .then(() => {
+      console.log("Voted Post Data has been deleted");
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+
+  deleteTagCount({ tags: req.body.tags })
+    .then(() => {
+      console.log("Tag Count Decremented Successfully");
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+
+  deleteZeroTagCount()
+    .then(() => {
+      console.log("Tag Count with zero values has been deleted Successfully");
+    })
+    .catch((error) => {
+      console.log(error.message);
     });
 });
 
@@ -225,18 +221,18 @@ app.post("/archivePost", async (req, res) => {
     .then((result) => {
       res.send(result);
       console.log(`A post has been archived`);
-
-      generateVotePoint()
-        .then(() => {
-          console.log("Vote Point Generation Success!");
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
     })
     .catch((error) => {
       console.log(error.message);
       res.send(error.message);
+    });
+
+  generateVotePoint()
+    .then(() => {
+      console.log("Vote Point Generation Success!");
+    })
+    .catch((error) => {
+      console.log(error.message);
     });
 });
 
