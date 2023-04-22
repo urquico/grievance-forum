@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useLayoutEffect, useState } from "react";
 import { Button } from "@mantine/core";
 import { getPost, getMorePosts, getUser } from "../firebase-config";

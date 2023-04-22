@@ -15,11 +15,10 @@ import TagLoader from "../Loading/TagLoader";
 import { PORT } from "../../Globals";
 
 function Notification() {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const { colorScheme } = useMantineColorScheme();
   const [notifications, setNotifications] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [empty, isEmpty] = useState(false);
   const navigate = useNavigate();
 
   const dark = colorScheme === "dark";
@@ -55,7 +54,6 @@ function Notification() {
           ]);
           setIsLoading(false);
         } else {
-          isEmpty(true);
           setNotificationCount(0);
         }
       })
@@ -78,9 +76,6 @@ function Notification() {
     >
       <Menu
         onOpen={openNotification}
-        onClose={() => {
-          isEmpty(false);
-        }}
         shadow="md"
         width={400}
         style={{ zIndex: "100px", margin: "0.400rem" }}

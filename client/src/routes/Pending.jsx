@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDocumentTitle } from "@mantine/hooks";

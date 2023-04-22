@@ -1,9 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDocumentTitle } from "@mantine/hooks";
 import {
   SegmentedControl,
-  TextInput,
   SimpleGrid,
   Center,
   Box,
@@ -17,7 +17,6 @@ import {
 } from "@mantine/core";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import {
-  IconSearch,
   IconDiscountCheck,
   IconAlertCircle,
   IconSchool,
