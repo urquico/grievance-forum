@@ -67,7 +67,7 @@ function AsideLayout() {
               ) : (
                 tags?.map((tag, index) => {
                   return (
-                    <div style={{ marginBottom: "0.625rem" }}>
+                    <div style={{ marginBottom: "0.625rem" }} key={index}>
                       <TagLinks tag={tag.id} tagCount={tag.tagCount} />
                     </div>
                   );

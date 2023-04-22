@@ -53,8 +53,6 @@ function PostCard({
   const weight = isCurrentUserAdmin ? 10 : 1;
   const cardVerb = isComment ? "Commented" : "Posted";
 
-  console.log(receiver);
-
   useLayoutEffect(() => {
     getUser(email).then((result) => {
       setPublisher(result.name);

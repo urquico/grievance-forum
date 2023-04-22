@@ -19,8 +19,6 @@ function UserControls({ isUserAdmin, isUserAgreedSLA }) {
   );
   const [moreOpened, handlers] = useDisclosure(isOpened);
 
-  console.log(!!localStorage.getItem("userControls"));
-
   return (
     <>
       <NavLinks
