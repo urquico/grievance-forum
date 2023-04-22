@@ -25,12 +25,14 @@ function PendingPosts({
   postId,
   collegeId,
   program,
+  receiver,
 }) {
   const theme = useMantineTheme();
   const [isVisible, setIsVisible] = useState(true);
   const [isAdmin, setIsAdmin] = useState("");
   const [name, setName] = useState("");
   const [college, setCollege] = useState("");
+
   let timeDisplay = "";
   const cardVerb = "Submitted";
 
@@ -64,6 +66,7 @@ function PendingPosts({
         postId: postId,
         college: collegeId,
         program: program,
+        receiver: receiver,
       })
       .then(() => {
         setTimeout(() => {
@@ -216,7 +219,22 @@ function PendingPosts({
         </Text>
 
         <Text fz="xs" c="dimmed">
-          • {timeDisplay}
+          • {timeDisplay} for{" | "}
+          {receiver.map((user, i, { length }) => {
+            if (i + 1 === length) {
+              return (
+                <>
+                  <u>{user}</u>
+                </>
+              );
+            } else {
+              return (
+                <>
+                  <u>{user}</u> |{" "}
+                </>
+              );
+            }
+          })}
         </Text>
       </Paper>
 

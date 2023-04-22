@@ -146,6 +146,8 @@ function Notification() {
 
                     if (notification.notificationType === "reply") {
                       messageNotification = `${notification.notifier} replied to your post`;
+                    } else if (notification.notificationType === "receiver") {
+                      messageNotification = `${notification.notifier} mentioned you in their post`;
                     }
 
                     if (!notification.isOpened) {

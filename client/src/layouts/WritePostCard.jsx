@@ -11,13 +11,13 @@ import {
 } from "@mantine/core";
 import { RichTextEditor } from "@mantine/rte";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import { IconHash, IconCheck, IconX } from "@tabler/icons";
+import { IconHash, IconCheck, IconX, IconAt } from "@tabler/icons";
 import axios from "axios";
 
 import { PORT } from "../Globals";
 import User from "./User";
 import PostCard from "./PostCard";
-import { getUser, getCollegeInfo } from "../firebase-config";
+import { getUser } from "../firebase-config";
 
 const initialValue = "";
 
@@ -30,6 +30,7 @@ function WritePostCard() {
   const [categoryError, setCategoryError] = useState(false);
   const [college, setCollege] = useState("");
   const [program, setProgram] = useState("");
+  const [receiver, setReceiver] = useState([]);
 
   const theme = useMantineTheme();
   const navigate = useNavigate();
@@ -69,6 +70,7 @@ function WritePostCard() {
         tags: selectedTags,
         college: college,
         program: program,
+        receiver: receiver,
       })
       .then(() => {
         setTimeout(() => {
@@ -138,6 +140,9 @@ function WritePostCard() {
         setIsAnonymous={setIsAnonymous}
         isAnonymous={isAnonymous}
       />
+
+      <AddReceivers receiver={receiver} setReceiver={setReceiver} />
+
       <User
         publisher={localStorage.getItem("name")}
         isAnonymous={isAnonymous}
@@ -303,8 +308,6 @@ function AddTags({ selectedTags, setSelectedTags }) {
     },
   ]);
 
-  useLayoutEffect(() => {}, []);
-
   return (
     <div>
       <MultiSelect
@@ -325,6 +328,57 @@ function AddTags({ selectedTags, setSelectedTags }) {
         dropdownPosition="top"
         icon={<IconHash size={14} />}
         onChange={setSelectedTags}
+        clearable
+      />
+    </div>
+  );
+}
+
+function AddReceivers({ receiver, setReceiver }) {
+  const ref = useRef(0);
+  const [data, setData] = useState([
+    {
+      value: "osds@plm.edu.ph",
+      label: "OSDS",
+      group: "Department",
+    },
+    {
+      value: "icto@plm.edu.ph",
+      label: "ICTO",
+      group: "Department",
+    },
+    {
+      value: "registrar@plm.edu.ph",
+      label: "Registrar",
+      group: "Department",
+    },
+    {
+      value: "kjeurquico2020@plm.edu.ph",
+      label: "Developer",
+      group: "Haribon Team",
+    },
+  ]);
+
+  return (
+    <div>
+      <MultiSelect
+        style={{ marginBottom: "0.75rem" }}
+        ref={ref}
+        data={data}
+        value={receiver}
+        placeholder="Enter Recipient's PLM email here ..."
+        searchable
+        creatable
+        getCreateLabel={(query) => `+ Create ${query}`}
+        onCreate={(query) => {
+          const item = { value: query, label: query };
+          setData((current) => [...current, item]);
+          return item;
+        }}
+        maxSelectedValues={5}
+        dropdownPosition="top"
+        icon={<IconAt size={14} />}
+        onChange={setReceiver}
         clearable
       />
     </div>

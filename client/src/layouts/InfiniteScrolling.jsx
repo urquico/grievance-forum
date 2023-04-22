@@ -109,6 +109,7 @@ function InfiniteScrolling({ type, tag, category, isArchive }) {
               isComment={false}
               isPendingPost={false}
               isArchive={isArchive}
+              receiver={post.receiver}
             />
           </div>
         );

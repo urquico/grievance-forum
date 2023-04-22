@@ -34,6 +34,7 @@ function PostCard({
   isComment,
   isPendingPost,
   isArchive,
+  receiver,
 }) {
   const theme = useMantineTheme();
   const [publisher, setPublisher] = useState("");
@@ -51,6 +52,8 @@ function PostCard({
   let timeDisplay = "";
   const weight = isCurrentUserAdmin ? 10 : 1;
   const cardVerb = isComment ? "Commented" : "Posted";
+
+  console.log(receiver);
 
   useLayoutEffect(() => {
     getUser(email).then((result) => {
@@ -351,6 +354,29 @@ function PostCard({
         >
           {/* Polymorph this component */}
           {readMore ? "see less" : "read more"}
+        </Text>
+      ) : (
+        ""
+      )}
+
+      {receiver?.length > 0 ? (
+        <Text fz="xs" c="dimmed" style={{ marginLeft: "0.750rem" }}>
+          To:{" "}
+          {receiver.map((user, i, { length }) => {
+            if (i + 1 === length) {
+              return (
+                <>
+                  <u>{user}</u>
+                </>
+              );
+            } else {
+              return (
+                <>
+                  <u>{user}</u> |{" "}
+                </>
+              );
+            }
+          })}
         </Text>
       ) : (
         ""

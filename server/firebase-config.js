@@ -141,6 +141,7 @@ const writePost = async ({
   tags,
   college,
   program,
+  receiver,
 }) => {
   //! writing a post goes to the pending post collection first
   const profanityList = await getProfanityList();
@@ -158,6 +159,7 @@ const writePost = async ({
     votePoint: 0,
     college: college,
     program: program,
+    receiver: receiver,
   });
 };
 
@@ -170,24 +172,40 @@ const approvePost = async ({
   admin,
   college,
   program,
+  receiver,
 }) => {
   const profanityList = await getProfanityList();
   filter.addWords(...profanityList);
-  await db.collection("Posts").add({
-    categoryId: category,
-    downVote: 0,
-    upVote: 0,
-    isAnonymous: isAnonymous,
-    isSolved: false,
-    message: filter.clean(message),
-    tags: tags,
-    timePosted: Timestamp.fromDate(new Date()),
-    userId: userId,
-    votePoint: 0,
-    approvedBy: admin,
-    college: college,
-    program: program,
-  });
+  await db
+    .collection("Posts")
+    .add({
+      categoryId: category,
+      downVote: 0,
+      upVote: 0,
+      isAnonymous: isAnonymous,
+      isSolved: false,
+      message: filter.clean(message),
+      tags: tags,
+      timePosted: Timestamp.fromDate(new Date()),
+      userId: userId,
+      votePoint: 0,
+      approvedBy: admin,
+      college: college,
+      program: program,
+      receiver: receiver,
+    })
+    .then((result) => {
+      receiver.forEach((user) => {
+        if (user !== "") {
+          notifyReceiver({
+            notificationType: "receiver",
+            postId: result._path.segments[1],
+            notifier: isAnonymous ? "Someone" : userId,
+            userId: user,
+          });
+        }
+      });
+    });
 };
 
 const writeComment = async ({ postId, reply, userId }) => {
@@ -303,10 +321,25 @@ const toggleAdmin = async ({ userId, isAdmin }) => {
 };
 
 const readNotification = async ({ notificationId }) => {
-  await db
-    .collection("NotificationPosts")
-    .doc(notificationId)
-    .update({ isOpened: true });
+  await db.collection("NotificationPosts").doc(notificationId).delete();
+};
+
+const notifyReceiver = async ({
+  notificationType,
+  notifier,
+  postId,
+  userId,
+}) => {
+  if (userId.includes("@")) {
+    await db.collection("NotificationPosts").add({
+      isOpened: false,
+      notificationTime: Timestamp.fromDate(new Date()),
+      notificationType: notificationType,
+      notifier: notifier,
+      postId: postId,
+      userId: userId,
+    });
+  }
 };
 
 const notifyPublisher = async ({

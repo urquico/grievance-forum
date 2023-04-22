@@ -86,6 +86,7 @@ app.post("/writePost", async (req, res) => {
     tags: req.body.tags,
     college: req.body.college,
     program: req.body.program,
+    receiver: req.body.receiver,
   })
     .then((result) => {
       res.send(result);
@@ -106,24 +107,27 @@ app.post("/approvePost", async (req, res) => {
     admin: req.body.admin,
     college: req.body.college,
     program: req.body.program,
+    receiver: req.body.receiver,
   })
     .then((result) => {
       res.send(result);
       console.log("A post has been written");
-
-      writeTags({ tags: req.body.tags })
-        .then(() => {
-          console.log("Tags has been written successfully");
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-
-      deletePendingPost({ postId: req.body.postId });
     })
     .catch((error) => {
       console.log(error.message);
     });
+
+  // enter notification for departments
+
+  writeTags({ tags: req.body.tags })
+    .then(() => {
+      console.log("Tags has been written successfully");
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+
+  deletePendingPost({ postId: req.body.postId });
 });
 
 app.post("/writeComment", async (req, res) => {

@@ -78,6 +78,7 @@ function PendingLayout() {
                   postId={post.id}
                   collegeId={post.college}
                   program={post.program}
+                  receiver={post.receiver}
                 />
               </div>
             );
