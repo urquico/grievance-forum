@@ -465,19 +465,6 @@ function AccordionUser({ collegeData, user, programData }) {
                 {program}
               </Badge>
             </Text>
-            <Button
-              variant="gradient"
-              onClick={toggleAdmin}
-              gradient={
-                isAdmin
-                  ? { from: "red", to: "orange" }
-                  : { from: "teal", to: "lime" }
-              }
-              fullWidth
-              style={{ marginTop: "0.750rem" }}
-            >
-              {isAdmin ? "Remove as Admin" : "Add as Admin"}
-            </Button>
 
             <div>
               <Group position="apart">
@@ -509,6 +496,20 @@ function AccordionUser({ collegeData, user, programData }) {
                 ]}
               />
             </div>
+
+            <Button
+              variant="gradient"
+              onClick={toggleAdmin}
+              gradient={
+                isAdmin
+                  ? { from: "red", to: "orange" }
+                  : { from: "teal", to: "lime" }
+              }
+              fullWidth
+              style={{ marginTop: "0.750rem" }}
+            >
+              {isAdmin ? "Remove as Admin" : "Add as Admin"}
+            </Button>
           </Accordion.Panel>
         </>
       )}
