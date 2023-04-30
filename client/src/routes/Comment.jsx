@@ -123,17 +123,15 @@ function CommentLayout() {
         reply: text,
       })
       .then(() => {
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "teal",
-            title: "Success!",
-            message: "Comment has been Submitted",
-            icon: <IconCheck size={16} />,
-            autoClose: 2000,
-          });
-          navigate("/home");
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "teal",
+          title: "Success!",
+          message: "Comment has been Submitted",
+          icon: <IconCheck size={16} />,
+          autoClose: 2000,
+        });
+        navigate("/home");
 
         if (localStorage.getItem("email") !== post.userId) {
           axios
@@ -169,16 +167,14 @@ function CommentLayout() {
       })
       .catch((error) => {
         console.log(error.message);
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "red",
-            title: "Error!!",
-            message: error.message,
-            icon: <IconX size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "red",
+          title: "Error!!",
+          message: error.message,
+          icon: <IconX size={16} />,
+          autoClose: 2000,
+        });
       });
   };
 
@@ -340,29 +336,25 @@ function SolveSwitch({ isSolve, setIsSolve, postId }) {
     axios
       .post(`${PORT}/toggleSolve`, { isSolved: !isSolve, postId: postId })
       .then(() => {
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "teal",
-            title: "Success!",
-            message: `The post has been ${state}`,
-            icon: <IconCheck size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "teal",
+          title: "Success!",
+          message: `The post has been ${state}`,
+          icon: <IconCheck size={16} />,
+          autoClose: 2000,
+        });
       })
       .catch((error) => {
         console.log(error.message);
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "red",
-            title: "Error!!",
-            message: error.message,
-            icon: <IconX size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "red",
+          title: "Error!!",
+          message: error.message,
+          icon: <IconX size={16} />,
+          autoClose: 2000,
+        });
       });
   };
 

@@ -72,55 +72,47 @@ function ProfanitiesLayout() {
             userId: localStorage.getItem("email"),
           })
           .then((result) => {
-            setTimeout(() => {
-              updateNotification({
-                id: "load-data",
-                color: "teal",
-                title: "Success!",
-                message: "The Profanity has been blocked",
-                icon: <IconCheck size={16} />,
-                autoClose: 2000,
-              });
-            }, 3000);
+            updateNotification({
+              id: "load-data",
+              color: "teal",
+              title: "Success!",
+              message: "The Profanity has been blocked",
+              icon: <IconCheck size={16} />,
+              autoClose: 2000,
+            });
             setProfanityList((currentList) => [
               ...currentList,
               { id: profanity },
             ]);
           })
           .catch((error) => {
-            setTimeout(() => {
-              updateNotification({
-                id: "load-data",
-                color: "red",
-                title: "Error!!",
-                message: error.message,
-                icon: <IconX size={16} />,
-                autoClose: 2000,
-              });
-            }, 3000);
+            updateNotification({
+              id: "load-data",
+              color: "red",
+              title: "Error!!",
+              message: error.message,
+              icon: <IconX size={16} />,
+              autoClose: 2000,
+            });
           });
       } else if (profanity === "") {
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "red",
-            title: "Error!!",
-            message: "Please enter something",
-            icon: <IconX size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "red",
+          title: "Error!!",
+          message: "Please enter something",
+          icon: <IconX size={16} />,
+          autoClose: 2000,
+        });
       } else {
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "red",
-            title: "Error!!",
-            message: "The profanity has already been blocked before",
-            icon: <IconX size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "red",
+          title: "Error!!",
+          message: "The profanity has already been blocked before",
+          icon: <IconX size={16} />,
+          autoClose: 2000,
+        });
       }
     });
   };

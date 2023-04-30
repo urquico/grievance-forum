@@ -145,28 +145,24 @@ function PostCard({
         weight: Number(weight),
       })
       .then(() => {
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "teal",
-            title: "Success!",
-            message: `Post has been ${title}`,
-            icon: <IconCheck size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "teal",
+          title: "Success!",
+          message: `Post has been ${title}`,
+          icon: <IconCheck size={16} />,
+          autoClose: 2000,
+        });
       })
       .catch((error) => {
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "red",
-            title: "Error!!",
-            message: error.message,
-            icon: <IconX size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "red",
+          title: "Error!!",
+          message: error.message,
+          icon: <IconX size={16} />,
+          autoClose: 2000,
+        });
       });
   };
 

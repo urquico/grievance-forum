@@ -70,29 +70,26 @@ function PendingPosts({
         receiver: receiver,
       })
       .then(() => {
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "teal",
-            title: "Success!",
-            message: `Post has been approved`,
-            icon: <IconCheck size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "teal",
+          title: "Success!",
+          message: `Post has been approved`,
+          icon: <IconCheck size={16} />,
+          autoClose: 2000,
+        });
+
         setIsVisible(false);
       })
       .catch((error) => {
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "red",
-            title: "Error!!",
-            message: error.message,
-            icon: <IconX size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "red",
+          title: "Error!!",
+          message: error.message,
+          icon: <IconX size={16} />,
+          autoClose: 2000,
+        });
       });
   };
 
@@ -108,28 +105,24 @@ function PendingPosts({
     axios
       .post(`${PORT}/deletePendingPost`, { postId: postId })
       .then(() => {
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "teal",
-            title: "Success!",
-            message: `Post has been declined`,
-            icon: <IconCheck size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "teal",
+          title: "Success!",
+          message: `Post has been declined`,
+          icon: <IconCheck size={16} />,
+          autoClose: 2000,
+        });
       })
       .catch((error) => {
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "red",
-            title: "Error!!",
-            message: error.message,
-            icon: <IconX size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "red",
+          title: "Error!!",
+          message: error.message,
+          icon: <IconX size={16} />,
+          autoClose: 2000,
+        });
       });
   };
 

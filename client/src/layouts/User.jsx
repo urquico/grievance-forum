@@ -99,31 +99,27 @@ function User({
         postId: postId,
       })
       .then(() => {
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "teal",
-            title: "Success!",
-            message: "Post has been Archived",
-            icon: <IconCheck size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "teal",
+          title: "Success!",
+          message: "Post has been Archived",
+          icon: <IconCheck size={16} />,
+          autoClose: 2000,
+        });
 
         setIsVisible(true);
       })
       .catch((error) => {
         console.log(error.message);
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "red",
-            title: "Error!!",
-            message: error.message,
-            icon: <IconX size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "red",
+          title: "Error!!",
+          message: error.message,
+          icon: <IconX size={16} />,
+          autoClose: 2000,
+        });
       });
   };
 
@@ -163,31 +159,27 @@ function User({
         tags: tags,
       })
       .then(() => {
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "teal",
-            title: "Success!",
-            message: "Post has been Deleted",
-            icon: <IconCheck size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "teal",
+          title: "Success!",
+          message: "Post has been Deleted",
+          icon: <IconCheck size={16} />,
+          autoClose: 2000,
+        });
 
         setIsVisible(true);
       })
       .catch((error) => {
         console.log(error.message);
-        setTimeout(() => {
-          updateNotification({
-            id: "load-data",
-            color: "red",
-            title: "Error!!",
-            message: error.message,
-            icon: <IconX size={16} />,
-            autoClose: 2000,
-          });
-        }, 3000);
+        updateNotification({
+          id: "load-data",
+          color: "red",
+          title: "Error!!",
+          message: error.message,
+          icon: <IconX size={16} />,
+          autoClose: 2000,
+        });
       });
   };
 
@@ -208,29 +200,25 @@ function User({
           commentId: postId,
         })
         .then(() => {
-          setTimeout(() => {
-            updateNotification({
-              id: "load-data",
-              color: "teal",
-              title: "Success!",
-              message: "Star has been Updated",
-              icon: <IconCheck size={16} />,
-              autoClose: 2000,
-            });
-          }, 3000);
+          updateNotification({
+            id: "load-data",
+            color: "teal",
+            title: "Success!",
+            message: "Star has been Updated",
+            icon: <IconCheck size={16} />,
+            autoClose: 2000,
+          });
         })
         .catch((error) => {
           console.log(error.message);
-          setTimeout(() => {
-            updateNotification({
-              id: "load-data",
-              color: "red",
-              title: "Error!!",
-              message: error.message,
-              icon: <IconX size={16} />,
-              autoClose: 2000,
-            });
-          }, 3000);
+          updateNotification({
+            id: "load-data",
+            color: "red",
+            title: "Error!!",
+            message: error.message,
+            icon: <IconX size={16} />,
+            autoClose: 2000,
+          });
         });
     }
   };

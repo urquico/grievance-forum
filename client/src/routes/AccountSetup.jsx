@@ -150,30 +150,26 @@ function AccountSetupLayout() {
           userAgreedSLA: termsAgreement,
         })
         .then((result) => {
-          setTimeout(() => {
-            updateNotification({
-              id: "load-data",
-              color: "teal",
-              title: "Success!",
-              message: "User Data has been Updated",
-              icon: <IconCheck size={16} />,
-              autoClose: 2000,
-            });
-            navigate("/home");
-          }, 3000);
+          updateNotification({
+            id: "load-data",
+            color: "teal",
+            title: "Success!",
+            message: "User Data has been Updated",
+            icon: <IconCheck size={16} />,
+            autoClose: 2000,
+          });
+          navigate("/home");
         })
         .catch((error) => {
           console.log(error.message);
-          setTimeout(() => {
-            updateNotification({
-              id: "load-data",
-              color: "red",
-              title: "Error!!",
-              message: error.message,
-              icon: <IconX size={16} />,
-              autoClose: 2000,
-            });
-          }, 3000);
+          updateNotification({
+            id: "load-data",
+            color: "red",
+            title: "Error!!",
+            message: error.message,
+            icon: <IconX size={16} />,
+            autoClose: 2000,
+          });
         });
     }
   };
