@@ -7,6 +7,7 @@ import {
   ActionIcon,
   Indicator,
   useMantineColorScheme,
+  Tooltip,
 } from "@mantine/core";
 import axios from "axios";
 
@@ -143,44 +144,59 @@ function Notification() {
                       messageNotification = `${notification.notifier} replied to your post`;
                     } else if (notification.notificationType === "receiver") {
                       messageNotification = `${notification.notifier} mentioned you in their post`;
+                    } else if (notification.notificationType === "declined") {
+                      messageNotification = `${notification.notifier} declined your post. reason: "${notification?.message}"`;
                     }
-
                     if (!notification.isOpened) {
                       return (
-                        <Menu.Item
-                          onClick={() => {
-                            axios
-                              .post(`${PORT}/readNotification`, {
-                                notificationId: notification.id,
-                              })
-                              .then(() => {
-                                navigate(`/comment/${notification.postId}`);
-                              })
-                              .catch((err) => {
-                                console.log(err.message);
-                              });
-                          }}
-                          icon={
-                            <ActionIcon
-                              variant="filled"
-                              color="orange"
-                              style={{ borderRadius: "50px" }}
-                            >
-                              <IconExclamationMark size={16} />
-                            </ActionIcon>
-                          }
-                          rightSection={
-                            <Text size="xs" color="dimmed">
-                              <IconClock
-                                size={14}
-                                style={{ paddingTop: "0.250rem" }}
-                              />
-                              {timeDisplay}
-                            </Text>
+                        <Tooltip
+                          label={
+                            notification.notificationType === "declined"
+                              ? "Click to remove notification"
+                              : "Click to open"
                           }
                         >
-                          {messageNotification}
-                        </Menu.Item>
+                          <Menu.Item
+                            onClick={() => {
+                              axios
+                                .post(`${PORT}/readNotification`, {
+                                  notificationId: notification.id,
+                                })
+                                .then(() => {
+                                  if (
+                                    notification.notificationType === "declined"
+                                  ) {
+                                    navigate(`/error`);
+                                  } else {
+                                    navigate(`/comment/${notification.postId}`);
+                                  }
+                                })
+                                .catch((err) => {
+                                  console.log(err.message);
+                                });
+                            }}
+                            icon={
+                              <ActionIcon
+                                variant="filled"
+                                color="orange"
+                                style={{ borderRadius: "50px" }}
+                              >
+                                <IconExclamationMark size={16} />
+                              </ActionIcon>
+                            }
+                            rightSection={
+                              <Text size="xs" color="dimmed">
+                                <IconClock
+                                  size={14}
+                                  style={{ paddingTop: "0.250rem" }}
+                                />
+                                {timeDisplay}
+                              </Text>
+                            }
+                          >
+                            {messageNotification}
+                          </Menu.Item>
+                        </Tooltip>
                       );
                     }
 

@@ -33,8 +33,6 @@ function PendingLayout() {
     });
   }, []);
 
-  console.log(pendingPosts);
-
   useLayoutEffect(() => {
     getUser(localStorage.getItem("email")).then((result) => {
       if (!result.isAdmin) {

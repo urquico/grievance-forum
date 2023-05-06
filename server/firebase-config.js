@@ -342,6 +342,24 @@ const notifyReceiver = async ({
   }
 };
 
+const notifyDeclinedPost = async ({
+  notificationType,
+  notifier,
+  postId,
+  userId,
+  message,
+}) => {
+  await db.collection("NotificationPosts").add({
+    isOpened: false,
+    notificationTime: Timestamp.fromDate(new Date()),
+    notificationType: notificationType,
+    notifier: notifier,
+    postId: postId,
+    userId: userId,
+    message: message,
+  });
+};
+
 const notifyPublisher = async ({
   notificationType,
   notifier,
@@ -392,4 +410,5 @@ module.exports = {
   archivePost: archivePost,
   deleteArchive: deleteArchive,
   toggleAdmin: toggleAdmin,
+  notifyDeclinedPost: notifyDeclinedPost,
 };

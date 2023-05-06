@@ -28,6 +28,7 @@ const {
   archivePost,
   deleteArchive,
   toggleAdmin,
+  notifyDeclinedPost,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -173,6 +174,22 @@ app.post("/deletePendingPost", async (req, res) => {
     .then((result) => {
       res.send(result);
       console.log("post: " + req.body.postId + " has been declined");
+    })
+    .catch((error) => {
+      res.send(error.message);
+      console.log(error.message);
+    });
+
+  notifyDeclinedPost({
+    notificationType: "declined",
+    notifier: req.body.admin,
+    postId: req.body.postId,
+    userId: req.body.userId,
+    message: req.body.message,
+  })
+    .then((result) => {
+      res.send(result);
+      console.log("Notify " + req.body.userId);
     })
     .catch((error) => {
       res.send(error.message);

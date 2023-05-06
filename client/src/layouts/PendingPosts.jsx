@@ -7,12 +7,16 @@ import {
   Text,
   TypographyStylesProvider,
   Badge,
+  Modal,
+  Center,
+  TextInput,
+  Radio,
 } from "@mantine/core";
 import { updateNotification, showNotification } from "@mantine/notifications";
 
 import User from "../layouts/User";
 import { getUser, getCollegeInfo } from "../firebase-config";
-import { IconCheck, IconX } from "@tabler/icons-react";
+import { IconCheck, IconX, IconAlertTriangle } from "@tabler/icons-react";
 import axios from "axios";
 import { PORT } from "../Globals";
 
@@ -33,6 +37,9 @@ function PendingPosts({
   const [isAdmin, setIsAdmin] = useState("");
   const [name, setName] = useState("");
   const [college, setCollege] = useState("");
+  const [opened, setOpened] = useState(false);
+  const [reason, setReason] = useState();
+  const [customReason, setCustomReason] = useState();
 
   let timeDisplay = "";
   const cardVerb = "Submitted";
@@ -94,6 +101,10 @@ function PendingPosts({
   };
 
   const declinePost = () => {
+    setOpened(true);
+  };
+
+  const confirmDecline = () => {
     showNotification({
       id: "load-data",
       loading: true,
@@ -103,7 +114,12 @@ function PendingPosts({
       disallowClose: true,
     });
     axios
-      .post(`${PORT}/deletePendingPost`, { postId: postId })
+      .post(`${PORT}/deletePendingPost`, {
+        postId: postId,
+        admin: localStorage.getItem("email"),
+        userId: email,
+        message: reason === "others" ? customReason : reason,
+      })
       .then(() => {
         updateNotification({
           id: "load-data",
@@ -113,6 +129,8 @@ function PendingPosts({
           icon: <IconCheck size={16} />,
           autoClose: 2000,
         });
+        setOpened(false);
+        setIsVisible(false);
       })
       .catch((error) => {
         updateNotification({
@@ -171,6 +189,63 @@ function PendingPosts({
         boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
       }}
     >
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        radius="md"
+        centered
+        size={260}
+      >
+        <Center>
+          <IconAlertTriangle size={100} style={{ marginTop: "-3rem" }} />
+        </Center>
+        <Center>
+          <Text fz="xl" fw={500}>
+            Are you sure?
+          </Text>
+        </Center>
+        <Center style={{ display: "flex", flexDirection: "column" }}>
+          <Text fw="bold" c="dimmed" fz="sm">
+            You won't be able to revert this.
+          </Text>
+          <Text style={{ marginBottom: "0.500rem" }} fz="sm" ta="center">
+            Please choose a message for the sender
+          </Text>
+        </Center>
+
+        <Radio.Group mt="xs" value={reason} onChange={setReason}>
+          <Radio
+            value="Contains unblocked profanity"
+            label="Contains unblocked profanity"
+          />
+          <Radio value="Already answered" label="Already answered" />
+          <Radio value="Spam Posts" label="Spam Post" />
+
+          <Radio value="others" label="Other Reason" />
+        </Radio.Group>
+
+        {reason === "others" ? (
+          <TextInput
+            placeholder="Message"
+            label="Enter Message"
+            onChange={(event) => setCustomReason(event.currentTarget.value)}
+          />
+        ) : (
+          ""
+        )}
+
+        <Center style={{ marginTop: "1rem" }}>
+          <Button
+            style={{ marginRight: "0.25rem" }}
+            color="red"
+            onClick={() => setOpened(false)}
+          >
+            Cancel
+          </Button>
+          <Button onClick={confirmDecline}>Yes, Decline it</Button>
+        </Center>
+      </Modal>
+
       <User
         publisher={name}
         isAnonymous={isAnonymous}
