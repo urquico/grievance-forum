@@ -97,6 +97,7 @@ function User({
     axios
       .post(`${PORT}/archivePost`, {
         postId: postId,
+        tags: tags,
       })
       .then(() => {
         updateNotification({

@@ -234,6 +234,14 @@ app.post("/archivePost", async (req, res) => {
     .catch((error) => {
       console.log(error.message);
     });
+
+  deleteTagCount({ tags: req.body.tags })
+    .then(() => {
+      console.log("Tag Count Decremented Successfully");
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
 });
 
 app.post("/deleteComment", async (req, res) => {
