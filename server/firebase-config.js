@@ -196,7 +196,7 @@ const approvePost = async ({
     })
     .then((result) => {
       receiver.forEach((user) => {
-        if (user !== "") {
+        if (user !== "" && user !== userId) {
           notifyReceiver({
             notificationType: "receiver",
             postId: result._path.segments[1],

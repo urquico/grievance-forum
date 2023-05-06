@@ -81,6 +81,7 @@ function WritePostCard() {
           icon: <IconCheck size={16} />,
           autoClose: 2000,
         });
+
         navigate("/home");
       })
       .catch((error) => {

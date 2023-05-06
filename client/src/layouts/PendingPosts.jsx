@@ -13,6 +13,8 @@ import {
   Radio,
 } from "@mantine/core";
 import { updateNotification, showNotification } from "@mantine/notifications";
+import env from "react-dotenv";
+import emailjs from "@emailjs/browser";
 
 import User from "../layouts/User";
 import { getUser, getCollegeInfo } from "../firebase-config";
@@ -85,6 +87,33 @@ function PendingPosts({
           icon: <IconCheck size={16} />,
           autoClose: 2000,
         });
+
+        if (receiver.length > 0) {
+          receiver.forEach((user) => {
+            if (user !== localStorage.getItem("email")) {
+              emailjs
+                .send(
+                  env.EMAILJS_SERVICE_ID,
+                  env.EMAILJS_TEMPLATE_ID,
+                  {
+                    receiver_email: user,
+                    sender_name: isAnonymous
+                      ? "Anonymous"
+                      : localStorage.getItem("name"),
+                    reply:
+                      "Hi, I mentioned you on my post. kindly check my concern",
+                  },
+                  env.EMAILJS_PUBLIC_KEY
+                )
+                .then((result) => {
+                  console.log(result);
+                })
+                .catch((err) => {
+                  console.log(err.message);
+                });
+            }
+          });
+        }
 
         setIsVisible(false);
       })
