@@ -287,24 +287,28 @@ function PendingPosts({
           </TypographyStylesProvider>
         </Text>
 
-        <Text fz="xs" c="dimmed">
-          • {timeDisplay} for{" | "}
-          {receiver.map((user, i, { length }) => {
-            if (i + 1 === length) {
-              return (
-                <>
-                  <u>{user}</u>
-                </>
-              );
-            } else {
-              return (
-                <>
-                  <u>{user}</u> |{" "}
-                </>
-              );
-            }
-          })}
-        </Text>
+        {receiver.length === 0 ? (
+          <></>
+        ) : (
+          <Text fz="xs" c="dimmed">
+            • {timeDisplay} for{" | "}
+            {receiver.map((user, i, { length }) => {
+              if (i + 1 === length) {
+                return (
+                  <>
+                    <u>{user}</u>
+                  </>
+                );
+              } else {
+                return (
+                  <>
+                    <u>{user}</u> |{" "}
+                  </>
+                );
+              }
+            })}
+          </Text>
+        )}
       </Paper>
 
       <Button
