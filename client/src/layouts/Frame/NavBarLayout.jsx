@@ -31,7 +31,8 @@ function NavBarLayout({ opened, logOut }) {
             isUserAdmin={isUserAdmin}
           />
           {isUserAdmin &&
-          checkIfContainsNumber(localStorage.getItem("email")) ? (
+          checkIfContainsNumber(localStorage.getItem("email")) &&
+          !isUserAgreedSLA ? (
             <AdminControls />
           ) : (
             ""
