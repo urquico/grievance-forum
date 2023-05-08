@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import Frame from "../layouts/Frame/Frame";
 import InfiniteScrolling from "../layouts/InfiniteScrolling";
 import IntroductionCard from "../layouts/IntroductionCard";
 import { useDocumentTitle } from "@mantine/hooks";
+import { getUser } from "../firebase-config";
+import { useNavigate } from "react-router-dom";
 
 function College() {
   useDocumentTitle("College");
@@ -11,6 +13,16 @@ function College() {
 }
 
 function CollegeLayout() {
+  const navigate = useNavigate();
+
+  useLayoutEffect(() => {
+    getUser(localStorage.getItem("email")).then((result) => {
+      if (!result.userAgreedSLA) {
+        navigate("/home");
+      }
+    });
+  });
+
   return (
     <div>
       <IntroductionCard

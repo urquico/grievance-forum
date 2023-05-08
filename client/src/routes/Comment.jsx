@@ -57,10 +57,6 @@ function CommentLayout() {
         readTime: result._document.readTime.timestamp.seconds,
       });
       setIsLoading(false);
-      // result._document.data.value.mapValue.fields.isSolved.booleanValue
-      // setTimeCurrent(Date(post.readTime * 1000));
-      // setTimePosted(Date(post.timePosted?.seconds * 1000));
-      // setHour((timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600);
     });
   }, []);
 
@@ -72,6 +68,9 @@ function CommentLayout() {
 
   useLayoutEffect(() => {
     getUser(localStorage.getItem("email")).then((result) => {
+      if (!result.userAgreedSLA) {
+        navigate("/setup");
+      }
       setIsCurrentUserAdmin(result.isAdmin);
     });
   }, []);

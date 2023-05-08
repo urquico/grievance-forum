@@ -44,14 +44,14 @@ function ProfileControls({ logOut }) {
         <NavLinks
           title={"Profile"}
           icon={<IconAddressBook size={16} />}
-          color="dark"
+          color="yellow"
           path={"/profile"}
           indicator={false}
         />
         <NavLinks
           title={"Logout"}
           icon={<IconLogout size={16} />}
-          color="dark"
+          color="orange"
           path={"/"}
           indicator={false}
           log={true}

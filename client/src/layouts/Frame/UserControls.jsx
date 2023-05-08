@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import {
   IconHome2,
   IconBallpen,
@@ -34,6 +34,7 @@ function UserControls({ isUserAdmin, isUserAgreedSLA }) {
         color="blue"
         path={"/post"}
         indicator={false}
+        disabled={isUserAgreedSLA}
       />
       <NavLinks
         title={"Categories"}
@@ -67,10 +68,8 @@ function UserControls({ isUserAdmin, isUserAgreedSLA }) {
             onClick={() => {
               if (localStorage.getItem("userControls") === "true") {
                 setIsOpened(false);
-                // handlers.close();
               } else {
                 setIsOpened(true);
-                // handlers.open();
               }
               handlers.toggle();
               localStorage.setItem("userControls", isOpened);
@@ -88,6 +87,7 @@ function UserControls({ isUserAdmin, isUserAgreedSLA }) {
           color="blue"
           path={"/college"}
           indicator={false}
+          disabled={isUserAgreedSLA}
         />
         <NavLinks
           title={"Program Posts"}
@@ -95,6 +95,7 @@ function UserControls({ isUserAdmin, isUserAgreedSLA }) {
           color="pink"
           path={"/program"}
           indicator={false}
+          disabled={isUserAgreedSLA}
         />
         <NavLinks
           title={"Archive Posts"}
@@ -102,16 +103,19 @@ function UserControls({ isUserAdmin, isUserAgreedSLA }) {
           color="violet"
           path={"/archive"}
           indicator={false}
+          disabled={isUserAgreedSLA}
         />
       </Collapse>
-      <NavLinks
-        title={"Account Setup"}
-        icon={<IconUser size={16} />}
-        color="yellow"
-        path={"/setup"}
-        isLastElement={isUserAdmin ? false : true}
-        indicator={isUserAgreedSLA}
-      />
+      <div style={{ display: isUserAgreedSLA ? "" : "none" }}>
+        <NavLinks
+          title={"Account Setup"}
+          icon={<IconUser size={16} />}
+          color="yellow"
+          path={"/setup"}
+          isLastElement={isUserAdmin ? false : true}
+          indicator={isUserAgreedSLA}
+        />
+      </div>
     </>
   );
 }

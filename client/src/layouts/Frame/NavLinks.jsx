@@ -17,6 +17,7 @@ function NavLinks({
   indicator,
   log,
   logOut,
+  disabled,
 }) {
   const navigate = useNavigate();
 
@@ -25,7 +26,7 @@ function NavLinks({
       logOut();
       navigate("/");
     } else {
-      navigate(path);
+      disabled ? navigate("/setup") : navigate(path);
     }
   };
 
@@ -50,7 +51,7 @@ function NavLinks({
       })}
     >
       <Group>
-        <ThemeIcon color={color} variant="light">
+        <ThemeIcon color={disabled ? "gray" : color} variant="light">
           {icon}
         </ThemeIcon>
 
@@ -63,7 +64,9 @@ function NavLinks({
           dot
           offset={1}
         >
-          <Text size="sm">{title}</Text>
+          <Text size="sm" c={disabled ? "dimmed" : ""}>
+            {title}
+          </Text>
         </Indicator>
       </Group>
     </UnstyledButton>

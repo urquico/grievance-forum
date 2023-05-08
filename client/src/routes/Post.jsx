@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 import WritePostCard from "../layouts/WritePostCard";
 import { useDocumentTitle } from "@mantine/hooks";
+import { getUser } from "../firebase-config";
 
 function Post() {
   useDocumentTitle("Post");
@@ -10,6 +12,16 @@ function Post() {
 }
 
 function PostLayout() {
+  const navigate = useNavigate();
+
+  useLayoutEffect(() => {
+    getUser(localStorage.getItem("email")).then((result) => {
+      if (!result.userAgreedSLA) {
+        navigate("/home");
+      }
+    });
+  }, []);
+
   return (
     <div>
       <IntroductionCard
