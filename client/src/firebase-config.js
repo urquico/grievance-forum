@@ -319,3 +319,7 @@ export const removeHTMLTags = (str) => {
 
   return str.replace(/(<([^>]+)>)/gi, "");
 };
+
+export const checkIfContainsNumber = (str) => {
+  return /\d/.test(str);
+};

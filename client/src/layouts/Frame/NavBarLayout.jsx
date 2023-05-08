@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
 import { Navbar, ScrollArea } from "@mantine/core";
-import { getUser } from "../../firebase-config";
+import { checkIfContainsNumber, getUser } from "../../firebase-config";
 import UserControls from "./UserControls";
 import AdminControls from "./AdminControls";
 import ProfileControls from "./ProfileControls";
@@ -30,7 +30,12 @@ function NavBarLayout({ opened, logOut }) {
             isUserAgreedSLA={isUserAgreedSLA}
             isUserAdmin={isUserAdmin}
           />
-          {isUserAdmin ? <AdminControls /> : ""}
+          {isUserAdmin &&
+          checkIfContainsNumber(localStorage.getItem("email")) ? (
+            <AdminControls />
+          ) : (
+            ""
+          )}
 
           <div style={{ marginTop: "1rem" }}>
             <ProfileControls logOut={logOut} />
