@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { Button, useMantineTheme, Text, Image, Alert } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons";
 import microsoftLogo from "../assets/ms-logo.svg";
@@ -17,8 +17,10 @@ function Login() {
   const os = useOs();
 
   useDocumentTitle("Haribon E-Wall");
-  useEffect(() => {
-    axios.post(`${PORT}/generateVotePoint`);
+
+  useLayoutEffect(() => {
+    axios.post(`${PORT}/generateVotePoint`, {});
+    axios.post(`${PORT}/removeOldUsers`, {});
   });
 
   const login = async () => {
@@ -30,7 +32,6 @@ function Login() {
           email: result.user.email,
           name: result.user.displayName,
         });
-        // navigate("/home");
         getUser(localStorage.getItem("email")).then((result) => {
           if (!result.userAgreedSLA) {
             navigate("/setup");

@@ -28,6 +28,26 @@ const addUser = async ({ name, email }) => {
   }
 };
 
+const removeOldUsers = async () => {
+  db.collection("UserData")
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // console.log(doc.id, " => ", doc.data());
+        const emailYear = parseInt(doc.id.match(/\d{4}/)[0]);
+        const currentYear = new Date().getFullYear();
+        if (currentYear - emailYear >= 5) {
+          db.collection("UserData").doc(doc.id).delete();
+        }
+
+        // console.log(doc.id, " => ", doc.data(), currentYear - emailYear);
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+};
+
 const updateUserData = async ({
   userId,
   firstName,
@@ -388,6 +408,7 @@ const deleteProfanity = async (profanity) => {
 
 module.exports = {
   addUser: addUser,
+  removeOldUsers: removeOldUsers,
   updateUserData: updateUserData,
   generateVotePoint: generateVotePoint,
   writePost: writePost,

@@ -29,6 +29,7 @@ const {
   deleteArchive,
   toggleAdmin,
   notifyDeclinedPost,
+  removeOldUsers,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -41,6 +42,16 @@ app.post("/addUser", async (req, res) => {
   await addUser({ email: req.body.email, name: req.body.name })
     .then(() => {
       console.log(`${req.body.email} has logged in`);
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+});
+
+app.post("/removeOldUsers", async (req, res) => {
+  await removeOldUsers()
+    .then((result) => {
+      console.log(result);
     })
     .catch((error) => {
       console.log(error.message);
