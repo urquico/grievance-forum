@@ -38,6 +38,33 @@ const removeOldUsers = async () => {
         const currentYear = new Date().getFullYear();
         if (currentYear - emailYear >= 5) {
           db.collection("UserData").doc(doc.id).delete();
+          db.collection("VotedPosts").doc(doc.id).delete();
+          db.collection("Posts")
+            .where("userId", "==", doc.id)
+            .get()
+            .then((posts) => {
+              posts.forEach((post) => {
+                post.delete();
+              });
+            });
+
+          db.collection("Comments")
+            .where("userId", "==", doc.id)
+            .get()
+            .then((comments) => {
+              comments.forEach((comment) => {
+                comment.delete();
+              });
+            });
+
+          db.collection("NotificationPosts")
+            .where("userId", "==", doc.id)
+            .get()
+            .then((notifications) => {
+              notifications.forEach((notification) => {
+                notification.delete();
+              });
+            });
         }
 
         // console.log(doc.id, " => ", doc.data(), currentYear - emailYear);
