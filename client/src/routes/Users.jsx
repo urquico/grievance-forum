@@ -27,6 +27,7 @@ import {
 import { IconUserCog } from "@tabler/icons-react";
 import TagLoader from "../layouts/Loading/TagLoader";
 import {
+  checkIfContainsNumber,
   getCollegeInfo,
   getMoreUsers,
   getProgramInfo,
@@ -328,9 +329,7 @@ function AccordionUser({ collegeData, user, programData }) {
       });
       getProgramData();
       setIsAdmin(user.isAdmin);
-      // Math.random() * 100
       setSolvedPost(Math.random() * 100);
-      // 100 - solvedPost
       setUnSolvedPost(100 - solvedPost);
     }
   };
@@ -430,7 +429,11 @@ function AccordionUser({ collegeData, user, programData }) {
           <div>
             <Text fw="bold">{user.name}</Text>
             <Badge color={user.isAdmin ? "blue" : "green"}>
-              {user.isAdmin ? "Admin" : "Student"}
+              {user.isAdmin ? (
+                <>{checkIfContainsNumber(user.id) ? "Admin" : "Faculty"}</>
+              ) : (
+                "Student"
+              )}
             </Badge>
           </div>
         </SimpleGrid>

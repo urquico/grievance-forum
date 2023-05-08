@@ -14,7 +14,11 @@ import { IconTrash, IconX, IconAlertTriangle, IconStar } from "@tabler/icons";
 import { IconCheck, IconArchive } from "@tabler/icons-react";
 
 import { PORT } from "../Globals";
-import { checkStarComment, checkSolveState } from "../firebase-config";
+import {
+  checkStarComment,
+  checkSolveState,
+  checkIfContainsNumber,
+} from "../firebase-config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -275,7 +279,11 @@ function User({
                 style={{ marginLeft: "5px" }}
                 color={isAdmin ? "blue" : "green"}
               >
-                {isAdmin ? "Admin" : "Student"}
+                {isAdmin ? (
+                  <>{checkIfContainsNumber(email) ? "Admin" : "Faculty"}</>
+                ) : (
+                  "Student"
+                )}
               </Badge>
               {isComment ? (
                 <>
