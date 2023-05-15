@@ -11,6 +11,7 @@ import {
   IconMessage,
   IconArrowNarrowUp,
   IconArrowNarrowDown,
+  IconChevronDownLeft,
 } from "@tabler/icons";
 import { useNavigate } from "react-router-dom";
 import { showNotification, updateNotification } from "@mantine/notifications";
@@ -35,6 +36,9 @@ function PostCard({
   isPendingPost,
   isArchive,
   receiver,
+  reasonForUrgency,
+  levelOfUrgency,
+  approver,
 }) {
   const theme = useMantineTheme();
   const [publisher, setPublisher] = useState("");
@@ -353,28 +357,67 @@ function PostCard({
         ""
       )}
 
-      {receiver?.length > 0 ? (
-        <Text fz="xs" c="dimmed" style={{ marginLeft: "0.750rem" }}>
-          To:{" "}
-          {receiver.map((user, i, { length }) => {
-            if (i + 1 === length) {
-              return (
+      {previewOnly || isComment ? (
+        ""
+      ) : (
+        <Text
+          style={{ marginLeft: "0.750rem" }}
+          c={
+            levelOfUrgency === "severe"
+              ? "red"
+              : levelOfUrgency === "moderate"
+              ? "orange"
+              : "green"
+          }
+          tt="uppercase"
+          fw="bold"
+        >
+          {levelOfUrgency}
+          {isCurrentUserAdmin ? (
+            <Text c="dimmed" fw="lighter" fz="xs" tt="initial">
+              {reasonForUrgency === undefined ? (
                 <>
-                  <u>{user}</u>
+                  <IconChevronDownLeft size="1.0rem" />
+                  Approved by <u>{approver}</u>
                 </>
-              );
-            } else {
-              return (
+              ) : (
                 <>
-                  <u>{user}</u> |{" "}
+                  <IconChevronDownLeft size="1.0rem" />
+                  {reasonForUrgency} - <u>{approver}</u>
                 </>
-              );
-            }
-          })}
+              )}
+            </Text>
+          ) : (
+            ""
+          )}
         </Text>
+      )}
+
+      {receiver?.length > 0 ? (
+        <>
+          <Text fz="xs" c="dimmed" style={{ marginLeft: "0.750rem" }}>
+            To:{" "}
+            {receiver.map((user, i, { length }) => {
+              if (i + 1 === length) {
+                return (
+                  <>
+                    <u>{user}</u>
+                  </>
+                );
+              } else {
+                return (
+                  <>
+                    <u>{user}</u> |{" "}
+                  </>
+                );
+              }
+            })}
+          </Text>
+        </>
       ) : (
         ""
       )}
+
       <li
         style={{
           alignSelf: "end",

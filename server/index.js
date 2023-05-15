@@ -58,6 +58,23 @@ app.post("/removeOldUsers", async (req, res) => {
     });
 });
 
+app.post("/updateLevelOfUrgency", async (req, res) => {
+  await updateLevelOfUrgency({
+    postId: req.body.postId,
+    reasonForUrgency: req.body.reasonForUrgency,
+    levelOfUrgency: req.body.levelOfUrgency,
+  })
+    .then((result) => {
+      res.send(result);
+      console.log(
+        `${req.body.postId}'s level of urgency data has been updated`
+      );
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+});
+
 app.post("/updateUserData", async (req, res) => {
   // functional, add new user to the database
   await updateUserData({
@@ -120,6 +137,8 @@ app.post("/approvePost", async (req, res) => {
     college: req.body.college,
     program: req.body.program,
     receiver: req.body.receiver,
+    reasonForUrgency: req.body.reasonForUrgency,
+    levelOfUrgency: req.body.levelOfUrgency,
   })
     .then((result) => {
       res.send(result);

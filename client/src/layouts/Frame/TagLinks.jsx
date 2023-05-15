@@ -21,6 +21,7 @@ function TagLinks({ tag, tagCount }) {
             : theme.colors.gray[0],
         padding: "0.75rem",
         borderRadius: "13px",
+        boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
       }}
     >
       <Text

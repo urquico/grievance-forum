@@ -111,6 +111,9 @@ function InfiniteScrolling({ type, tag, category, isArchive }) {
               isPendingPost={false}
               isArchive={isArchive}
               receiver={post.receiver}
+              reasonForUrgency={post.reasonForUrgency}
+              levelOfUrgency={post.levelOfUrgency}
+              approver={post.approvedBy}
             />
           </div>
         );

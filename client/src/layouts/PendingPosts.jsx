@@ -11,6 +11,7 @@ import {
   Center,
   TextInput,
   Radio,
+  Select,
 } from "@mantine/core";
 import { updateNotification, showNotification } from "@mantine/notifications";
 import env from "react-dotenv";
@@ -40,8 +41,13 @@ function PendingPosts({
   const [name, setName] = useState("");
   const [college, setCollege] = useState("");
   const [opened, setOpened] = useState(false);
-  const [reason, setReason] = useState();
-  const [customReason, setCustomReason] = useState();
+  const [approvedOpen, setApprovedOpen] = useState(false);
+  const [reason, setReason] = useState("");
+  const [customReason, setCustomReason] = useState("");
+  const [levelOfUrgency, setLevelOfUrgency] = useState("");
+  const [urgencyError, setUrgencyError] = useState(false);
+  const [noteError, setNoteError] = useState(false);
+  const [radioError, setRadioError] = useState(false);
 
   let timeDisplay = "";
   const cardVerb = "Submitted";
@@ -57,6 +63,10 @@ function PendingPosts({
   }, [email]);
 
   const approvePost = () => {
+    setApprovedOpen(true);
+  };
+
+  const confirmApprove = () => {
     showNotification({
       id: "load-data",
       loading: true,
@@ -77,6 +87,8 @@ function PendingPosts({
         college: collegeId,
         program: program,
         receiver: receiver,
+        reasonForUrgency: customReason,
+        levelOfUrgency: levelOfUrgency,
       })
       .then(() => {
         updateNotification({
@@ -115,6 +127,7 @@ function PendingPosts({
           });
         }
 
+        setApprovedOpen(false);
         setIsVisible(false);
       })
       .catch((error) => {
@@ -242,7 +255,17 @@ function PendingPosts({
           </Text>
         </Center>
 
-        <Radio.Group mt="xs" value={reason} onChange={setReason}>
+        <Radio.Group
+          mt="xs"
+          value={reason}
+          onChange={(val) => {
+            setReason(val);
+            setRadioError(false);
+          }}
+          withAsterisk
+          label="Reasons"
+          error={radioError ? "Please select one" : ""}
+        >
           <Radio
             value="Contains unblocked profanity"
             label="Contains unblocked profanity"
@@ -271,7 +294,92 @@ function PendingPosts({
           >
             Cancel
           </Button>
-          <Button onClick={confirmDecline}>Yes, Decline it</Button>
+          <Button
+            onClick={() => {
+              if (reason === "") {
+                setRadioError(true);
+              } else {
+                confirmDecline();
+              }
+            }}
+          >
+            Yes, Decline it
+          </Button>
+        </Center>
+      </Modal>
+
+      <Modal
+        opened={approvedOpen}
+        onClose={() => setApprovedOpen(false)}
+        radius="md"
+        centered
+        size={260}
+      >
+        <Center>
+          <IconAlertTriangle size={100} style={{ marginTop: "-3rem" }} />
+        </Center>
+        <Center>
+          <Text fz="xl" fw={500}>
+            Are you sure?
+          </Text>
+        </Center>
+        <Center style={{ display: "flex", flexDirection: "column" }}>
+          <Text fw="bold" c="dimmed" fz="sm">
+            You won't be able to revert this.
+          </Text>
+          <Text style={{ marginBottom: "0.500rem" }} fz="sm" ta="center">
+            Please rate the urgency of the post
+          </Text>
+        </Center>
+
+        <Select
+          label="Levels of Urgency"
+          placeholder="Pick one"
+          data={[
+            { value: "mild", label: "Mild" },
+            { value: "moderate", label: "Moderate" },
+            { value: "severe", label: "Needs Urgent Action" },
+          ]}
+          value={levelOfUrgency}
+          onChange={(val) => {
+            setUrgencyError(false);
+            setLevelOfUrgency(val);
+          }}
+          error={urgencyError ? "Select one" : ""}
+        />
+        <TextInput
+          placeholder="Enter Message"
+          label="Note"
+          onChange={(event) => {
+            setCustomReason(event.currentTarget.value);
+            setNoteError(false);
+          }}
+          error={noteError ? "Please enter a note" : ""}
+        />
+
+        <Center style={{ marginTop: "1rem" }}>
+          <Button
+            style={{ marginRight: "0.25rem" }}
+            color="red"
+            onClick={() => setApprovedOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              if (customReason === "") {
+                setNoteError(true);
+              }
+              if (levelOfUrgency === "") {
+                setUrgencyError(true);
+              }
+              if (customReason !== "" && levelOfUrgency !== "") {
+                confirmApprove();
+              }
+            }}
+          >
+            Yes, Accept it
+          </Button>
         </Center>
       </Modal>
 

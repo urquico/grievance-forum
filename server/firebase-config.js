@@ -29,7 +29,8 @@ const addUser = async ({ name, email }) => {
 };
 
 const removeOldUsers = async () => {
-  db.collection("UserData")
+  await db
+    .collection("UserData")
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -220,7 +221,17 @@ const approvePost = async ({
   college,
   program,
   receiver,
+  reasonForUrgency,
+  levelOfUrgency,
 }) => {
+  let urgencyPoints = 0;
+  if (levelOfUrgency === "severe") {
+    urgencyPoints = 100;
+  } else if (levelOfUrgency === "moderate") {
+    urgencyPoints = 50;
+  } else if (levelOfUrgency === "mild") {
+    urgencyPoints = 10;
+  }
   const profanityList = await getProfanityList();
   filter.addWords(...profanityList);
   await db
@@ -228,7 +239,7 @@ const approvePost = async ({
     .add({
       categoryId: category,
       downVote: 0,
-      upVote: 0,
+      upVote: urgencyPoints,
       isAnonymous: isAnonymous,
       isSolved: false,
       message: filter.clean(message),
@@ -240,6 +251,8 @@ const approvePost = async ({
       college: college,
       program: program,
       receiver: receiver,
+      reasonForUrgency: reasonForUrgency,
+      levelOfUrgency: levelOfUrgency,
     })
     .then((result) => {
       receiver.forEach((user) => {
@@ -253,6 +266,8 @@ const approvePost = async ({
         }
       });
     });
+
+  generateVotePoint();
 };
 
 const writeComment = async ({ postId, reply, userId }) => {
