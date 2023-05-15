@@ -27,7 +27,7 @@ function MildLayout() {
     <div>
       <IntroductionCard
         name={localStorage.getItem("name")}
-        message={"Welcome to Haribon E-Wall!"}
+        message={"Here are the mild cases."}
       />
       <InfiniteScrolling type="mild" isArchive={false} />
     </div>

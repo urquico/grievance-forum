@@ -27,7 +27,7 @@ function SevereLayout() {
     <div>
       <IntroductionCard
         name={localStorage.getItem("name")}
-        message={"Welcome to Haribon E-Wall!"}
+        message={"Here are the severe cases."}
       />
       <InfiniteScrolling type="severe" isArchive={false} />
     </div>

@@ -27,7 +27,7 @@ function ModerateLayout() {
     <div>
       <IntroductionCard
         name={localStorage.getItem("name")}
-        message={"Welcome to Haribon E-Wall!"}
+        message={"Here are the moderate cases."}
       />
       <InfiniteScrolling type="moderate" isArchive={false} />
     </div>
