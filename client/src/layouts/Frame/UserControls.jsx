@@ -8,6 +8,7 @@ import {
   IconInbox,
   IconChevronDown,
   IconChevronUp,
+  IconAlertTriangle,
 } from "@tabler/icons";
 import { useDisclosure } from "@mantine/hooks";
 import { Button, Divider, Collapse } from "@mantine/core";
@@ -102,6 +103,30 @@ function UserControls({ isUserAdmin, isUserAgreedSLA }) {
           icon={<IconInbox size={16} />}
           color="violet"
           path={"/archive"}
+          indicator={false}
+          disabled={isUserAgreedSLA}
+        />
+        <NavLinks
+          title={"Severe Topics"}
+          icon={<IconAlertTriangle size={16} />}
+          color="red"
+          path={"/severe"}
+          indicator={false}
+          disabled={isUserAgreedSLA}
+        />
+        <NavLinks
+          title={"Moderate Topics"}
+          icon={<IconAlertTriangle size={16} />}
+          color="orange"
+          path={"/moderate"}
+          indicator={false}
+          disabled={isUserAgreedSLA}
+        />
+        <NavLinks
+          title={"Mild Topics"}
+          icon={<IconAlertTriangle size={16} />}
+          color="green"
+          path={"/mild"}
           indicator={false}
           disabled={isUserAgreedSLA}
         />

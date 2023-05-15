@@ -98,6 +98,10 @@ export const getPost = async (
     const q = query(ref, where("program", "==", program), limit(5));
     const data = await getDocs(q);
     return data;
+  } else if (type === "severe" || type === "moderate" || type === "mild") {
+    const q = query(ref, where("levelOfUrgency", "==", type), limit(5));
+    const data = await getDocs(q);
+    return data;
   }
 };
 
@@ -170,6 +174,15 @@ export const getMorePosts = async (
     const q = query(
       ref,
       where("program", "==", program),
+      startAfter(lastDoc),
+      limit(5)
+    );
+    const data = await getDocs(q);
+    return data;
+  } else if (type === "severe" || type === "moderate" || type === "mild") {
+    const q = query(
+      ref,
+      where("levelOfUrgency", "==", type),
       startAfter(lastDoc),
       limit(5)
     );
