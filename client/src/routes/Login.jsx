@@ -123,7 +123,7 @@ function Login() {
               color: theme.colorScheme === "dark" ? "#fff" : "#5e5e5e",
             }}
           >
-            Pamantasan ng Lungsod ng Maynila Computer Grievance Forum
+            Pamantasan ng Lungsod ng Maynila Grievance Forum
           </Text>
         </div>
         <Button
