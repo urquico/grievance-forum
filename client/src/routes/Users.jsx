@@ -10,8 +10,6 @@ import {
   useMantineTheme,
   Text,
   Accordion,
-  Group,
-  Progress,
   Badge,
   Button,
 } from "@mantine/core";
@@ -314,13 +312,9 @@ function AccordionData({ data, caption }) {
 }
 
 function AccordionUser({ collegeData, user, programData }) {
-  const theme = useMantineTheme();
   const [college, setCollege] = useState("");
   const [program, setProgram] = useState("");
   const [isAdmin, setIsAdmin] = useState();
-
-  const [solvedPost, setSolvedPost] = useState(0);
-  const [unSolvedPost, setUnSolvedPost] = useState(0);
 
   const getCollegeData = () => {
     if (user.userAgreedSLA) {
@@ -329,8 +323,6 @@ function AccordionUser({ collegeData, user, programData }) {
       });
       getProgramData();
       setIsAdmin(user.isAdmin);
-      setSolvedPost(Math.random() * 100);
-      setUnSolvedPost(100 - solvedPost);
     }
   };
 
@@ -467,37 +459,6 @@ function AccordionUser({ collegeData, user, programData }) {
                 {program}
               </Badge>
             </Text>
-
-            <div>
-              <Group position="apart">
-                <Text fz="xs" c="teal" weight={700}>
-                  {solvedPost.toFixed(0)}%
-                </Text>
-                <Text fz="xs" c="red" weight={700}>
-                  {unSolvedPost.toFixed(0)}%
-                </Text>
-              </Group>
-              <Progress
-                sections={[
-                  {
-                    value: solvedPost,
-                    color:
-                      theme.colorScheme === "dark"
-                        ? theme.colors.teal[9]
-                        : theme.colors.teal[6],
-                    tooltip: "Solved",
-                  },
-                  {
-                    value: unSolvedPost,
-                    color:
-                      theme.colorScheme === "dark"
-                        ? theme.colors.red[9]
-                        : theme.colors.red[6],
-                    tooltip: "Unsolved",
-                  },
-                ]}
-              />
-            </div>
 
             <Button
               variant="gradient"
