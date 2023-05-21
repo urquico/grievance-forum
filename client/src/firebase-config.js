@@ -334,6 +334,19 @@ export const getReport = async (date, type) => {
   }
 };
 
+export const getRegisteredUsersCount = async () => {
+  const ref = collection(db, "UserData");
+  const q = query(ref, where("userAgreedSLA", "==", true));
+  const data = await getDocs(q);
+  return data.size;
+};
+
+export const getAllUsers = async () => {
+  const ref = collection(db, "UserData");
+  const data = await getDocs(ref);
+  return data.size;
+};
+
 export const removeHTMLTags = (str) => {
   //? src: https://www.geeksforgeeks.org/how-to-strip-out-html-tags-from-a-string-using-javascript/
   if (str === null || str === "") return false;

@@ -1,11 +1,27 @@
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDocumentTitle } from "@mantine/hooks";
-import { getReport, getUser } from "../firebase-config";
+import {
+  getAllPendingPosts,
+  getAllPosts,
+  getAllUsers,
+  getRegisteredUsersCount,
+  getReport,
+  getUser,
+} from "../firebase-config";
 
 import Frame from "../layouts/Frame/Frame";
 import PieChartReview from "../layouts/PieChartReview";
-import { useMantineTheme, Text, SegmentedControl, Center } from "@mantine/core";
+import {
+  useMantineTheme,
+  Text,
+  SegmentedControl,
+  Center,
+  Paper,
+  Group,
+  RingProgress,
+} from "@mantine/core";
+import { IconUserCheck, IconMailbox, IconFileLike } from "@tabler/icons-react";
 
 function Reviews() {
   useDocumentTitle("Reviews");
@@ -16,6 +32,10 @@ function ReviewsLayout() {
   const navigate = useNavigate();
   const theme = useMantineTheme();
   const [view, setView] = useState("yesterday");
+  const [registeredUsersCount, setRegisteredUsersCount] = useState(0);
+  const [allUsersCount, setAllUsersCount] = useState(0);
+  const [allPendingPosts, setAllPendingPosts] = useState(0);
+  const [allPosts, setAllPosts] = useState(0);
 
   useLayoutEffect(() => {
     getUser(localStorage.getItem("email")).then((result) => {
@@ -25,8 +45,149 @@ function ReviewsLayout() {
     });
   }, []);
 
+  useLayoutEffect(() => {
+    getRegisteredUsersCount()
+      .then((result) => {
+        setRegisteredUsersCount(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useLayoutEffect(() => {
+    getAllUsers()
+      .then((result) => {
+        setAllUsersCount(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useLayoutEffect(() => {
+    getAllPendingPosts()
+      .then((result) => {
+        setAllPendingPosts(result.size);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useLayoutEffect(() => {
+    getAllPosts()
+      .then((result) => {
+        setAllPosts(result.size);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          height: "auto",
+          borderRadius: "13px",
+          padding: "2.375rem",
+          fontSize: "1.125rem",
+        }}
+      >
+        <Paper withBorder radius="md" p="xl" style={{ marginRight: "1rem" }}>
+          <Group>
+            <RingProgress
+              size={80}
+              roundCaps
+              thickness={8}
+              sections={[
+                {
+                  value: (registeredUsersCount / allUsersCount) * 100,
+                  color: "blue",
+                },
+              ]}
+              label={
+                <Center>
+                  <IconUserCheck size="1.4rem" stroke={1.5} />
+                </Center>
+              }
+            />
+
+            <div>
+              <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
+                Registered Users
+              </Text>
+              <Text weight={700} size="xl">
+                {registeredUsersCount}
+              </Text>
+            </div>
+          </Group>
+        </Paper>
+
+        <Paper withBorder radius="md" p="xl" style={{ marginRight: "1rem" }}>
+          <Group>
+            <RingProgress
+              size={80}
+              roundCaps
+              thickness={8}
+              sections={[
+                {
+                  value: 100,
+                  color: "orange",
+                },
+              ]}
+              label={
+                <Center>
+                  <IconMailbox size="1.4rem" stroke={1.5} />
+                </Center>
+              }
+            />
+
+            <div>
+              <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
+                Pending Posts
+              </Text>
+              <Text weight={700} size="xl">
+                {allPendingPosts}
+              </Text>
+            </div>
+          </Group>
+        </Paper>
+
+        <Paper withBorder radius="md" p="xl">
+          <Group>
+            <RingProgress
+              size={80}
+              roundCaps
+              thickness={8}
+              sections={[
+                {
+                  value: 100,
+                  color: "green",
+                },
+              ]}
+              label={
+                <Center>
+                  <IconFileLike size="1.4rem" stroke={1.5} />
+                </Center>
+              }
+            />
+
+            <div>
+              <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
+                Public Posts
+              </Text>
+              <Text weight={700} size="xl">
+                {allPosts}
+              </Text>
+            </div>
+          </Group>
+        </Paper>
+      </div>
+
       <Center>
         <SegmentedControl
           style={{ marginTop: "0.750rem", marginBottom: "0.750rem" }}
