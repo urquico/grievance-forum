@@ -14,7 +14,6 @@ function Profile() {
 
 function ProfileLayout() {
   const [view, setView] = useState("posts");
-  console.log(view);
 
   return (
     <>

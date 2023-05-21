@@ -325,6 +325,15 @@ export const getAllProfanities = async () => {
   return data;
 };
 
+export const getReport = async (date, type) => {
+  const document = doc(db, "Reports", `${type}_report_${date}`);
+  const fetchedDoc = await getDoc(document);
+
+  if (fetchedDoc.exists()) {
+    return fetchedDoc.data();
+  }
+};
+
 export const removeHTMLTags = (str) => {
   //? src: https://www.geeksforgeeks.org/how-to-strip-out-html-tags-from-a-string-using-javascript/
   if (str === null || str === "") return false;

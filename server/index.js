@@ -37,20 +37,8 @@ var cron = require("node-cron");
 cron.schedule("0 0 * * *", () => {
   // runs a report every 12 midnight
   createReport(1);
-});
-
-cron.schedule("0 12 * * 1-7", () => {
-  // runs a report every week
   createReport(7);
-});
-
-cron.schedule("0 0 1 * *", () => {
-  // runs a report every first day of the month
   createReport(30);
-});
-
-cron.schedule("0 0 1 1 *", () => {
-  // runs a report every first day of the year
   createReport(365);
 });
 

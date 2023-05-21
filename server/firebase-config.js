@@ -493,7 +493,6 @@ const createReport = async (days) => {
       .doc(generateReportName(frequency))
       .set({
         totalPosts: documents.length,
-        reportType: frequency,
         college: countOccurrencesByKey(documents, "college"),
         program: countOccurrencesByKey(documents, "program"),
         tags: countOccurrencesByKeyArray(documents, "tags"),
@@ -520,37 +519,73 @@ const generateReportName = (frequency) => {
     })
     .replace(/\//g, "-");
 
-  const uniqueId = admin.firestore().collection("reports").doc().id;
-  const name = `${frequency}_report_${formattedDateTime}_${uniqueId}`;
+  const name = `${frequency}_report_${formattedDateTime}`;
+
+  const currentString = name;
+  const currentYear = currentString.substr(-4); // Extract the current year from the string
+  const newYear = parseInt(currentYear) - 1; // Subtract 1 from the current year
+  const lastYearData = currentString.replace(currentYear, newYear); // Replace the current year with the new year
+
+  db.collection("Reports").doc(lastYearData).delete();
+
   return name;
 };
 
 const countOccurrencesByKey = (data, key) => {
-  const keyCounts = {};
+  const keyCounts = [];
 
   // Count the occurrences of each key
   data.forEach((item) => {
     const value = item[key];
-    keyCounts[value] = (keyCounts[value] || 0) + 1;
+    let id;
+
+    if (key === "isAnonymous") {
+      id = value ? "Anonymous" : "Not Anonymous";
+    } else if (key === "isSolved") {
+      id = value ? "Solved" : "Unsolved";
+    } else {
+      id = value;
+    }
+
+    const existingCount = keyCounts.find((count) => count.id === id);
+
+    if (existingCount) {
+      existingCount.value++;
+    } else {
+      keyCounts.push({ id, value: 1 });
+    }
   });
 
   return keyCounts;
 };
 
-const countOccurrencesByKeyArray = (data, key) => {
-  const keyCounts = {};
+const countOccurrencesByKeyArray = (data, idKey) => {
+  const occurrences = [];
 
-  // Count the occurrences of each key
+  // Count the occurrences of each id
   data.forEach((item) => {
-    const values = item[key];
-    if (Array.isArray(values)) {
-      values.forEach((value) => {
-        keyCounts[value] = (keyCounts[value] || 0) + 1;
+    const ids = item[idKey];
+    if (Array.isArray(ids)) {
+      ids.forEach((id) => {
+        const existingOccurrence = occurrences.find(
+          (occurrence) => occurrence.id === id
+        );
+        if (existingOccurrence) {
+          existingOccurrence.value++;
+        } else {
+          occurrences.push({ id, value: 1 });
+        }
       });
     }
   });
 
-  return keyCounts;
+  // Add color and label keys to each element
+  const result = occurrences.map((occurrence) => ({
+    id: occurrence.id,
+    value: occurrence.value,
+  }));
+
+  return result;
 };
 
 module.exports = {

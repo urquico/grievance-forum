@@ -1,15 +1,26 @@
 import React from "react";
 import { ResponsivePie } from "@nivo/pie";
-import { useMantineTheme } from "@mantine/core";
+import { useMantineTheme, Text } from "@mantine/core";
 
-function PieChartReview({ data }) {
+function PieChartReview({ data, label }) {
   const theme = useMantineTheme();
 
   return (
-    <div style={{ width: "100%", height: "50vh", display: "flex" }}>
+    <div
+      style={{
+        width: "100%",
+        height: "50vh",
+        display: "flex",
+        flexDirection: "column",
+        marginTop: "1rem",
+      }}
+    >
+      <Text fz="xl" ta="center" fw="bold">
+        {label}
+      </Text>
       <ResponsivePie
         style={{ margin: "auto" }}
-        data={data}
+        data={data || []}
         margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
         innerRadius={0.5}
         padAngle={0.7}
