@@ -82,7 +82,7 @@ function App() {
                 <Route path={"/edit/:id"} element={<Tag />} />
 
                 <Route path={"/profanities"} element={<Profanities />} />
-                <Route path={"/reviews"} element={<Reviews />} />
+                <Route path={"/reports"} element={<Reviews />} />
                 <Route path={"/pending"} element={<Pending />} />
                 <Route path={"/users"} element={<Users />} />
 

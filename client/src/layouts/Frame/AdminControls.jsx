@@ -54,10 +54,10 @@ function AdminControls() {
           indicator={false}
         />
         <NavLinks
-          title={"Reviews"}
+          title={"Reports"}
           icon={<IconChartBar size={16} />}
           color="green"
-          path={"/reviews"}
+          path={"/reports"}
           isLastElement={false}
           indicator={false}
         />

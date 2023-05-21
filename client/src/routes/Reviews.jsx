@@ -9,7 +9,7 @@ import { useMantineTheme, Text } from "@mantine/core";
 
 function Reviews() {
   useDocumentTitle("Reviews");
-  return <Frame content={<ReviewsLayout />} path={"/reviews"} />;
+  return <Frame content={<ReviewsLayout />} path={"/reports"} />;
 }
 
 function ReviewsLayout() {

@@ -309,6 +309,8 @@ const deletePost = async ({ postId, archive }) => {
       comments?.forEach((doc) => {
         deleteComment({ commentId: doc.id });
       });
+
+      deleteNotifications(postId);
     });
 };
 
@@ -367,6 +369,16 @@ const deleteZeroTagCount = async () => {
   const tags = await db.collection("Tags").where("tagCount", "==", 0).get();
   tags?.forEach((doc) => {
     db.collection("Tags").doc(doc.id).delete();
+  });
+};
+
+const deleteNotifications = async (postId) => {
+  const notification = await db
+    .collection("NotificationPosts")
+    .where("postId", "==", postId)
+    .get();
+  notification?.forEach((doc) => {
+    db.collection("NotificationPosts").doc(doc.id).delete();
   });
 };
 
@@ -448,6 +460,99 @@ const deleteProfanity = async (profanity) => {
   await db.collection("Profanities").doc(profanity).delete();
 };
 
+const createReport = async (days) => {
+  const now = admin.firestore.Timestamp.now();
+  const twentyFourHoursAgo = now.toMillis() - 24 * 60 * 60 * 1000 * days;
+
+  const collectionRef = db.collection("Posts");
+
+  const querySnapshot = await collectionRef
+    .where(
+      "timePosted",
+      ">=",
+      admin.firestore.Timestamp.fromMillis(twentyFourHoursAgo)
+    )
+    .get();
+
+  const documents = [];
+  querySnapshot.forEach((doc) => {
+    documents.push(doc.data());
+  });
+
+  if (documents.length !== 0) {
+    const frequency =
+      days === 1
+        ? "daily"
+        : days === 7
+        ? "weekly"
+        : days === 30
+        ? "monthly"
+        : "yearly";
+    await db
+      .collection("Reports")
+      .doc(generateReportName(frequency))
+      .set({
+        totalPosts: documents.length,
+        reportType: frequency,
+        college: countOccurrencesByKey(documents, "college"),
+        program: countOccurrencesByKey(documents, "program"),
+        tags: countOccurrencesByKeyArray(documents, "tags"),
+        solvedStates: countOccurrencesByKey(documents, "isSolved"),
+        category: countOccurrencesByKey(documents, "categoryId"),
+        anonymousPosts: countOccurrencesByKey(documents, "isAnonymous"),
+        levelOfUrgency: countOccurrencesByKey(documents, "levelOfUrgency"),
+      });
+  }
+
+  return documents;
+};
+
+const generateReportName = (frequency) => {
+  const timestamp = Date.now();
+
+  const date = new Date(timestamp);
+
+  const formattedDateTime = date
+    .toLocaleString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+    .replace(/\//g, "-");
+
+  const uniqueId = admin.firestore().collection("reports").doc().id;
+  const name = `${frequency}_report_${formattedDateTime}_${uniqueId}`;
+  return name;
+};
+
+const countOccurrencesByKey = (data, key) => {
+  const keyCounts = {};
+
+  // Count the occurrences of each key
+  data.forEach((item) => {
+    const value = item[key];
+    keyCounts[value] = (keyCounts[value] || 0) + 1;
+  });
+
+  return keyCounts;
+};
+
+const countOccurrencesByKeyArray = (data, key) => {
+  const keyCounts = {};
+
+  // Count the occurrences of each key
+  data.forEach((item) => {
+    const values = item[key];
+    if (Array.isArray(values)) {
+      values.forEach((value) => {
+        keyCounts[value] = (keyCounts[value] || 0) + 1;
+      });
+    }
+  });
+
+  return keyCounts;
+};
+
 module.exports = {
   addUser: addUser,
   removeOldUsers: removeOldUsers,
@@ -474,4 +579,5 @@ module.exports = {
   deleteArchive: deleteArchive,
   toggleAdmin: toggleAdmin,
   notifyDeclinedPost: notifyDeclinedPost,
+  createReport: createReport,
 };
