@@ -117,9 +117,6 @@ function PendingPosts({
                   },
                   env.EMAILJS_PUBLIC_KEY
                 )
-                .then((result) => {
-                  console.log(result);
-                })
                 .catch((err) => {
                   console.log(err.message);
                 });
