@@ -39,7 +39,7 @@ function App() {
     defaultValue: "light",
     getInitialValueInEffect: true,
   });
-  const toggleColorScheme = (ColorScheme) =>
+  const toggleColorScheme = () =>
     setColorScheme(colorScheme === "dark" ? "light" : "dark");
 
   useFavicon(haribonFavicon);

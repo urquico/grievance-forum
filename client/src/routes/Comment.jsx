@@ -27,14 +27,13 @@ import { useDocumentTitle } from "@mantine/hooks";
 function Comment() {
   let { id } = useParams();
   useDocumentTitle("Comments");
-  return <Frame content={<CommentLayout />} path={`/comment/${id}`} />;
+  return <Frame content={<CommentLayout id={id} />} path={`/comment/${id}`} />;
 }
 
-function CommentLayout() {
+function CommentLayout({ id }) {
   const initialValue = "";
   const navigate = useNavigate();
 
-  let { id } = useParams();
   const [post, setPost] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isCommentsLoading, setIsCommentsLoading] = useState(true);
@@ -58,13 +57,13 @@ function CommentLayout() {
       });
       setIsLoading(false);
     });
-  }, []);
+  }, [id]);
 
   useLayoutEffect(() => {
     checkSolveState(id).then((result) => {
       setIsSolve(result);
     });
-  }, []);
+  }, [id]);
 
   useLayoutEffect(() => {
     getUser(localStorage.getItem("email")).then((result) => {
@@ -73,14 +72,14 @@ function CommentLayout() {
       }
       setIsCurrentUserAdmin(result.isAdmin);
     });
-  }, []);
+  }, [navigate]);
 
   useLayoutEffect(() => {
     getComments(id).then((result) => {
       commentState(result);
       setIsCommentsLoading(false);
     });
-  }, []);
+  }, [id]);
 
   const generateTime = () => {
     timeCurrent = new Date(post?.readTime * 1000);

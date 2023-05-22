@@ -37,7 +37,7 @@ function InfiniteScrolling({ type, tag, category, isArchive }) {
       setPosts([]);
       updateState(result);
     });
-  }, [college, program]);
+  }, [college, program, tag]);
 
   const fetchMoreData = () => {
     getMorePosts(

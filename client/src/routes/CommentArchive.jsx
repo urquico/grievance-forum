@@ -48,20 +48,20 @@ function CommentArchiveLayout() {
       });
       setIsLoading(false);
     });
-  }, []);
+  }, [id]);
 
   useLayoutEffect(() => {
     checkSolveState(id).then((result) => {
       setIsSolve(result);
     });
-  }, []);
+  }, [id]);
 
   useLayoutEffect(() => {
     getComments(id).then((result) => {
       commentState(result);
       setIsCommentsLoading(false);
     });
-  }, []);
+  }, [id]);
 
   const generateTime = () => {
     timeCurrent = new Date(post?.readTime * 1000);
