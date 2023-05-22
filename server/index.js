@@ -46,10 +46,6 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  // createReport(1);
-  // createReport(7);
-  // createReport(30);
-  // createReport(365);
   res.send("Hello World!");
 });
 
