@@ -39,7 +39,6 @@ function WritePostCard() {
     getUser(localStorage.getItem("email")).then((result) => {
       setCollege(result.college);
       setProgram(result.program);
-      console.log(result.college, result.program);
     });
   }, []);
 
