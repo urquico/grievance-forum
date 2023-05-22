@@ -32,15 +32,6 @@ const {
   removeOldUsers,
   createReport,
 } = require("./firebase-config");
-// var cron = require("node-cron");
-
-// cron.schedule("0 0 * * *", () => {
-//   // runs a report every 12 midnight
-//   createReport(1);
-//   createReport(7);
-//   createReport(30);
-//   createReport(365);
-// });
 
 app.use(cors());
 app.use(express.json());
