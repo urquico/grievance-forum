@@ -325,15 +325,6 @@ export const getAllProfanities = async () => {
   return data;
 };
 
-export const getReport = async (date, type) => {
-  const document = doc(db, "Reports", `${type}_report_${date}`);
-  const fetchedDoc = await getDoc(document);
-
-  if (fetchedDoc.exists()) {
-    return fetchedDoc.data();
-  }
-};
-
 export const getRegisteredUsersCount = async () => {
   const ref = collection(db, "UserData");
   const q = query(ref, where("userAgreedSLA", "==", true));

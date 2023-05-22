@@ -6,7 +6,6 @@ import {
   getAllPosts,
   getAllUsers,
   getRegisteredUsersCount,
-  getReport,
   getUser,
 } from "../firebase-config";
 
@@ -22,6 +21,8 @@ import {
   RingProgress,
 } from "@mantine/core";
 import { IconUserCheck, IconMailbox, IconFileLike } from "@tabler/icons-react";
+import axios from "axios";
+import { PORT } from "../Globals";
 
 function Reviews() {
   useDocumentTitle("Reviews");
@@ -43,7 +44,7 @@ function ReviewsLayout() {
         navigate("/home");
       }
     });
-  }, []);
+  }, [navigate]);
 
   useLayoutEffect(() => {
     getRegisteredUsersCount()
@@ -217,20 +218,20 @@ function ReviewsLayout() {
         }}
       >
         {view === "yesterday" ? (
-          <Reports label={"Yesterday's Report"} day={1} type="daily" />
+          <Reports label={"Yesterday's Report"} day={1} />
         ) : view === "weekly" ? (
-          <Reports label={"Last Week's Report"} day={7} type="weekly" />
+          <Reports label={"Last Week's Report"} day={7} />
         ) : view === "monthly" ? (
-          <Reports label={"Last Month's Report"} day={30} type="monthly" />
+          <Reports label={"Last Month's Report"} day={30} />
         ) : (
-          <Reports label={"Last Year's Report"} day={365} type="yearly" />
+          <Reports label={"Last Year's Report"} day={365} />
         )}
       </div>
     </>
   );
 }
 
-function Reports({ label, day, type }) {
+function Reports({ label, day }) {
   const [report, setReport] = useState();
   const currentDate = new Date();
   const yesterday = new Date(currentDate);
@@ -239,28 +240,16 @@ function Reports({ label, day, type }) {
   const formattedDate = yesterday.toDateString();
   const formattedDateToday = currentDate.toDateString();
 
-  const yesterdayQ = new Date(currentDate);
-  yesterdayQ.setDate(currentDate.getDate() - 1);
-  const formattedDateQ = yesterdayQ.toDateString();
-
-  const dateObj = new Date(formattedDateQ);
-  const dateReport = dateObj
-    .toLocaleDateString("en-US", {
-      month: "2-digit",
-      day: "2-digit",
-      year: "numeric",
-    })
-    .replace(/\//g, "-");
-
   useLayoutEffect(() => {
-    getReport(dateReport, type)
+    axios
+      .post(`${PORT}/generateReport`, { days: day })
       .then((result) => {
-        setReport(result);
+        setReport(result.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [day, type]);
+  }, [day]);
 
   return (
     <>

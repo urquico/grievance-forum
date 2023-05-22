@@ -32,25 +32,39 @@ const {
   removeOldUsers,
   createReport,
 } = require("./firebase-config");
-var cron = require("node-cron");
+// var cron = require("node-cron");
 
-cron.schedule("0 0 * * *", () => {
-  // runs a report every 12 midnight
-  createReport(1);
-  createReport(7);
-  createReport(30);
-  createReport(365);
-});
+// cron.schedule("0 0 * * *", () => {
+//   // runs a report every 12 midnight
+//   createReport(1);
+//   createReport(7);
+//   createReport(30);
+//   createReport(365);
+// });
 
 app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  createReport(1);
-  createReport(7);
-  createReport(30);
-  createReport(365);
+  // createReport(1);
+  // createReport(7);
+  // createReport(30);
+  // createReport(365);
   res.send("Hello World!");
+});
+
+app.post("/generateReport", async (req, res) => {
+  // functional, add new user to the database
+  await createReport(req.body.days)
+    .then((result) => {
+      res.send(result);
+      console.log(`report has been generated `, req.body.days);
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+
+  console.log(req.body.days);
 });
 
 app.post("/addUser", async (req, res) => {

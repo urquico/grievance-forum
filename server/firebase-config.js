@@ -479,31 +479,19 @@ const createReport = async (days) => {
     documents.push(doc.data());
   });
 
-  if (documents.length !== 0) {
-    const frequency =
-      days === 1
-        ? "daily"
-        : days === 7
-        ? "weekly"
-        : days === 30
-        ? "monthly"
-        : "yearly";
-    await db
-      .collection("Reports")
-      .doc(generateReportName(frequency))
-      .set({
-        totalPosts: documents.length,
-        college: countOccurrencesByKey(documents, "college"),
-        program: countOccurrencesByKey(documents, "program"),
-        tags: countOccurrencesByKeyArray(documents, "tags"),
-        solvedStates: countOccurrencesByKey(documents, "isSolved"),
-        category: countOccurrencesByKey(documents, "categoryId"),
-        anonymousPosts: countOccurrencesByKey(documents, "isAnonymous"),
-        levelOfUrgency: countOccurrencesByKey(documents, "levelOfUrgency"),
-      });
-  }
+  return {
+    totalPosts: documents.length,
+    college: countOccurrencesByKey(documents, "college"),
+    program: countOccurrencesByKey(documents, "program"),
+    tags: countOccurrencesByKeyArray(documents, "tags"),
+    solvedStates: countOccurrencesByKey(documents, "isSolved"),
+    category: countOccurrencesByKey(documents, "categoryId"),
+    anonymousPosts: countOccurrencesByKey(documents, "isAnonymous"),
+    levelOfUrgency: countOccurrencesByKey(documents, "levelOfUrgency"),
+    days: days,
+  };
 
-  return documents;
+  // return documents;
 };
 
 const generateReportName = (frequency) => {
