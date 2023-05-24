@@ -125,7 +125,7 @@ function ProfanitiesLayout() {
     <div>
       <IntroductionCard
         name={localStorage.getItem("name")}
-        message={`sa mga admin dyan, pwede kayo mag add ng profanity dyan`}
+        message={`This will establish and maintain a sense of formality and decorum throughout the system.`}
       />
       <div
         style={{

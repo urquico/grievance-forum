@@ -45,7 +45,9 @@ function PendingLayout() {
     <>
       <IntroductionCard
         name={localStorage.getItem("name")}
-        message={"Admin ka so pwede ka mag approve or decline ng posts"}
+        message={
+          "As an admin, you hold the authority to either approve or decline these posts, effectively moderating the content and ensuring its adherence to community guidelines."
+        }
       />
 
       {isLoading ? (

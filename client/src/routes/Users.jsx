@@ -205,7 +205,7 @@ function UsersLayout() {
     <>
       <IntroductionCard
         name={localStorage.getItem("name")}
-        message={"Heto ung list of users idool"}
+        message={"Here are the users of Haribon E-Wall"}
       />
 
       {/* layout */}
