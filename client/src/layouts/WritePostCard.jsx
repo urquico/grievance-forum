@@ -17,7 +17,7 @@ import axios from "axios";
 import { PORT } from "../Globals";
 import User from "./User";
 import PostCard from "./PostCard";
-import { getAllContacts, getUser } from "../firebase-config";
+import { getAllContacts, getAllTags, getUser } from "../firebase-config";
 
 const initialValue = "";
 
@@ -286,23 +286,24 @@ function RichTextBox({ text, setText }) {
 
 function AddTags({ selectedTags, setSelectedTags }) {
   const ref = useRef(0);
-  const [data, setData] = useState([
-    {
-      value: "depression",
-      label: "Depression",
-      group: "Personal",
-    },
-    {
-      value: "exams",
-      label: "Exams",
-      group: "Academic",
-    },
-    {
-      value: "loa",
-      label: "LOA",
-      group: "Academic",
-    },
-  ]);
+  const [data, setData] = useState([]);
+
+  useLayoutEffect(() => {
+    getAllTags()
+      .then((result) => {
+        setData(() => [
+          ...result.docs.map((doc) => ({
+            ...doc.data(),
+            label: doc.id.toUpperCase(),
+            value: doc.id,
+            group: "Tags Created by Users",
+          })),
+        ]);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
   return (
     <div>
@@ -337,14 +338,6 @@ function AddReceivers({ receiver, setReceiver }) {
   useLayoutEffect(() => {
     getAllContacts()
       .then((result) => {
-        // setPosts((currentPost) => [
-        //   ...currentPost,
-        //   ...result.docs.map((doc) => ({
-        //     ...doc.data(),
-        //     id: doc.id,
-        //     readTime: doc._document.readTime.timestamp.seconds,
-        //   })),
-        // ]);
         setData(() => [
           ...result.docs.map((doc) => ({
             ...doc.data(),
@@ -356,8 +349,6 @@ function AddReceivers({ receiver, setReceiver }) {
         console.log(err.message);
       });
   }, []);
-
-  console.log(data);
 
   return (
     <div>

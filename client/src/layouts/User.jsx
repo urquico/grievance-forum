@@ -56,7 +56,6 @@ function User({
     if (isComment) {
       checkStarComment(postId)
         .then((result) => {
-          // console.log(result);
           setIsStarComment(result);
         })
         .catch((error) => {
