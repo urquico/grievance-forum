@@ -344,6 +344,10 @@ function AccountSetupLayout() {
               I agree to the{" "}
               <Anchor size="sm" href="/terms-of-services" target="_blank">
                 terms and conditions
+              </Anchor>{" "}
+              and{" "}
+              <Anchor size="sm" href="/privacy-policy" target="_blank">
+                privacy policy
               </Anchor>
             </>
           }

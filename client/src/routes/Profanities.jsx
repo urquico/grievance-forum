@@ -144,7 +144,7 @@ function ProfanitiesLayout() {
       >
         <Input.Wrapper label="Block Profanity">
           <Input
-            placeholder="Enter a cursed word here"
+            placeholder="Enter a curse word here"
             value={profanity}
             onChange={(e) => {
               setProfanity(e.target.value);

@@ -27,6 +27,10 @@ const Program = lazy(() => import("./routes/Program"));
 const Archive = lazy(() => import("./routes/Archive"));
 const CommentArchive = lazy(() => import("./routes/CommentArchive"));
 
+const Features = lazy(() => import("./routes/Features"));
+const PrivacyPolicy = lazy(() => import("./routes/PrivacyPolicy"));
+const TermsOfServices = lazy(() => import("./routes/TermsOfServices"));
+
 //! Admin Controls
 const Profanities = lazy(() => import("./routes/Profanities"));
 const Reviews = lazy(() => import("./routes/Reviews"));
@@ -85,6 +89,13 @@ function App() {
                 <Route path={"/reports"} element={<Reviews />} />
                 <Route path={"/pending"} element={<Pending />} />
                 <Route path={"/users"} element={<Users />} />
+
+                <Route path={"/features"} element={<Features />} />
+                <Route path={"/privacy-policy"} element={<PrivacyPolicy />} />
+                <Route
+                  path={"/terms-of-services"}
+                  element={<TermsOfServices />}
+                />
 
                 <Route path={"*"} element={<Error />} />
               </Routes>
