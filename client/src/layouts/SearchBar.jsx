@@ -1,6 +1,6 @@
 import React, { useState, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ActionIcon, useMantineTheme } from "@mantine/core";
+import { ActionIcon, useMantineTheme, Tooltip } from "@mantine/core";
 import {
   IconSearch,
   IconHome,
@@ -107,19 +107,21 @@ function SearchBar() {
         shortcut="/"
         nothingFoundMessage="Nothing found..."
       >
-        <ActionIcon
-          style={{ margin: "0.400rem" }}
-          variant="transparent"
-          color={theme.colorScheme === "dark" ? "yellow" : "blue"}
-          title="Toggle color scheme"
-          onClick={() => {
-            checkIfHasAdminControls();
-            searchQueries();
-            openSpotlight();
-          }}
-        >
-          <IconSearch size={18} />
-        </ActionIcon>
+        <Tooltip label="Search">
+          <ActionIcon
+            style={{ margin: "0.400rem" }}
+            variant="transparent"
+            color={theme.colorScheme === "dark" ? "yellow" : "blue"}
+            title="Toggle color scheme"
+            onClick={() => {
+              checkIfHasAdminControls();
+              searchQueries();
+              openSpotlight();
+            }}
+          >
+            <IconSearch size={18} />
+          </ActionIcon>
+        </Tooltip>
       </SpotlightProvider>
     </div>
   );

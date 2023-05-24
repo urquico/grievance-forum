@@ -8,6 +8,7 @@ import {
   Modal,
   Button,
   Center,
+  Tooltip,
 } from "@mantine/core";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconTrash, IconX, IconAlertTriangle, IconStar } from "@tabler/icons";
@@ -322,15 +323,19 @@ function User({
                 <div style={{ display: "flex" }}>
                   <>
                     {isSolved ? (
-                      <ActionIcon>
-                        <IconArchive onClick={archiveBtn} />
-                      </ActionIcon>
+                      <Tooltip label="Archive Post">
+                        <ActionIcon>
+                          <IconArchive onClick={archiveBtn} />
+                        </ActionIcon>
+                      </Tooltip>
                     ) : (
                       ""
                     )}
-                    <ActionIcon>
-                      <IconTrash onClick={deleteBtn} />
-                    </ActionIcon>
+                    <Tooltip label="Delete Post">
+                      <ActionIcon>
+                        <IconTrash onClick={deleteBtn} />
+                      </ActionIcon>
+                    </Tooltip>
                   </>
                 </div>
               )}

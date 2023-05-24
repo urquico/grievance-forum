@@ -84,11 +84,13 @@ function Notification() {
         transition="rotate-right"
         transitionDuration={150}
       >
-        <Menu.Target>
-          <ActionIcon variant="transparent" color={dark ? "yellow" : "blue"}>
-            <IconBell size={18} />
-          </ActionIcon>
-        </Menu.Target>
+        <Tooltip label="Notifications">
+          <Menu.Target>
+            <ActionIcon variant="transparent" color={dark ? "yellow" : "blue"}>
+              <IconBell size={18} />
+            </ActionIcon>
+          </Menu.Target>
+        </Tooltip>
 
         <Menu.Dropdown>
           <Menu.Label>Unread Notifications</Menu.Label>

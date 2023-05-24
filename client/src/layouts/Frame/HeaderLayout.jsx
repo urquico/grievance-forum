@@ -51,6 +51,7 @@ function HeaderLayout({ opened, setOpened, dark, theme, toggleColorScheme }) {
           </Text>
         </div>
       </div>
+
       <SearchBar />
       <Notification />
       <DarkModeButton />
