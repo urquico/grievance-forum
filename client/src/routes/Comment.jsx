@@ -42,6 +42,7 @@ function CommentLayout({ id }) {
   const [isEmpty, setIsEmpty] = useState(false);
   const [isSolve, setIsSolve] = useState();
   const [isCurrentUserAdmin, setIsCurrentUserAdmin] = useState(false);
+  const [restrictComment, setRestrictComment] = useState(false);
   let timeCurrent = 0,
     timePosted = 0,
     hour = 0;
@@ -106,74 +107,78 @@ function CommentLayout({ id }) {
   };
 
   const submitComment = () => {
-    showNotification({
-      id: "load-data",
-      loading: true,
-      title: "Submitting your comment",
-      message: "Please Wait!",
-      autoClose: false,
-      disallowClose: true,
-    });
-    axios
-      .post(`${PORT}/writeComment`, {
-        userId: localStorage.getItem("email"),
-        postId: id,
-        reply: text,
-      })
-      .then(() => {
-        updateNotification({
-          id: "load-data",
-          color: "teal",
-          title: "Success!",
-          message: "Comment has been Submitted",
-          icon: <IconCheck size={16} />,
-          autoClose: 2000,
-        });
-        navigate("/home");
-
-        if (localStorage.getItem("email") !== post.userId) {
-          axios
-            .post(`${PORT}/notifyPublisher`, {
-              notificationType: "reply",
-              notifier: localStorage.getItem("name"),
-              postId: id,
-              userId: post.userId,
-            })
-            .then(() => {
-              emailjs
-                .send(
-                  env.EMAILJS_SERVICE_ID,
-                  env.EMAILJS_TEMPLATE_ID,
-                  {
-                    receiver_email: post.userId,
-                    sender_name: localStorage.getItem("name"),
-                    reply: removeHTMLTags(text),
-                  },
-                  env.EMAILJS_PUBLIC_KEY
-                )
-                .then((result) => {
-                  console.log(result);
-                })
-                .catch((err) => {
-                  console.log(err.message);
-                });
-            })
-            .catch((err) => {
-              console.log(err.message);
-            });
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
-        updateNotification({
-          id: "load-data",
-          color: "red",
-          title: "Error!!",
-          message: error.message,
-          icon: <IconX size={16} />,
-          autoClose: 2000,
-        });
+    if (!restrictComment) {
+      setRestrictComment(true);
+      showNotification({
+        id: "load-data",
+        loading: true,
+        title: "Submitting your comment",
+        message: "Please Wait!",
+        autoClose: false,
+        disallowClose: true,
       });
+      axios
+        .post(`${PORT}/writeComment`, {
+          userId: localStorage.getItem("email"),
+          postId: id,
+          reply: text,
+        })
+        .then(() => {
+          updateNotification({
+            id: "load-data",
+            color: "teal",
+            title: "Success!",
+            message: "Comment has been Submitted",
+            icon: <IconCheck size={16} />,
+            autoClose: 2000,
+          });
+          setRestrictComment(false);
+          navigate("/home");
+
+          if (localStorage.getItem("email") !== post.userId) {
+            axios
+              .post(`${PORT}/notifyPublisher`, {
+                notificationType: "reply",
+                notifier: localStorage.getItem("name"),
+                postId: id,
+                userId: post.userId,
+              })
+              .then(() => {
+                emailjs
+                  .send(
+                    env.EMAILJS_SERVICE_ID,
+                    env.EMAILJS_TEMPLATE_ID,
+                    {
+                      receiver_email: post.userId,
+                      sender_name: localStorage.getItem("name"),
+                      reply: removeHTMLTags(text),
+                    },
+                    env.EMAILJS_PUBLIC_KEY
+                  )
+                  .then((result) => {
+                    console.log(result);
+                  })
+                  .catch((err) => {
+                    console.log(err.message);
+                  });
+              })
+              .catch((err) => {
+                console.log(err.message);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log(error.message);
+          updateNotification({
+            id: "load-data",
+            color: "red",
+            title: "Error!!",
+            message: error.message,
+            icon: <IconX size={16} />,
+            autoClose: 2000,
+          });
+        });
+    }
   };
 
   return (
