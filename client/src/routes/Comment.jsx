@@ -237,6 +237,7 @@ function CommentLayout({ id }) {
                 voteNumber={post.upVote - post.downVote}
                 previewOnly={false}
                 isComment={false}
+                approver={post.approvedBy}
               />
             </>
           ) : (
