@@ -398,18 +398,20 @@ function PostCard({
           <Text fz="xs" c="dimmed" style={{ marginLeft: "0.750rem" }}>
             To:{" "}
             {receiver.map((user, i, { length }) => {
-              if (i + 1 === length) {
-                return (
-                  <>
-                    <u>{user}</u>
-                  </>
-                );
-              } else {
-                return (
-                  <>
-                    <u>{user}</u> |{" "}
-                  </>
-                );
+              if (user.includes("@")) {
+                if (i + 1 === length) {
+                  return (
+                    <>
+                      <u>{user}</u>
+                    </>
+                  );
+                } else {
+                  return (
+                    <>
+                      <u>{user}</u> |{" "}
+                    </>
+                  );
+                }
               }
             })}
           </Text>

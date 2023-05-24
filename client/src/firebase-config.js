@@ -338,6 +338,12 @@ export const getAllUsers = async () => {
   return data.size;
 };
 
+export const getAllContacts = async () => {
+  const ref = collection(db, "Contacts");
+  const data = await getDocs(ref);
+  return data;
+};
+
 export const removeHTMLTags = (str) => {
   //? src: https://www.geeksforgeeks.org/how-to-strip-out-html-tags-from-a-string-using-javascript/
   if (str === null || str === "") return false;

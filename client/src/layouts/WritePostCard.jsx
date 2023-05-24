@@ -17,7 +17,7 @@ import axios from "axios";
 import { PORT } from "../Globals";
 import User from "./User";
 import PostCard from "./PostCard";
-import { getUser } from "../firebase-config";
+import { getAllContacts, getUser } from "../firebase-config";
 
 const initialValue = "";
 
@@ -332,28 +332,32 @@ function AddTags({ selectedTags, setSelectedTags }) {
 
 function AddReceivers({ receiver, setReceiver }) {
   const ref = useRef(0);
-  const [data, setData] = useState([
-    {
-      value: "osds@plm.edu.ph",
-      label: "OSDS",
-      group: "Department",
-    },
-    {
-      value: "icto@plm.edu.ph",
-      label: "ICTO",
-      group: "Department",
-    },
-    {
-      value: "registrar@plm.edu.ph",
-      label: "Registrar",
-      group: "Department",
-    },
-    {
-      value: "kjeurquico2020@plm.edu.ph",
-      label: "Developer",
-      group: "Haribon Team",
-    },
-  ]);
+  const [data, setData] = useState([]);
+
+  useLayoutEffect(() => {
+    getAllContacts()
+      .then((result) => {
+        // setPosts((currentPost) => [
+        //   ...currentPost,
+        //   ...result.docs.map((doc) => ({
+        //     ...doc.data(),
+        //     id: doc.id,
+        //     readTime: doc._document.readTime.timestamp.seconds,
+        //   })),
+        // ]);
+        setData(() => [
+          ...result.docs.map((doc) => ({
+            ...doc.data(),
+            label: doc.id,
+          })),
+        ]);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
+  console.log(data);
 
   return (
     <div>
