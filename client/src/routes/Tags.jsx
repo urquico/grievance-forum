@@ -29,10 +29,7 @@ function TagsLayout() {
 
   return (
     <div>
-      <IntroductionCard
-        name={localStorage.getItem("name")}
-        message={"List of tags created by the community."}
-      />
+      <IntroductionCard name={localStorage.getItem("name")} message={"List of tags created by the community."} />
       <SimpleGrid
         cols={4}
         spacing="xs"

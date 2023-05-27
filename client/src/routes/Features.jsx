@@ -57,14 +57,7 @@ function FeaturesLayout() {
               {feature.title}
             </Text>
 
-            <Text
-              style={{
-                marginLeft: "4rem",
-                marginRight: "3rem",
-                textAlign: "justify",
-              }}
-              fz="m"
-            >
+            <Text style={{ marginLeft: "4rem", marginRight: "3rem", textAlign: "justify" }} fz="m">
               {feature.description}
             </Text>
           </>

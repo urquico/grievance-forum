@@ -34,15 +34,7 @@ function AsideLayout() {
     <div style={{ zIndex: "1" }}>
       <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
         <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }}>
-          <Text
-            style={{
-              fontWeight: "bold",
-              marginBottom: "1rem",
-              fontSize: "1.250rem",
-            }}
-          >
-            Trending Topics
-          </Text>
+          <Text style={{ fontWeight: "bold", marginBottom: "1rem", fontSize: "1.250rem" }}>Trending Topics</Text>
           {tags.length && !isEmpty === 0 ? (
             <>
               <TagLoader />
@@ -54,14 +46,7 @@ function AsideLayout() {
           ) : (
             <>
               {isEmpty ? (
-                <Text
-                  style={{
-                    paddingLeft: "0.75rem",
-                    opacity: "0.7",
-                    textAlign: "center",
-                  }}
-                  fz="xs"
-                >
+                <Text style={{ paddingLeft: "0.75rem", opacity: "0.7", textAlign: "center" }} fz="xs">
                   no trending topics yet
                 </Text>
               ) : (
@@ -100,11 +85,7 @@ function Links({ title, path }) {
   const navigate = useNavigate();
 
   return (
-    <Text
-      fz="xs"
-      style={{ paddingRight: "8px", cursor: "pointer" }}
-      onClick={() => navigate(`/${path}`)}
-    >
+    <Text fz="xs" style={{ paddingRight: "8px", cursor: "pointer" }} onClick={() => navigate(`/${path}`)}>
       {title}
     </Text>
   );

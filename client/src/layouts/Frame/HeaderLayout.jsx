@@ -19,13 +19,7 @@ function HeaderLayout({ opened, setOpened, dark, theme, toggleColorScheme }) {
       >
         <div>
           <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-            <Burger
-              opened={opened}
-              onClick={() => setOpened((o) => !o)}
-              size="sm"
-              color={theme.colors.gray[6]}
-              mr="xl"
-            />
+            <Burger opened={opened} onClick={() => setOpened((o) => !o)} size="sm" color={theme.colors.gray[6]} mr="xl" />
           </MediaQuery>
         </div>
 

@@ -9,12 +9,7 @@ function DarkModeButton() {
   return (
     <div>
       <Tooltip label={dark ? "Turn On" : "Turn Off"}>
-        <ActionIcon
-          style={{ margin: "0.400rem" }}
-          variant="transparent"
-          color={dark ? "yellow" : "blue"}
-          onClick={() => toggleColorScheme()}
-        >
+        <ActionIcon style={{ margin: "0.400rem" }} variant="transparent" color={dark ? "yellow" : "blue"} onClick={() => toggleColorScheme()}>
           {dark ? <IconSun size={18} /> : <IconMoonStars size={18} />}
         </ActionIcon>
       </Tooltip>

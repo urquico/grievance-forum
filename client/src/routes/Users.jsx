@@ -2,36 +2,12 @@
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDocumentTitle } from "@mantine/hooks";
-import {
-  SegmentedControl,
-  SimpleGrid,
-  Center,
-  Box,
-  useMantineTheme,
-  Text,
-  Accordion,
-  Badge,
-  Button,
-} from "@mantine/core";
+import { SegmentedControl, SimpleGrid, Center, Box, useMantineTheme, Text, Accordion, Badge, Button } from "@mantine/core";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import {
-  IconDiscountCheck,
-  IconAlertCircle,
-  IconSchool,
-  IconUser,
-  IconCheck,
-  IconX,
-} from "@tabler/icons";
+import { IconDiscountCheck, IconAlertCircle, IconSchool, IconUser, IconCheck, IconX } from "@tabler/icons";
 import { IconUserCog } from "@tabler/icons-react";
 import TagLoader from "../layouts/Loading/TagLoader";
-import {
-  checkIfContainsNumber,
-  getCollegeInfo,
-  getMoreUsers,
-  getProgramInfo,
-  getUser,
-  getUsers,
-} from "../firebase-config";
+import { checkIfContainsNumber, getCollegeInfo, getMoreUsers, getProgramInfo, getUser, getUsers } from "../firebase-config";
 
 import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
@@ -151,12 +127,7 @@ function UsersLayout() {
       }
     });
 
-    return (
-      <AccordionData
-        data={sortedUser}
-        caption="Here are the Registered Users"
-      />
-    );
+    return <AccordionData data={sortedUser} caption="Here are the Registered Users" />;
   };
 
   const unRegisteredData = () => {
@@ -167,12 +138,7 @@ function UsersLayout() {
       }
     });
 
-    return (
-      <AccordionData
-        data={sortedUser}
-        caption="Here are the Unregistered Users"
-      />
-    );
+    return <AccordionData data={sortedUser} caption="Here are the Unregistered Users" />;
   };
 
   const admins = () => {
@@ -183,9 +149,7 @@ function UsersLayout() {
       }
     });
 
-    return (
-      <AccordionData data={sortedUser} caption="Here are the Admin Users" />
-    );
+    return <AccordionData data={sortedUser} caption="Here are the Admin Users" />;
   };
 
   const students = () => {
@@ -196,17 +160,12 @@ function UsersLayout() {
       }
     });
 
-    return (
-      <AccordionData data={sortedUser} caption="Here are the Students Users" />
-    );
+    return <AccordionData data={sortedUser} caption="Here are the Students Users" />;
   };
 
   return (
     <>
-      <IntroductionCard
-        name={localStorage.getItem("name")}
-        message={"Here are the users of Haribon E-Wall"}
-      />
+      <IntroductionCard name={localStorage.getItem("name")} message={"Here are the users of Haribon E-Wall"} />
 
       {/* layout */}
       <SimpleGrid
@@ -226,10 +185,7 @@ function UsersLayout() {
       <div
         style={{
           height: "auto",
-          backgroundColor:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[6]
-              : theme.colors.gray[0],
+          backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
           borderRadius: "13px",
           padding: "2.375rem",
           fontSize: "1.125rem",
@@ -246,17 +202,7 @@ function UsersLayout() {
             <TagLoader />
           </>
         ) : (
-          <>
-            {view === "alpha"
-              ? alphabetizeData()
-              : view === "reg"
-              ? registeredData()
-              : view === "unreg"
-              ? unRegisteredData()
-              : view === "admin"
-              ? admins()
-              : students()}
-          </>
+          <>{view === "alpha" ? alphabetizeData() : view === "reg" ? registeredData() : view === "unreg" ? unRegisteredData() : view === "admin" ? admins() : students()}</>
         )}
 
         <div style={{ display: "flex" }}>
@@ -298,11 +244,7 @@ function AccordionData({ data, caption }) {
         {data.map((user, index) => {
           return (
             <div key={index}>
-              <AccordionUser
-                collegeData={user?.college}
-                user={user}
-                programData={user?.program}
-              />
+              <AccordionUser collegeData={user?.college} user={user} programData={user?.program} />
             </div>
           );
         })}
@@ -420,13 +362,7 @@ function AccordionUser({ collegeData, user, programData }) {
         >
           <div>
             <Text fw="bold">{user.name}</Text>
-            <Badge color={user.isAdmin ? "blue" : "green"}>
-              {user.isAdmin ? (
-                <>{checkIfContainsNumber(user.id) ? "Admin" : "Faculty"}</>
-              ) : (
-                "Student"
-              )}
-            </Badge>
+            <Badge color={user.isAdmin ? "blue" : "green"}>{user.isAdmin ? <>{checkIfContainsNumber(user.id) ? "Admin" : "Faculty"}</> : "Student"}</Badge>
           </div>
         </SimpleGrid>
       </Accordion.Control>
@@ -441,21 +377,13 @@ function AccordionUser({ collegeData, user, programData }) {
           <Accordion.Panel>
             <Text fw="bold" fz="sm">
               COLLEGE:
-              <Badge
-                color="pink"
-                variant="outline"
-                style={{ marginLeft: "1.300rem" }}
-              >
+              <Badge color="pink" variant="outline" style={{ marginLeft: "1.300rem" }}>
                 {college}
               </Badge>
             </Text>
             <Text fw="bold" fz="sm" style={{ marginTop: "0.500rem" }}>
               PROGRAM:
-              <Badge
-                color="orange"
-                variant="outline"
-                style={{ marginLeft: "0.500rem" }}
-              >
+              <Badge color="orange" variant="outline" style={{ marginLeft: "0.500rem" }}>
                 {program}
               </Badge>
             </Text>
@@ -463,11 +391,7 @@ function AccordionUser({ collegeData, user, programData }) {
             <Button
               variant="gradient"
               onClick={toggleAdmin}
-              gradient={
-                isAdmin
-                  ? { from: "red", to: "orange" }
-                  : { from: "teal", to: "lime" }
-              }
+              gradient={isAdmin ? { from: "red", to: "orange" } : { from: "teal", to: "lime" }}
               fullWidth
               style={{ marginTop: "0.750rem" }}
             >

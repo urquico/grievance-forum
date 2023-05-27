@@ -8,10 +8,7 @@ function TagLoader() {
     <div
       style={{
         height: "auto",
-        backgroundColor:
-          theme.colorScheme === "dark"
-            ? theme.colors.dark[6]
-            : theme.colors.gray[0],
+        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
         borderRadius: "13px",
         padding: "0.75rem",
         marginTop: "1rem",

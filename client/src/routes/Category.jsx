@@ -30,17 +30,11 @@ function CategoryLayout() {
 
   return (
     <>
-      <IntroductionCard
-        name={localStorage.getItem("name")}
-        message={"Description of categories available in this platform."}
-      />
+      <IntroductionCard name={localStorage.getItem("name")} message={"Description of categories available in this platform."} />
       <div
         style={{
           height: "auto",
-          backgroundColor:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[6]
-              : theme.colors.gray[0],
+          backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
           borderRadius: "13px",
           padding: "2.375rem",
           marginTop: "1rem",
@@ -62,11 +56,8 @@ function CategoryLayout() {
             {/* accordion */}
             <Accordion chevronPosition="left" variant="separated">
               {categories?.map((cat) => {
-                const category =
-                  cat._document.data.value.mapValue.fields.category.stringValue;
-                const description =
-                  cat._document.data.value.mapValue.fields.description
-                    .stringValue;
+                const category = cat._document.data.value.mapValue.fields.category.stringValue;
+                const description = cat._document.data.value.mapValue.fields.description.stringValue;
                 return (
                   <Accordion.Item value={category}>
                     <Accordion.Control>
@@ -74,16 +65,7 @@ function CategoryLayout() {
                     </Accordion.Control>
                     <Accordion.Panel>{description}</Accordion.Panel>
                     <Accordion.Panel style={{ display: "flex", width: "100%" }}>
-                      <Button
-                        variant="subtle"
-                        color="dark"
-                        style={{ marginRight: "auto" }}
-                        onClick={() =>
-                          navigate(
-                            `/category/${category.toLowerCase()}-concerns`
-                          )
-                        }
-                      >
+                      <Button variant="subtle" color="dark" style={{ marginRight: "auto" }} onClick={() => navigate(`/category/${category.toLowerCase()}-concerns`)}>
                         <u>View Posts</u>
                       </Button>
                     </Accordion.Panel>

@@ -1,14 +1,7 @@
 import React, { useState, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IconBell, IconExclamationMark, IconClock } from "@tabler/icons";
-import {
-  Menu,
-  Text,
-  ActionIcon,
-  Indicator,
-  useMantineColorScheme,
-  Tooltip,
-} from "@mantine/core";
+import { Menu, Text, ActionIcon, Indicator, useMantineColorScheme, Tooltip } from "@mantine/core";
 import axios from "axios";
 
 import { getNotifications } from "../../firebase-config";
@@ -29,9 +22,7 @@ function Notification() {
       if (!result.empty) {
         let count = 0;
         result.docs.forEach((notification) => {
-          const isOpened =
-            notification._document.data.value.mapValue.fields.isOpened
-              .booleanValue;
+          const isOpened = notification._document.data.value.mapValue.fields.isOpened.booleanValue;
 
           if (!isOpened) {
             count += 1;
@@ -64,26 +55,8 @@ function Notification() {
   };
 
   return (
-    <Indicator
-      inline
-      offset={12}
-      size={20}
-      color="red"
-      withBorder
-      label={notificationCount}
-      dot={false}
-      showZero={false}
-      overflowCount={99}
-    >
-      <Menu
-        onOpen={openNotification}
-        shadow="md"
-        width={400}
-        style={{ zIndex: "100px", margin: "0.400rem" }}
-        withArrow
-        transition="rotate-right"
-        transitionDuration={150}
-      >
+    <Indicator inline offset={12} size={20} color="red" withBorder label={notificationCount} dot={false} showZero={false} overflowCount={99}>
+      <Menu onOpen={openNotification} shadow="md" width={400} style={{ zIndex: "100px", margin: "0.400rem" }} withArrow transition="rotate-right" transitionDuration={150}>
         <Tooltip label="Notifications">
           <Menu.Target>
             <ActionIcon variant="transparent" color={dark ? "yellow" : "blue"}>
@@ -95,9 +68,7 @@ function Notification() {
         <Menu.Dropdown>
           <Menu.Label>Unread Notifications</Menu.Label>
           {notificationCount === 0 ? (
-            <Menu.Label style={{ textAlign: "center", margin: "5rem" }}>
-              No new notifications yet!
-            </Menu.Label>
+            <Menu.Label style={{ textAlign: "center", margin: "5rem" }}>No new notifications yet!</Menu.Label>
           ) : (
             <>
               {" "}
@@ -114,14 +85,9 @@ function Notification() {
                     let timeDisplay = "";
                     let messageNotification = "";
                     const timeCurrent = new Date(notification.readTime * 1000);
-                    const timePosted = new Date(
-                      notification.notificationTime.seconds * 1000
-                    );
+                    const timePosted = new Date(notification.notificationTime.seconds * 1000);
 
-                    const time =
-                      (timeCurrent.getTime() - timePosted.getTime()) /
-                      1000 /
-                      3600;
+                    const time = (timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600;
 
                     if (Math.floor(time) < 1) {
                       if (Math.floor(time * 60) <= 1) {
@@ -133,10 +99,7 @@ function Notification() {
                       timeDisplay = `${Math.floor(time)} hour ago`;
                     } else if (Math.floor(time) >= 2 && Math.floor(time) < 24) {
                       timeDisplay = `${Math.floor(time)} hours ago`;
-                    } else if (
-                      Math.floor(time) >= 24 &&
-                      Math.floor(time) <= 48
-                    ) {
+                    } else if (Math.floor(time) >= 24 && Math.floor(time) <= 48) {
                       timeDisplay = `${Math.floor(time / 24)} day ago`;
                     } else if (Math.floor(time) > 48) {
                       timeDisplay = `${Math.floor(time / 24)} days ago`;
@@ -151,13 +114,7 @@ function Notification() {
                     }
                     if (!notification.isOpened) {
                       return (
-                        <Tooltip
-                          label={
-                            notification.notificationType === "declined"
-                              ? "Click to remove notification"
-                              : "Click to open"
-                          }
-                        >
+                        <Tooltip label={notification.notificationType === "declined" ? "Click to remove notification" : "Click to open"}>
                           <Menu.Item
                             onClick={() => {
                               axios
@@ -165,9 +122,7 @@ function Notification() {
                                   notificationId: notification.id,
                                 })
                                 .then(() => {
-                                  if (
-                                    notification.notificationType === "declined"
-                                  ) {
+                                  if (notification.notificationType === "declined") {
                                     navigate(`/error`);
                                   } else {
                                     navigate(`/comment/${notification.postId}`);
@@ -178,20 +133,13 @@ function Notification() {
                                 });
                             }}
                             icon={
-                              <ActionIcon
-                                variant="filled"
-                                color="orange"
-                                style={{ borderRadius: "50px" }}
-                              >
+                              <ActionIcon variant="filled" color="orange" style={{ borderRadius: "50px" }}>
                                 <IconExclamationMark size={16} />
                               </ActionIcon>
                             }
                             rightSection={
                               <Text size="xs" color="dimmed">
-                                <IconClock
-                                  size={14}
-                                  style={{ paddingTop: "0.250rem" }}
-                                />
+                                <IconClock size={14} style={{ paddingTop: "0.250rem" }} />
                                 {timeDisplay}
                               </Text>
                             }

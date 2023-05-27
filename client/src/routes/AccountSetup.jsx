@@ -1,28 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useLayoutEffect } from "react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
-import {
-  Modal,
-  useMantineTheme,
-  Button,
-  TextInput,
-  Text,
-  Checkbox,
-  Anchor,
-  Select,
-} from "@mantine/core";
+import { Modal, useMantineTheme, Button, TextInput, Text, Checkbox, Anchor, Select } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
 import { useNavigate } from "react-router-dom";
 import Frame from "../layouts/Frame/Frame";
-import {
-  getColleges,
-  getPrograms,
-  getUser,
-  getCollegeInfo,
-  getProgramInfo,
-} from "../firebase-config";
+import { getColleges, getPrograms, getUser, getCollegeInfo, getProgramInfo } from "../firebase-config";
 import axios from "axios";
 import { PORT } from "../Globals";
 
@@ -74,9 +59,7 @@ function AccountSetupLayout() {
     getUser(localStorage.getItem("email")).then((result) => {
       setExistingUserData(result);
       const fetchedBirthday = new Date(result?.birthday);
-      setFetchedAge(
-        (dateToday.getTime() - fetchedBirthday.getTime()) / 1000 / 31536000
-      );
+      setFetchedAge((dateToday.getTime() - fetchedBirthday.getTime()) / 1000 / 31536000);
     });
   }, []);
 
@@ -91,11 +74,9 @@ function AccountSetupLayout() {
   };
 
   useLayoutEffect(() => {
-    getProgramInfo(existingUserData?.college, existingUserData?.program).then(
-      (result) => {
-        setProgramPlaceholder(result.label);
-      }
-    );
+    getProgramInfo(existingUserData?.college, existingUserData?.program).then((result) => {
+      setProgramPlaceholder(result.label);
+    });
   });
 
   const submitData = () => {
@@ -105,11 +86,7 @@ function AccountSetupLayout() {
     if (lastName === "") {
       setLastNameError(true);
     }
-    if (
-      birthday === undefined ||
-      birthday === null ||
-      age === "Please Enter your real birthday"
-    ) {
+    if (birthday === undefined || birthday === null || age === "Please Enter your real birthday") {
       setBirthdayError(true);
     }
     if (termsAgreement === false) {
@@ -122,13 +99,7 @@ function AccountSetupLayout() {
       setProgramError(true);
     }
 
-    const submissionPermitted =
-      lastName !== "" &&
-      firstName !== "" &&
-      age > 10 &&
-      college !== "" &&
-      program !== "" &&
-      termsAgreement === true;
+    const submissionPermitted = lastName !== "" && firstName !== "" && age > 10 && college !== "" && program !== "" && termsAgreement === true;
 
     if (submissionPermitted) {
       showNotification({
@@ -196,11 +167,7 @@ function AccountSetupLayout() {
     <>
       <Modal
         opened={true}
-        overlayColor={
-          theme.colorScheme === "dark"
-            ? theme.colors.dark[9]
-            : theme.colors.gray[2]
-        }
+        overlayColor={theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.colors.gray[2]}
         overlayOpacity={0.55}
         overlayBlur={2}
         onClose={exitSetup}
@@ -213,20 +180,10 @@ function AccountSetupLayout() {
           </Text>
         }
       >
-        <TextInput
-          placeholder={localStorage.getItem("email")}
-          label="Email"
-          radius="xs"
-          disabled
-        />
+        <TextInput placeholder={localStorage.getItem("email")} label="Email" radius="xs" disabled />
 
         <TextInput
-          placeholder={
-            existingUserData?.firstName === "" ||
-            existingUserData?.firstName === undefined
-              ? "Thom"
-              : existingUserData?.firstName
-          }
+          placeholder={existingUserData?.firstName === "" || existingUserData?.firstName === undefined ? "Thom" : existingUserData?.firstName}
           label="First name"
           radius="xs"
           withAsterisk
@@ -239,12 +196,7 @@ function AccountSetupLayout() {
         />
 
         <TextInput
-          placeholder={
-            existingUserData?.lastName === "" ||
-            existingUserData?.lastName === undefined
-              ? "Yorke"
-              : existingUserData?.lastName
-          }
+          placeholder={existingUserData?.lastName === "" || existingUserData?.lastName === undefined ? "Yorke" : existingUserData?.lastName}
           label="Last name"
           radius="xs"
           withAsterisk
@@ -257,16 +209,9 @@ function AccountSetupLayout() {
         />
         <DatePicker
           placeholder={
-            existingUserData?.birthday === "" ||
-            existingUserData?.birthday === undefined
+            existingUserData?.birthday === "" || existingUserData?.birthday === undefined
               ? "Pick date"
-              : `${
-                  new Date(existingUserData?.birthday).getMonth() + 1
-                } / ${new Date(
-                  existingUserData?.birthday
-                ).getDate()} / ${new Date(
-                  existingUserData?.birthday
-                ).getFullYear()}`
+              : `${new Date(existingUserData?.birthday).getMonth() + 1} / ${new Date(existingUserData?.birthday).getDate()} / ${new Date(existingUserData?.birthday).getFullYear()}`
           }
           label="Birthday"
           withAsterisk
@@ -275,8 +220,7 @@ function AccountSetupLayout() {
           onChange={(val) => {
             setBirthday(val);
             setBirthdayError(false);
-            const generatedAge =
-              (dateToday.getTime() - val.getTime()) / 1000 / 31536000;
+            const generatedAge = (dateToday.getTime() - val.getTime()) / 1000 / 31536000;
             if (generatedAge <= 10) {
               setAge("Please Enter your real birthday");
             } else {
@@ -286,26 +230,11 @@ function AccountSetupLayout() {
           }}
         />
 
-        <TextInput
-          label="Age"
-          radius="xs"
-          disabled
-          placeholder={
-            existingUserData?.birthday === "" ||
-            existingUserData?.birthday === undefined
-              ? age
-              : Math.floor(fetchedAge)
-          }
-        />
+        <TextInput label="Age" radius="xs" disabled placeholder={existingUserData?.birthday === "" || existingUserData?.birthday === undefined ? age : Math.floor(fetchedAge)} />
 
         <Select
           label="College"
-          placeholder={
-            existingUserData?.college === "" ||
-            existingUserData?.college === undefined
-              ? "Pick one"
-              : collegePlaceholder
-          }
+          placeholder={existingUserData?.college === "" || existingUserData?.college === undefined ? "Pick one" : collegePlaceholder}
           data={collegeList}
           value={college}
           onChange={(val) => {
@@ -317,12 +246,7 @@ function AccountSetupLayout() {
 
         <Select
           label="Program"
-          placeholder={
-            existingUserData?.program === "" ||
-            existingUserData?.program === undefined
-              ? "Pick one"
-              : programPlaceholder
-          }
+          placeholder={existingUserData?.program === "" || existingUserData?.program === undefined ? "Pick one" : programPlaceholder}
           data={programList}
           value={program}
           onChange={(val) => {
@@ -351,18 +275,10 @@ function AccountSetupLayout() {
               </Anchor>
             </>
           }
-          error={
-            termsAgreementError
-              ? "please see and agree to the terms and conditions "
-              : ""
-          }
+          error={termsAgreementError ? "please see and agree to the terms and conditions " : ""}
           style={{ marginTop: "0.750rem" }}
         />
-        <Button
-          style={{ marginTop: "0.750rem" }}
-          fullWidth
-          onClick={submitData}
-        >
+        <Button style={{ marginTop: "0.750rem" }} fullWidth onClick={submitData}>
           Submit
         </Button>
       </Modal>

@@ -1,14 +1,6 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  useMantineTheme,
-  Text,
-  Switch,
-  Select,
-  MultiSelect,
-  Button,
-  Modal,
-} from "@mantine/core";
+import { useMantineTheme, Text, Switch, Select, MultiSelect, Button, Modal } from "@mantine/core";
 import { RichTextEditor } from "@mantine/rte";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconHash, IconCheck, IconX, IconAt } from "@tabler/icons";
@@ -100,10 +92,7 @@ function WritePostCard() {
     <div
       style={{
         height: "auto",
-        backgroundColor:
-          theme.colorScheme === "dark"
-            ? theme.colors.dark[6]
-            : theme.colors.gray[0],
+        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
         borderRadius: "13px",
         padding: "2.375rem",
         marginTop: "1rem",
@@ -124,18 +113,9 @@ function WritePostCard() {
           </Text>
         }
       >
-        <PostPreview
-          isAnonymous={isAnonymous}
-          tags={selectedTags}
-          category={selectedCategory}
-          message={text}
-          submitQuery={writePostQuery}
-        />
+        <PostPreview isAnonymous={isAnonymous} tags={selectedTags} category={selectedCategory} message={text} submitQuery={writePostQuery} />
       </Modal>
-      <PostAnonymously
-        setIsAnonymous={setIsAnonymous}
-        isAnonymous={isAnonymous}
-      />
+      <PostAnonymously setIsAnonymous={setIsAnonymous} isAnonymous={isAnonymous} />
 
       <AddReceivers receiver={receiver} setReceiver={setReceiver} />
 
@@ -179,10 +159,7 @@ function PostPreview({ isAnonymous, tags, category, message, submitQuery }) {
         previewOnly={true}
         isComment={false}
       />
-      <Button
-        style={{ marginTop: "0.75rem", width: "100%" }}
-        onClick={submitQuery}
-      >
+      <Button style={{ marginTop: "0.75rem", width: "100%" }} onClick={submitQuery}>
         <Text fw={700}>Submit Post</Text>
       </Button>
     </>
@@ -212,8 +189,7 @@ function PostAnonymously({ setIsAnonymous, isAnonymous }) {
           marginLeft: "0",
           marginRight: "auto",
           marginTop: "0.3rem",
-          color:
-            theme.colorScheme === "dark" ? theme.colors.gray[6] : "#5E5F61",
+          color: theme.colorScheme === "dark" ? theme.colors.gray[6] : "#5E5F61",
         }}
       >
         Post Anonymously
@@ -234,13 +210,7 @@ function PostAnonymously({ setIsAnonymous, isAnonymous }) {
   );
 }
 
-function ChooseCategory({
-  isAnonymous,
-  selectedCategory,
-  setSelectedCategory,
-  categoryError,
-  setCategoryError,
-}) {
+function ChooseCategory({ isAnonymous, selectedCategory, setSelectedCategory, categoryError, setCategoryError }) {
   return (
     <>
       <Select

@@ -1,25 +1,11 @@
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDocumentTitle } from "@mantine/hooks";
-import {
-  getAllPendingPosts,
-  getAllPosts,
-  getAllUsers,
-  getRegisteredUsersCount,
-  getUser,
-} from "../firebase-config";
+import { getAllPendingPosts, getAllPosts, getAllUsers, getRegisteredUsersCount, getUser } from "../firebase-config";
 
 import Frame from "../layouts/Frame/Frame";
 import PieChartReview from "../layouts/PieChartReview";
-import {
-  useMantineTheme,
-  Text,
-  SegmentedControl,
-  Center,
-  Paper,
-  Group,
-  RingProgress,
-} from "@mantine/core";
+import { useMantineTheme, Text, SegmentedControl, Center, Paper, Group, RingProgress } from "@mantine/core";
 import { IconUserCheck, IconMailbox, IconFileLike } from "@tabler/icons-react";
 import axios from "axios";
 import { PORT } from "../Globals";
@@ -205,10 +191,7 @@ function ReviewsLayout() {
       <div
         style={{
           height: "auto",
-          backgroundColor:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[6]
-              : theme.colors.gray[0],
+          backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
 
           borderRadius: "13px",
           padding: "2.375rem",
@@ -260,13 +243,7 @@ function Reports({ label, day }) {
         {formattedDate} - {formattedDateToday}
       </Text>
       {report === undefined || report?.totalPosts === 0 ? (
-        <Text
-          fz="xl"
-          fw="bold"
-          c="dimmed"
-          style={{ marginTop: "1rem" }}
-          ta="center"
-        >
+        <Text fz="xl" fw="bold" c="dimmed" style={{ marginTop: "1rem" }} ta="center">
           No Data
         </Text>
       ) : (
@@ -276,16 +253,10 @@ function Reports({ label, day }) {
           </Text>
           <PieChartReview data={report?.category} label={"Categories"} />
           <PieChartReview data={report?.solvedStates} label={"Solved Posts"} />
-          <PieChartReview
-            data={report?.anonymousPosts}
-            label={"Anonymous Posts"}
-          />
+          <PieChartReview data={report?.anonymousPosts} label={"Anonymous Posts"} />
           <PieChartReview data={report?.college} label={"College"} />
           <PieChartReview data={report?.program} label={"Program"} />
-          <PieChartReview
-            data={report?.levelOfUrgency}
-            label={"Level of Urgency"}
-          />
+          <PieChartReview data={report?.levelOfUrgency} label={"Level of Urgency"} />
           <PieChartReview data={report?.tags} label={"Tags"} />
         </>
       )}

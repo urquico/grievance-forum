@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  IconChartBar,
-  IconExplicit,
-  IconBrandAmongus,
-  IconChevronDown,
-  IconChevronUp,
-  IconUsers,
-} from "@tabler/icons";
+import { IconChartBar, IconExplicit, IconBrandAmongus, IconChevronDown, IconChevronUp, IconUsers } from "@tabler/icons";
 import { useDisclosure } from "@mantine/hooks";
 import { Button, Divider, Collapse } from "@mantine/core";
 import NavLinks from "./NavLinks";
@@ -24,13 +17,7 @@ function AdminControls() {
             color="dark"
             compact
             style={{ fontSize: "0.700rem" }}
-            rightIcon={
-              adminOpened ? (
-                <IconChevronUp size="14" />
-              ) : (
-                <IconChevronDown size="14" />
-              )
-            }
+            rightIcon={adminOpened ? <IconChevronUp size="14" /> : <IconChevronDown size="14" />}
             onClick={toggle}
           >
             Admin Controls
@@ -39,36 +26,10 @@ function AdminControls() {
         labelPosition="left"
       />
       <Collapse in={adminOpened}>
-        <NavLinks
-          title={"Profanities"}
-          icon={<IconExplicit size={16} />}
-          color="green"
-          path={"/profanities"}
-          indicator={false}
-        />
-        <NavLinks
-          title={"Pending Posts"}
-          icon={<IconBrandAmongus size={16} />}
-          color="green"
-          path={"/pending"}
-          indicator={false}
-        />
-        <NavLinks
-          title={"Reports"}
-          icon={<IconChartBar size={16} />}
-          color="green"
-          path={"/reports"}
-          isLastElement={false}
-          indicator={false}
-        />
-        <NavLinks
-          title={"Users"}
-          icon={<IconUsers size={16} />}
-          color="green"
-          path={"/users"}
-          isLastElement={true}
-          indicator={false}
-        />
+        <NavLinks title={"Profanities"} icon={<IconExplicit size={16} />} color="green" path={"/profanities"} indicator={false} />
+        <NavLinks title={"Pending Posts"} icon={<IconBrandAmongus size={16} />} color="green" path={"/pending"} indicator={false} />
+        <NavLinks title={"Reports"} icon={<IconChartBar size={16} />} color="green" path={"/reports"} isLastElement={false} indicator={false} />
+        <NavLinks title={"Users"} icon={<IconUsers size={16} />} color="green" path={"/users"} isLastElement={true} indicator={false} />
       </Collapse>
     </>
   );

@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  AppShell,
-  useMantineTheme,
-  useMantineColorScheme,
-} from "@mantine/core";
+import { AppShell, useMantineTheme, useMantineColorScheme } from "@mantine/core";
 
 import { logOut } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
@@ -41,21 +37,10 @@ function Frame({ content, path }) {
       <AppShell
         styles={{
           main: {
-            background:
-              theme.colorScheme === "dark"
-                ? theme.colors.dark[8]
-                : theme.colors.gray[0],
+            background: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[0],
           },
         }}
-        header={
-          <HeaderLayout
-            opened={opened}
-            setOpened={setOpened}
-            dark={dark}
-            theme={theme}
-            toggleColorScheme={toggleColorScheme}
-          />
-        }
+        header={<HeaderLayout opened={opened} setOpened={setOpened} dark={dark} theme={theme} toggleColorScheme={toggleColorScheme} />}
         navbar={<NavBarLayout opened={opened} logOut={logout} />}
         aside={<AsideLayout />}
       >

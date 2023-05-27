@@ -1,18 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useLayoutEffect } from "react";
-import {
-  useMantineTheme,
-  Button,
-  Paper,
-  Text,
-  TypographyStylesProvider,
-  Badge,
-  Modal,
-  Center,
-  TextInput,
-  Radio,
-  Select,
-} from "@mantine/core";
+import { useMantineTheme, Button, Paper, Text, TypographyStylesProvider, Badge, Modal, Center, TextInput, Radio, Select } from "@mantine/core";
 import { updateNotification, showNotification } from "@mantine/notifications";
 import env from "react-dotenv";
 import emailjs from "@emailjs/browser";
@@ -23,18 +11,7 @@ import { IconCheck, IconX, IconAlertTriangle } from "@tabler/icons-react";
 import axios from "axios";
 import { PORT } from "../Globals";
 
-function PendingPosts({
-  post,
-  email,
-  time,
-  isAnonymous,
-  category,
-  tags,
-  postId,
-  collegeId,
-  program,
-  receiver,
-}) {
+function PendingPosts({ post, email, time, isAnonymous, category, tags, postId, collegeId, program, receiver }) {
   const theme = useMantineTheme();
   const [isVisible, setIsVisible] = useState(true);
   const [isAdmin, setIsAdmin] = useState("");
@@ -109,11 +86,8 @@ function PendingPosts({
                   env.EMAILJS_TEMPLATE_ID,
                   {
                     receiver_email: user,
-                    sender_name: isAnonymous
-                      ? "Anonymous"
-                      : localStorage.getItem("name"),
-                    reply:
-                      "Hi, I mentioned you on my post. kindly check my concern",
+                    sender_name: isAnonymous ? "Anonymous" : localStorage.getItem("name"),
+                    reply: "Hi, I mentioned you on my post. kindly check my concern",
                   },
                   env.EMAILJS_PUBLIC_KEY
                 )
@@ -197,17 +171,10 @@ function PendingPosts({
     timeDisplay = `${cardVerb} ${Math.floor(time / 24)} day ago`;
   } else if (Math.floor(time) > 48) {
     timeDisplay = `${cardVerb} ${Math.floor(time / 24)} days ago`;
-  } else if (
-    parseFloat(time.replace(",", "")) / 24 / 30.437 >= 1 &&
-    parseFloat(time.replace(",", "")) / 24 / 30.437 <= 2
-  ) {
-    timeDisplay = `${cardVerb} ${Math.floor(
-      parseFloat(time.replace(",", "")) / 24 / 30.437
-    )} month ago`;
+  } else if (parseFloat(time.replace(",", "")) / 24 / 30.437 >= 1 && parseFloat(time.replace(",", "")) / 24 / 30.437 <= 2) {
+    timeDisplay = `${cardVerb} ${Math.floor(parseFloat(time.replace(",", "")) / 24 / 30.437)} month ago`;
   } else {
-    timeDisplay = `${cardVerb} ${Math.floor(
-      parseFloat(time.replace(",", "")) / 24 / 30.437
-    )} months ago`;
+    timeDisplay = `${cardVerb} ${Math.floor(parseFloat(time.replace(",", "")) / 24 / 30.437)} months ago`;
   }
 
   return (
@@ -215,10 +182,7 @@ function PendingPosts({
       style={{
         display: isVisible ? "flex" : "none",
         height: "auto",
-        backgroundColor:
-          theme.colorScheme === "dark"
-            ? theme.colors.dark[6]
-            : theme.colors.gray[0],
+        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
 
         borderRadius: "13px",
         padding: "2.375rem",
@@ -228,13 +192,7 @@ function PendingPosts({
         boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
       }}
     >
-      <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
-        radius="md"
-        centered
-        size={260}
-      >
+      <Modal opened={opened} onClose={() => setOpened(false)} radius="md" centered size={260}>
         <Center>
           <IconAlertTriangle size={100} style={{ marginTop: "-3rem" }} />
         </Center>
@@ -263,32 +221,17 @@ function PendingPosts({
           label="Reasons"
           error={radioError ? "Please select one" : ""}
         >
-          <Radio
-            value="Contains unblocked profanity"
-            label="Contains unblocked profanity"
-          />
+          <Radio value="Contains unblocked profanity" label="Contains unblocked profanity" />
           <Radio value="Already answered" label="Already answered" />
           <Radio value="Spam Posts" label="Spam Post" />
 
           <Radio value="others" label="Other Reason" />
         </Radio.Group>
 
-        {reason === "others" ? (
-          <TextInput
-            placeholder="Message"
-            label="Enter Message"
-            onChange={(event) => setCustomReason(event.currentTarget.value)}
-          />
-        ) : (
-          ""
-        )}
+        {reason === "others" ? <TextInput placeholder="Message" label="Enter Message" onChange={(event) => setCustomReason(event.currentTarget.value)} /> : ""}
 
         <Center style={{ marginTop: "1rem" }}>
-          <Button
-            style={{ marginRight: "0.25rem" }}
-            color="red"
-            onClick={() => setOpened(false)}
-          >
+          <Button style={{ marginRight: "0.25rem" }} color="red" onClick={() => setOpened(false)}>
             Cancel
           </Button>
           <Button
@@ -305,13 +248,7 @@ function PendingPosts({
         </Center>
       </Modal>
 
-      <Modal
-        opened={approvedOpen}
-        onClose={() => setApprovedOpen(false)}
-        radius="md"
-        centered
-        size={260}
-      >
+      <Modal opened={approvedOpen} onClose={() => setApprovedOpen(false)} radius="md" centered size={260}>
         <Center>
           <IconAlertTriangle size={100} style={{ marginTop: "-3rem" }} />
         </Center>
@@ -355,11 +292,7 @@ function PendingPosts({
         />
 
         <Center style={{ marginTop: "1rem" }}>
-          <Button
-            style={{ marginRight: "0.25rem" }}
-            color="red"
-            onClick={() => setApprovedOpen(false)}
-          >
+          <Button style={{ marginRight: "0.25rem" }} color="red" onClick={() => setApprovedOpen(false)}>
             Cancel
           </Button>
           <Button
@@ -403,11 +336,7 @@ function PendingPosts({
             <Badge variant="outline" color="pink">
               {college}
             </Badge>
-            <Badge
-              variant="outline"
-              color="orange"
-              style={{ marginLeft: "0.200rem" }}
-            >
+            <Badge variant="outline" color="orange" style={{ marginLeft: "0.200rem" }}>
               {program}
             </Badge>
           </>
@@ -445,20 +374,10 @@ function PendingPosts({
         )}
       </Paper>
 
-      <Button
-        style={{ marginTop: "1rem" }}
-        leftIcon={<IconCheck size="17" />}
-        onClick={approvePost}
-      >
+      <Button style={{ marginTop: "1rem" }} leftIcon={<IconCheck size="17" />} onClick={approvePost}>
         Approve
       </Button>
-      <Button
-        leftIcon={<IconX size="17" />}
-        style={{ marginTop: "0.500rem" }}
-        variant="outline"
-        color={theme.colorScheme === "dark" ? "gray" : "dark"}
-        onClick={declinePost}
-      >
+      <Button leftIcon={<IconX size="17" />} style={{ marginTop: "0.500rem" }} variant="outline" color={theme.colorScheme === "dark" ? "gray" : "dark"} onClick={declinePost}>
         Decline
       </Button>
     </div>

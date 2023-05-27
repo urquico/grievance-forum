@@ -7,13 +7,7 @@ import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 import PostCard from "../layouts/PostCard";
 import LoadingPost from "../layouts/Loading/LoadingPost";
-import {
-  getSinglePost,
-  getComments,
-  checkSolveState,
-  getUser,
-  removeHTMLTags,
-} from "../firebase-config";
+import { getSinglePost, getComments, checkSolveState, getUser, removeHTMLTags } from "../firebase-config";
 import { useMantineTheme, Timeline, Switch, Text } from "@mantine/core";
 import axios from "axios";
 import { PORT } from "../Globals";
@@ -203,10 +197,7 @@ function CommentLayout({ id }) {
           style={{
             display: "flex",
             height: "auto",
-            backgroundColor:
-              theme.colorScheme === "dark"
-                ? theme.colors.dark[6]
-                : theme.colors.gray[0],
+            backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
             borderRadius: "13px",
             padding: "2.375rem",
             marginTop: "1rem",
@@ -214,15 +205,7 @@ function CommentLayout({ id }) {
             flexDirection: "column",
           }}
         >
-          {isCurrentUserAdmin ? (
-            <SolveSwitch
-              isSolve={isSolve}
-              setIsSolve={setIsSolve}
-              postId={id}
-            />
-          ) : (
-            ""
-          )}
+          {isCurrentUserAdmin ? <SolveSwitch isSolve={isSolve} setIsSolve={setIsSolve} postId={id} /> : ""}
           {post?.length !== 0 ? (
             <>
               <PostCard
@@ -248,10 +231,7 @@ function CommentLayout({ id }) {
             style={{
               display: isSolve ? "none" : "flex",
               height: "auto",
-              backgroundColor:
-                theme.colorScheme === "dark"
-                  ? theme.colors.dark[6]
-                  : theme.colors.gray[0],
+              backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
               marginTop: isEmpty ? "1rem" : "1rem",
               borderRadius: "13px",
               padding: "2.375rem",
@@ -284,14 +264,9 @@ function CommentLayout({ id }) {
                   <Timeline>
                     {comments?.map((comment, index) => {
                       const timeCurrent = new Date(comment.readTime * 1000);
-                      const timeCommented = new Date(
-                        comment.timeCommented.seconds * 1000
-                      );
+                      const timeCommented = new Date(comment.timeCommented.seconds * 1000);
 
-                      const hour =
-                        (timeCurrent.getTime() - timeCommented.getTime()) /
-                        1000 /
-                        3600;
+                      const hour = (timeCurrent.getTime() - timeCommented.getTime()) / 1000 / 3600;
 
                       return (
                         <Timeline.Item key={index}>
@@ -382,8 +357,7 @@ function SolveSwitch({ isSolve, setIsSolve, postId }) {
           marginLeft: "0",
           marginRight: "auto",
           marginTop: "0.3rem",
-          color:
-            theme.colorScheme === "dark" ? theme.colors.gray[6] : "#5E5F61",
+          color: theme.colorScheme === "dark" ? theme.colors.gray[6] : "#5E5F61",
         }}
       >
         {isSolve ? "Open Topic" : " Mark as Solved"}

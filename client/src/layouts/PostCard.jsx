@@ -1,18 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
-import {
-  useMantineTheme,
-  Badge,
-  Text,
-  ActionIcon,
-  Button,
-  TypographyStylesProvider,
-} from "@mantine/core";
-import {
-  IconMessage,
-  IconArrowNarrowUp,
-  IconArrowNarrowDown,
-  IconChevronDownLeft,
-} from "@tabler/icons";
+import { useMantineTheme, Badge, Text, ActionIcon, Button, TypographyStylesProvider } from "@mantine/core";
+import { IconMessage, IconArrowNarrowUp, IconArrowNarrowDown, IconChevronDownLeft } from "@tabler/icons";
 import { useNavigate } from "react-router-dom";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
@@ -101,17 +89,10 @@ function PostCard({
     timeDisplay = `${cardVerb} ${Math.floor(time / 24)} day ago`;
   } else if (Math.floor(time) > 48) {
     timeDisplay = `${cardVerb} ${Math.floor(time / 24)} days ago`;
-  } else if (
-    parseFloat(time.replace(",", "")) / 24 / 30.437 >= 1 &&
-    parseFloat(time.replace(",", "")) / 24 / 30.437 <= 2
-  ) {
-    timeDisplay = `${cardVerb} ${Math.floor(
-      parseFloat(time.replace(",", "")) / 24 / 30.437
-    )} month ago`;
+  } else if (parseFloat(time.replace(",", "")) / 24 / 30.437 >= 1 && parseFloat(time.replace(",", "")) / 24 / 30.437 <= 2) {
+    timeDisplay = `${cardVerb} ${Math.floor(parseFloat(time.replace(",", "")) / 24 / 30.437)} month ago`;
   } else {
-    timeDisplay = `${cardVerb} ${Math.floor(
-      parseFloat(time.replace(",", "")) / 24 / 30.437
-    )} months ago`;
+    timeDisplay = `${cardVerb} ${Math.floor(parseFloat(time.replace(",", "")) / 24 / 30.437)} months ago`;
   }
 
   const voteDown = async () => {
@@ -172,9 +153,7 @@ function PostCard({
 
   const writeComment = () => {
     if (!previewOnly) {
-      isArchive
-        ? navigate(`/comment/archive/${postId}`)
-        : navigate(`/comment/${postId}`);
+      isArchive ? navigate(`/comment/archive/${postId}`) : navigate(`/comment/${postId}`);
     }
   };
 
@@ -195,10 +174,7 @@ function PostCard({
       style={{
         display: isVisible ? "none" : "flex",
         height: "auto",
-        backgroundColor:
-          theme.colorScheme === "dark"
-            ? theme.colors.dark[6]
-            : theme.colors.gray[0],
+        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
         borderRadius: "13px",
         padding: "2.375rem",
         marginTop: "1rem",
@@ -230,11 +206,7 @@ function PostCard({
             <Badge variant="outline" color="pink">
               {college}
             </Badge>
-            <Badge
-              variant="outline"
-              color="orange"
-              style={{ marginLeft: "0.200rem" }}
-            >
+            <Badge variant="outline" color="orange" style={{ marginLeft: "0.200rem" }}>
               {program}
             </Badge>
           </>
@@ -249,11 +221,7 @@ function PostCard({
           <>
             <Badge
               variant="gradient"
-              gradient={
-                category === "academic-concerns"
-                  ? { from: "orange", to: "red" }
-                  : { from: "teal", to: "lime", deg: 105 }
-              }
+              gradient={category === "academic-concerns" ? { from: "orange", to: "red" } : { from: "teal", to: "lime", deg: 105 }}
               style={{ marginLeft: "2.500rem", cursor: "pointer" }}
               onClick={() => {
                 navigate(`/category/${category}`);
@@ -293,11 +261,7 @@ function PostCard({
         ) : (
           <>
             <div style={{ marginLeft: "0.200rem", marginTop: "1rem" }}>
-              <ActionIcon
-                variant={upVote ? "filled" : "subtle"}
-                onClick={voteUp}
-                color={theme.colorScheme === "dark" ? "yellow" : "dark"}
-              >
+              <ActionIcon variant={upVote ? "filled" : "subtle"} onClick={voteUp} color={theme.colorScheme === "dark" ? "yellow" : "dark"}>
                 <IconArrowNarrowUp size={20} />
               </ActionIcon>
               <Text
@@ -309,11 +273,7 @@ function PostCard({
               >
                 {voteCount}
               </Text>
-              <ActionIcon
-                variant={downVote ? "filled" : "subtle"}
-                onClick={voteDown}
-                color={theme.colorScheme === "dark" ? "yellow" : "dark"}
-              >
+              <ActionIcon variant={downVote ? "filled" : "subtle"} onClick={voteDown} color={theme.colorScheme === "dark" ? "yellow" : "dark"}>
                 <IconArrowNarrowDown size={20} />
               </ActionIcon>
             </div>
@@ -326,8 +286,7 @@ function PostCard({
             marginBottom: "0.500rem",
             marginLeft: "1rem",
             marginRight: "1rem",
-            color:
-              theme.colorScheme === "dark" ? theme.colors.gray[6] : "#3E3E3E",
+            color: theme.colorScheme === "dark" ? theme.colors.gray[6] : "#3E3E3E",
             textAlign: "justify",
           }}
         >
@@ -340,8 +299,7 @@ function PostCard({
         <Text
           onClick={() => setReadMore(!readMore)}
           style={{
-            color:
-              theme.colorScheme === "dark" ? theme.colors.gray[6] : "#3E3E3E",
+            color: theme.colorScheme === "dark" ? theme.colors.gray[6] : "#3E3E3E",
             cursor: "pointer",
             margin: "auto",
             marginRight: "1rem",
@@ -360,18 +318,7 @@ function PostCard({
       {previewOnly || isComment ? (
         ""
       ) : (
-        <Text
-          style={{ marginLeft: "0.750rem" }}
-          c={
-            levelOfUrgency === "severe"
-              ? "red"
-              : levelOfUrgency === "moderate"
-              ? "orange"
-              : "green"
-          }
-          tt="uppercase"
-          fw="bold"
-        >
+        <Text style={{ marginLeft: "0.750rem" }} c={levelOfUrgency === "severe" ? "red" : levelOfUrgency === "moderate" ? "orange" : "green"} tt="uppercase" fw="bold">
           {levelOfUrgency}
           {isCurrentUserAdmin ? (
             <Text c="dimmed" fw="lighter" fz="xs" tt="initial">
@@ -425,10 +372,7 @@ function PostCard({
           alignSelf: "end",
           marginRight: "1rem",
           fontSize: "0.625rem",
-          color:
-            theme.colorScheme === "dark"
-              ? theme.colors.gray[7]
-              : theme.colors.dark[1],
+          color: theme.colorScheme === "dark" ? theme.colors.gray[7] : theme.colors.dark[1],
         }}
       >
         {timeDisplay}
@@ -458,10 +402,7 @@ function PostCard({
               onClick={writeComment}
               style={{
                 cursor: "pointer",
-                color:
-                  theme.colorScheme === "dark"
-                    ? theme.colors.gray[6]
-                    : "#747678",
+                color: theme.colorScheme === "dark" ? theme.colors.gray[6] : "#747678",
                 marginLeft: "0.250rem",
               }}
             >

@@ -3,16 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 
-import {
-  useMantineTheme,
-  Input,
-  Button,
-  Text,
-  List,
-  SimpleGrid,
-  Divider,
-  ActionIcon,
-} from "@mantine/core";
+import { useMantineTheme, Input, Button, Text, List, SimpleGrid, Divider, ActionIcon } from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX, IconEye } from "@tabler/icons";
@@ -80,10 +71,7 @@ function ProfanitiesLayout() {
               icon: <IconCheck size={16} />,
               autoClose: 2000,
             });
-            setProfanityList((currentList) => [
-              ...currentList,
-              { id: profanity },
-            ]);
+            setProfanityList((currentList) => [...currentList, { id: profanity }]);
           })
           .catch((error) => {
             updateNotification({
@@ -123,17 +111,11 @@ function ProfanitiesLayout() {
 
   return (
     <div>
-      <IntroductionCard
-        name={localStorage.getItem("name")}
-        message={`This will establish and maintain a sense of formality and decorum throughout the system.`}
-      />
+      <IntroductionCard name={localStorage.getItem("name")} message={`This will establish and maintain a sense of formality and decorum throughout the system.`} />
       <div
         style={{
           height: "auto",
-          backgroundColor:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[6]
-              : theme.colors.gray[0],
+          backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
           borderRadius: "13px",
           padding: "2.375rem",
           marginTop: "1rem",

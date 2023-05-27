@@ -26,29 +26,14 @@ function InfiniteScrolling({ type, tag, category, isArchive }) {
   }, []);
 
   useLayoutEffect(() => {
-    getPost(
-      type,
-      localStorage.getItem("email"),
-      tag,
-      category,
-      college,
-      program
-    ).then((result) => {
+    getPost(type, localStorage.getItem("email"), tag, category, college, program).then((result) => {
       setPosts([]);
       updateState(result);
     });
   }, [college, program, tag]);
 
   const fetchMoreData = () => {
-    getMorePosts(
-      lastDoc,
-      type,
-      localStorage.getItem("email"),
-      tag,
-      category,
-      college,
-      program
-    ).then((result) => {
+    getMorePosts(lastDoc, type, localStorage.getItem("email"), tag, category, college, program).then((result) => {
       updateState(result);
     });
   };
@@ -91,8 +76,7 @@ function InfiniteScrolling({ type, tag, category, isArchive }) {
         const timeCurrent = new Date(post.readTime * 1000);
         const timePosted = new Date(post.timePosted.seconds * 1000);
 
-        const hour =
-          (timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600;
+        const hour = (timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600;
 
         return (
           <div key={index}>

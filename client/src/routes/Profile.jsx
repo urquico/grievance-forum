@@ -17,10 +17,7 @@ function ProfileLayout() {
 
   return (
     <>
-      <IntroductionCard
-        name={localStorage.getItem("name")}
-        message={"Welcome to your profile, you can see your activities here"}
-      />
+      <IntroductionCard name={localStorage.getItem("name")} message={"Welcome to your profile, you can see your activities here"} />
       <Divider
         my="xs"
         labelPosition="center"
@@ -37,11 +34,7 @@ function ProfileLayout() {
         }
       />
 
-      {view === "posts" ? (
-        <InfiniteScrolling type="profile" isArchive={false} />
-      ) : (
-        <AccountInformation />
-      )}
+      {view === "posts" ? <InfiniteScrolling type="profile" isArchive={false} /> : <AccountInformation />}
     </>
   );
 }

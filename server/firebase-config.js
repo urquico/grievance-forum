@@ -1,9 +1,5 @@
 var admin = require("firebase-admin");
-const {
-  getFirestore,
-  Timestamp,
-  FieldValue,
-} = require("firebase-admin/firestore");
+const { getFirestore, Timestamp, FieldValue } = require("firebase-admin/firestore");
 
 var serviceAccount = require("./firebaseAppData.json");
 var Filter = require("bad-words"),
@@ -14,8 +10,7 @@ var Filter = require("bad-words"),
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL:
-    "https://haribon-e-wall-default-rtdb.asia-southeast1.firebasedatabase.app",
+  databaseURL: "https://haribon-e-wall-default-rtdb.asia-southeast1.firebasedatabase.app",
 });
 
 const db = getFirestore();
@@ -76,15 +71,7 @@ const removeOldUsers = async () => {
     });
 };
 
-const updateUserData = async ({
-  userId,
-  firstName,
-  lastName,
-  birthday,
-  college,
-  program,
-  userAgreedSLA,
-}) => {
+const updateUserData = async ({ userId, firstName, lastName, birthday, college, program, userAgreedSLA }) => {
   const ref = await db.collection("UserData").doc(userId);
   ref.update({
     firstName: firstName,
@@ -181,16 +168,7 @@ const getProfanityList = async () => {
   return data;
 };
 
-const writePost = async ({
-  category,
-  isAnonymous,
-  message,
-  userId,
-  tags,
-  college,
-  program,
-  receiver,
-}) => {
+const writePost = async ({ category, isAnonymous, message, userId, tags, college, program, receiver }) => {
   //! writing a post goes to the pending post collection first
   const profanityList = await getProfanityList();
   filter.addWords(...profanityList);
@@ -211,19 +189,7 @@ const writePost = async ({
   });
 };
 
-const approvePost = async ({
-  category,
-  isAnonymous,
-  message,
-  userId,
-  tags,
-  admin,
-  college,
-  program,
-  receiver,
-  reasonForUrgency,
-  levelOfUrgency,
-}) => {
+const approvePost = async ({ category, isAnonymous, message, userId, tags, admin, college, program, receiver, reasonForUrgency, levelOfUrgency }) => {
   let urgencyPoints = 0;
   if (levelOfUrgency === "severe") {
     urgencyPoints = 100;
@@ -302,10 +268,7 @@ const deletePost = async ({ postId, archive }) => {
     .doc(postId)
     .delete()
     .then(async () => {
-      const comments = await db
-        .collection("Comments")
-        .where("postId", "==", postId)
-        .get();
+      const comments = await db.collection("Comments").where("postId", "==", postId).get();
       comments?.forEach((doc) => {
         deleteComment({ commentId: doc.id });
       });
@@ -320,10 +283,7 @@ const deleteArchive = async ({ postId }) => {
     .doc(postId)
     .delete()
     .then(async () => {
-      const comments = await db
-        .collection("Comments")
-        .where("postId", "==", postId)
-        .get();
+      const comments = await db.collection("Comments").where("postId", "==", postId).get();
       comments?.forEach((doc) => {
         deleteComment({ commentId: doc.id });
       });
@@ -346,11 +306,7 @@ const deleteComment = async ({ commentId }) => {
 };
 
 const deleteVotedPost = async ({ userId, postId }) => {
-  const votePostRef = db
-    .collection("VotedPosts")
-    .doc(userId)
-    .collection("Vote")
-    .doc(postId);
+  const votePostRef = db.collection("VotedPosts").doc(userId).collection("Vote").doc(postId);
   const doc = await votePostRef.get();
   if (doc.exists) {
     votePostRef.delete();
@@ -373,10 +329,7 @@ const deleteZeroTagCount = async () => {
 };
 
 const deleteNotifications = async (postId) => {
-  const notification = await db
-    .collection("NotificationPosts")
-    .where("postId", "==", postId)
-    .get();
+  const notification = await db.collection("NotificationPosts").where("postId", "==", postId).get();
   notification?.forEach((doc) => {
     db.collection("NotificationPosts").doc(doc.id).delete();
   });
@@ -398,12 +351,7 @@ const readNotification = async ({ notificationId }) => {
   await db.collection("NotificationPosts").doc(notificationId).delete();
 };
 
-const notifyReceiver = async ({
-  notificationType,
-  notifier,
-  postId,
-  userId,
-}) => {
+const notifyReceiver = async ({ notificationType, notifier, postId, userId }) => {
   if (userId.includes("@")) {
     await db.collection("NotificationPosts").add({
       isOpened: false,
@@ -416,13 +364,7 @@ const notifyReceiver = async ({
   }
 };
 
-const notifyDeclinedPost = async ({
-  notificationType,
-  notifier,
-  postId,
-  userId,
-  message,
-}) => {
+const notifyDeclinedPost = async ({ notificationType, notifier, postId, userId, message }) => {
   await db.collection("NotificationPosts").add({
     isOpened: false,
     notificationTime: Timestamp.fromDate(new Date()),
@@ -434,12 +376,7 @@ const notifyDeclinedPost = async ({
   });
 };
 
-const notifyPublisher = async ({
-  notificationType,
-  notifier,
-  postId,
-  userId,
-}) => {
+const notifyPublisher = async ({ notificationType, notifier, postId, userId }) => {
   await db.collection("NotificationPosts").add({
     isOpened: false,
     notificationTime: Timestamp.fromDate(new Date()),
@@ -466,13 +403,7 @@ const createReport = async (days) => {
 
   const collectionRef = db.collection("Posts");
 
-  const querySnapshot = await collectionRef
-    .where(
-      "timePosted",
-      ">=",
-      admin.firestore.Timestamp.fromMillis(twentyFourHoursAgo)
-    )
-    .get();
+  const querySnapshot = await collectionRef.where("timePosted", ">=", admin.firestore.Timestamp.fromMillis(twentyFourHoursAgo)).get();
 
   const documents = [];
   querySnapshot.forEach((doc) => {
@@ -555,9 +486,7 @@ const countOccurrencesByKeyArray = (data, idKey) => {
     const ids = item[idKey];
     if (Array.isArray(ids)) {
       ids.forEach((id) => {
-        const existingOccurrence = occurrences.find(
-          (occurrence) => occurrence.id === id
-        );
+        const existingOccurrence = occurrences.find((occurrence) => occurrence.id === id);
         if (existingOccurrence) {
           existingOccurrence.value++;
         } else {

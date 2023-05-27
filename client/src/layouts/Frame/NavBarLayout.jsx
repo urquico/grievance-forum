@@ -18,25 +18,10 @@ function NavBarLayout({ opened, logOut }) {
 
   return (
     <div style={{ zIndex: "99" }}>
-      <Navbar
-        p="md"
-        hiddenBreakpoint="sm"
-        hidden={!opened}
-        width={{ sm: 200, lg: 300 }}
-        style={{ zIndex: "1" }}
-      >
+      <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 200, lg: 300 }} style={{ zIndex: "1" }}>
         <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
-          <UserControls
-            isUserAgreedSLA={isUserAgreedSLA}
-            isUserAdmin={isUserAdmin}
-          />
-          {isUserAdmin &&
-          checkIfContainsNumber(localStorage.getItem("email")) &&
-          !isUserAgreedSLA ? (
-            <AdminControls />
-          ) : (
-            ""
-          )}
+          <UserControls isUserAgreedSLA={isUserAgreedSLA} isUserAdmin={isUserAdmin} />
+          {isUserAdmin && checkIfContainsNumber(localStorage.getItem("email")) && !isUserAgreedSLA ? <AdminControls /> : ""}
 
           <div style={{ marginTop: "1rem" }}>
             <ProfileControls logOut={logOut} />

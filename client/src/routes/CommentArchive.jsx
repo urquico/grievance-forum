@@ -5,11 +5,7 @@ import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 import PostCard from "../layouts/PostCard";
 import LoadingPost from "../layouts/Loading/LoadingPost";
-import {
-  getSinglePost,
-  getComments,
-  checkSolveState,
-} from "../firebase-config";
+import { getSinglePost, getComments, checkSolveState } from "../firebase-config";
 import { useMantineTheme, Timeline } from "@mantine/core";
 
 import EndPost from "../layouts/EndPost";
@@ -19,9 +15,7 @@ import { useDocumentTitle } from "@mantine/hooks";
 function CommentArchive() {
   let { id } = useParams();
   useDocumentTitle("Comments");
-  return (
-    <Frame content={<CommentArchiveLayout />} path={`/comment/archive/${id}`} />
-  );
+  return <Frame content={<CommentArchiveLayout />} path={`/comment/archive/${id}`} />;
 }
 
 function CommentArchiveLayout() {
@@ -109,10 +103,7 @@ function CommentArchiveLayout() {
           style={{
             display: "flex",
             height: "auto",
-            backgroundColor:
-              theme.colorScheme === "dark"
-                ? theme.colors.dark[6]
-                : theme.colors.gray[0],
+            backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
             borderRadius: "13px",
             padding: "2.375rem",
             marginTop: "1rem",
@@ -153,14 +144,9 @@ function CommentArchiveLayout() {
                   <Timeline>
                     {comments?.map((comment, index) => {
                       const timeCurrent = new Date(comment.readTime * 1000);
-                      const timeCommented = new Date(
-                        comment.timeCommented.seconds * 1000
-                      );
+                      const timeCommented = new Date(comment.timeCommented.seconds * 1000);
 
-                      const hour =
-                        (timeCurrent.getTime() - timeCommented.getTime()) /
-                        1000 /
-                        3600;
+                      const hour = (timeCurrent.getTime() - timeCommented.getTime()) / 1000 / 3600;
 
                       return (
                         <Timeline.Item key={index}>

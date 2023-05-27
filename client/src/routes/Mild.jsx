@@ -25,10 +25,7 @@ function MildLayout() {
 
   return (
     <div>
-      <IntroductionCard
-        name={localStorage.getItem("name")}
-        message={"Here are the mild cases."}
-      />
+      <IntroductionCard name={localStorage.getItem("name")} message={"Here are the mild cases."} />
       <InfiniteScrolling type="mild" isArchive={false} />
     </div>
   );

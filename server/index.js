@@ -83,9 +83,7 @@ app.post("/updateLevelOfUrgency", async (req, res) => {
   })
     .then((result) => {
       res.send(result);
-      console.log(
-        `${req.body.postId}'s level of urgency data has been updated`
-      );
+      console.log(`${req.body.postId}'s level of urgency data has been updated`);
     })
     .catch((error) => {
       console.log(error.message);
@@ -420,6 +418,4 @@ app.post("/deleteProfanity", async (req, res) => {
     });
 });
 
-app.listen(port, () =>
-  console.log(`Haribon Server listening on port ${port}!`)
-);
+app.listen(port, () => console.log(`Haribon Server listening on port ${port}!`));

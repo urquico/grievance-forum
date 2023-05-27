@@ -16,10 +16,7 @@ function IntroductionCard({ name, message }) {
     <div
       style={{
         height: "auto",
-        backgroundColor:
-          theme.colorScheme === "dark"
-            ? theme.colors.dark[6]
-            : theme.colors.gray[0],
+        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
 
         borderRadius: "13px",
         padding: "2.375rem",
@@ -29,22 +26,11 @@ function IntroductionCard({ name, message }) {
       }}
     >
       <Text style={{ fontWeight: "bold" }}>
-        HELLO,{" "}
-        {userName?.firstName === "" ? (
-          name
-        ) : (
-          <>
-            {typeof userName?.firstName === "string"
-              ? userName?.firstName.toUpperCase()
-              : ""}
-            !
-          </>
-        )}
+        HELLO, {userName?.firstName === "" ? name : <>{typeof userName?.firstName === "string" ? userName?.firstName.toUpperCase() : ""}!</>}
       </Text>
       <Text
         style={{
-          color:
-            theme.colorScheme === "dark" ? theme.colors.gray[6] : "#3E3E3E",
+          color: theme.colorScheme === "dark" ? theme.colors.gray[6] : "#3E3E3E",
         }}
       >
         <TypographyStylesProvider>

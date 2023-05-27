@@ -1,43 +1,15 @@
 import React, { useState, useLayoutEffect } from "react";
-import {
-  Avatar,
-  Text,
-  useMantineTheme,
-  Badge,
-  ActionIcon,
-  Modal,
-  Button,
-  Center,
-  Tooltip,
-} from "@mantine/core";
+import { Avatar, Text, useMantineTheme, Badge, ActionIcon, Modal, Button, Center, Tooltip } from "@mantine/core";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconTrash, IconX, IconAlertTriangle, IconStar } from "@tabler/icons";
 import { IconCheck, IconArchive } from "@tabler/icons-react";
 
 import { PORT } from "../Globals";
-import {
-  checkStarComment,
-  checkSolveState,
-  checkIfContainsNumber,
-} from "../firebase-config";
+import { checkStarComment, checkSolveState, checkIfContainsNumber } from "../firebase-config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function User({
-  publisher,
-  isAnonymous,
-  email,
-  isAdmin,
-  isCurrentUserAdmin,
-  hideTrashAndBadge,
-  previewOnly,
-  postId,
-  tags,
-  setIsVisible,
-  isComment,
-  isPendingPost,
-  isArchive,
-}) {
+function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin, hideTrashAndBadge, previewOnly, postId, tags, setIsVisible, isComment, isPendingPost, isArchive }) {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const [archiveOpened, setArchiveOpened] = useState(false);
@@ -230,18 +202,8 @@ function User({
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
-      <ConfirmationDialog
-        opened={opened}
-        setOpened={setOpened}
-        confirmDelete={confirmDelete}
-        verb="Delete"
-      />
-      <ConfirmationDialog
-        opened={archiveOpened}
-        setOpened={setArchiveOpened}
-        confirmDelete={confirmArchive}
-        verb="Archive"
-      />
+      <ConfirmationDialog opened={opened} setOpened={setOpened} confirmDelete={confirmDelete} verb="Delete" />
+      <ConfirmationDialog opened={archiveOpened} setOpened={setArchiveOpened} confirmDelete={confirmArchive} verb="Archive" />
       <Avatar src={null} alt={publisher} color={generateRandomColor()}>
         {isAnonymous ? "H" : email?.toUpperCase()[0] + publisher[0]}
       </Avatar>
@@ -256,8 +218,7 @@ function User({
         <Text
           style={{
             fontSize: "0.750rem",
-            color:
-              theme.colorScheme === "dark" ? theme.colors.gray[6] : "#747678",
+            color: theme.colorScheme === "dark" ? theme.colors.gray[6] : "#747678",
             position: "relative",
             top: "-0.438rem",
           }}
@@ -275,15 +236,8 @@ function User({
             </Badge>
           ) : (
             <>
-              <Badge
-                style={{ marginLeft: "5px" }}
-                color={isAdmin ? "blue" : "green"}
-              >
-                {isAdmin ? (
-                  <>{checkIfContainsNumber(email) ? "Admin" : "Faculty"}</>
-                ) : (
-                  "Student"
-                )}
+              <Badge style={{ marginLeft: "5px" }} color={isAdmin ? "blue" : "green"}>
+                {isAdmin ? <>{checkIfContainsNumber(email) ? "Admin" : "Faculty"}</> : "Student"}
               </Badge>
               {isComment ? (
                 <>
@@ -297,11 +251,7 @@ function User({
                     variant="filled"
                     color={isStarComment ? "yellow" : "gray"}
                   >
-                    <IconStar
-                      size={16}
-                      onClick={isCurrentUserAdmin ? starComment : ""}
-                      color="white"
-                    />
+                    <IconStar size={16} onClick={isCurrentUserAdmin ? starComment : ""} color="white" />
                   </ActionIcon>
                 </>
               ) : (
@@ -353,13 +303,7 @@ function ConfirmationDialog({ opened, setOpened, confirmDelete, verb }) {
   return (
     <>
       {" "}
-      <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
-        radius="md"
-        centered
-        size="md"
-      >
+      <Modal opened={opened} onClose={() => setOpened(false)} radius="md" centered size="md">
         <Center>
           <IconAlertTriangle size={100} style={{ marginTop: "-3rem" }} />
         </Center>
@@ -374,11 +318,7 @@ function ConfirmationDialog({ opened, setOpened, confirmDelete, verb }) {
           </Text>
         </Center>
         <Center>
-          <Button
-            style={{ marginRight: "0.25rem" }}
-            color="red"
-            onClick={() => setOpened(false)}
-          >
+          <Button style={{ marginRight: "0.25rem" }} color="red" onClick={() => setOpened(false)}>
             Cancel
           </Button>
           <Button onClick={confirmDelete}>Yes, {verb} it</Button>

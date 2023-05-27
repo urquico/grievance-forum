@@ -64,8 +64,7 @@ function PendingLayout() {
             const timeCurrent = new Date(post.readTime * 1000);
             const timePosted = new Date(post.timePosted.seconds * 1000);
 
-            const hour =
-              (timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600;
+            const hour = (timeCurrent.getTime() - timePosted.getTime()) / 1000 / 3600;
 
             return (
               <div key={index}>

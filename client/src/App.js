@@ -43,23 +43,15 @@ function App() {
     defaultValue: "light",
     getInitialValueInEffect: true,
   });
-  const toggleColorScheme = () =>
-    setColorScheme(colorScheme === "dark" ? "light" : "dark");
+  const toggleColorScheme = () => setColorScheme(colorScheme === "dark" ? "light" : "dark");
 
   useFavicon(haribonFavicon);
 
   return (
     <Router>
       <Suspense fallback={<Loading />}>
-        <ColorSchemeProvider
-          colorScheme={colorScheme}
-          toggleColorScheme={toggleColorScheme}
-        >
-          <MantineProvider
-            theme={{ colorScheme }}
-            withGlobalStyles
-            withNormalizeCSS
-          >
+        <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+          <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
             <NotificationsProvider limit={5} zIndex={2077}>
               <Routes>
                 <Route path={"/"} element={<Login />} />
@@ -79,10 +71,7 @@ function App() {
                 <Route path={"/tags"} element={<Tags />} />
                 <Route path={"/tags/:id"} element={<Tag />} />
                 <Route path={"/comment/:id"} element={<Comment />} />
-                <Route
-                  path={"/comment/archive/:id"}
-                  element={<CommentArchive />}
-                />
+                <Route path={"/comment/archive/:id"} element={<CommentArchive />} />
                 <Route path={"/edit/:id"} element={<Tag />} />
 
                 <Route path={"/profanities"} element={<Profanities />} />
@@ -92,10 +81,7 @@ function App() {
 
                 <Route path={"/features"} element={<Features />} />
                 <Route path={"/privacy-policy"} element={<PrivacyPolicy />} />
-                <Route
-                  path={"/terms-of-services"}
-                  element={<TermsOfServices />}
-                />
+                <Route path={"/terms-of-services"} element={<TermsOfServices />} />
 
                 <Route path={"*"} element={<Error />} />
               </Routes>

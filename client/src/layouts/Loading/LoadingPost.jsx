@@ -7,10 +7,7 @@ function LoadingPost() {
     <div
       style={{
         height: "auto",
-        backgroundColor:
-          theme.colorScheme === "dark"
-            ? theme.colors.dark[6]
-            : theme.colors.gray[0],
+        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
         borderRadius: "13px",
         padding: "2.375rem",
         marginTop: "1rem",

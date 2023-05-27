@@ -32,21 +32,13 @@ function ProfanityList({ badword, hideWord }) {
   return (
     <List.Item
       icon={
-        <ActionIcon
-          color="red"
-          size={20}
-          radius="xl"
-          variant="outline"
-          onClick={deleteProfanity}
-        >
+        <ActionIcon color="red" size={20} radius="xl" variant="outline" onClick={deleteProfanity}>
           <IconX size={16} />
         </ActionIcon>
       }
       style={{ marginLeft: "0.750rem", display: isHidden ? "none" : "" }}
     >
-      <Text fz="sm">
-        {hideWord ? <>{hideCharacters(badword)}</> : <>{badword}</>}
-      </Text>
+      <Text fz="sm">{hideWord ? <>{hideCharacters(badword)}</> : <>{badword}</>}</Text>
     </List.Item>
   );
 }

@@ -67,18 +67,9 @@ function Login() {
             zIndex: 999,
           }}
         >
-          <Alert
-            icon={<IconAlertCircle size={16} />}
-            style={{ width: "90vw" }}
-            title="Warning!"
-            color="red"
-            radius="xl"
-            variant="filled"
-          >
-            We detected that you are possibly using safari or in-app browsers.
-            If so, kindly use a different browser to proceed to the system.
-            <br /> <br /> Ignore this message if you are already using a
-            different browser
+          <Alert icon={<IconAlertCircle size={16} />} style={{ width: "90vw" }} title="Warning!" color="red" radius="xl" variant="filled">
+            We detected that you are possibly using safari or in-app browsers. If so, kindly use a different browser to proceed to the system.
+            <br /> <br /> Ignore this message if you are already using a different browser
           </Alert>
         </div>
       ) : (

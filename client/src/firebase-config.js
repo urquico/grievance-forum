@@ -1,22 +1,6 @@
 import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  OAuthProvider,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth";
-import {
-  getDocs,
-  getFirestore,
-  collection,
-  query,
-  orderBy,
-  limit,
-  startAfter,
-  doc,
-  where,
-  getDoc,
-} from "firebase/firestore";
+import { getAuth, OAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { getDocs, getFirestore, collection, query, orderBy, limit, startAfter, doc, where, getDoc } from "firebase/firestore";
 
 import env from "react-dotenv";
 
@@ -59,14 +43,7 @@ export const getComments = async (postId) => {
   return data;
 };
 
-export const getPost = async (
-  type,
-  userId,
-  tag,
-  category,
-  college,
-  program
-) => {
+export const getPost = async (type, userId, tag, category, college, program) => {
   const ref = collection(db, "Posts");
 
   if (type === "home") {
@@ -105,87 +82,39 @@ export const getPost = async (
   }
 };
 
-export const getMorePosts = async (
-  lastDoc,
-  type,
-  userId,
-  tag,
-  category,
-  college,
-  program
-) => {
+export const getMorePosts = async (lastDoc, type, userId, tag, category, college, program) => {
   const ref = collection(db, "Posts");
   if (type === "home") {
-    const q = query(
-      ref,
-      orderBy("votePoint", "desc"),
-      startAfter(lastDoc),
-      limit(5)
-    );
+    const q = query(ref, orderBy("votePoint", "desc"), startAfter(lastDoc), limit(5));
     const data = await getDocs(q);
     return data;
   } else if (type === "profile") {
-    const q = query(
-      ref,
-      where("userId", "==", userId),
-      startAfter(lastDoc),
-      limit(5)
-    );
+    const q = query(ref, where("userId", "==", userId), startAfter(lastDoc), limit(5));
     const data = await getDocs(q);
     return data;
   } else if (type === "tag") {
-    const q = query(
-      ref,
-      where("tags", "array-contains", tag),
-      startAfter(lastDoc),
-      limit(5)
-    );
+    const q = query(ref, where("tags", "array-contains", tag), startAfter(lastDoc), limit(5));
     const data = await getDocs(q);
     return data;
   } else if (type === "category") {
-    const q = query(
-      ref,
-      where("categoryId", "==", category),
-      startAfter(lastDoc),
-      limit(5)
-    );
+    const q = query(ref, where("categoryId", "==", category), startAfter(lastDoc), limit(5));
     const data = await getDocs(q);
     return data;
   } else if (type === "archive") {
     const archiveRef = collection(db, "Archive");
-    const q = query(
-      archiveRef,
-      orderBy("votePoint", "desc"),
-      startAfter(lastDoc),
-      limit(5)
-    );
+    const q = query(archiveRef, orderBy("votePoint", "desc"), startAfter(lastDoc), limit(5));
     const data = await getDocs(q);
     return data;
   } else if (type === "college") {
-    const q = query(
-      ref,
-      where("college", "==", college),
-      startAfter(lastDoc),
-      limit(5)
-    );
+    const q = query(ref, where("college", "==", college), startAfter(lastDoc), limit(5));
     const data = await getDocs(q);
     return data;
   } else if (type === "program") {
-    const q = query(
-      ref,
-      where("program", "==", program),
-      startAfter(lastDoc),
-      limit(5)
-    );
+    const q = query(ref, where("program", "==", program), startAfter(lastDoc), limit(5));
     const data = await getDocs(q);
     return data;
   } else if (type === "severe" || type === "moderate" || type === "mild") {
-    const q = query(
-      ref,
-      where("levelOfUrgency", "==", type),
-      startAfter(lastDoc),
-      limit(5)
-    );
+    const q = query(ref, where("levelOfUrgency", "==", type), startAfter(lastDoc), limit(5));
     const data = await getDocs(q);
     return data;
   }
@@ -277,8 +206,7 @@ export const checkSolveState = async (postId) => {
   const ref = doc(db, "Posts", postId);
   const fetchedDoc = await getDoc(ref);
   if (fetchedDoc.exists()) {
-    return fetchedDoc._document.data.value.mapValue.fields.isSolved
-      .booleanValue;
+    return fetchedDoc._document.data.value.mapValue.fields.isSolved.booleanValue;
   }
 };
 
@@ -286,8 +214,7 @@ export const checkStarComment = async (commentId) => {
   const ref = doc(db, "Comments", commentId);
   const fetchedDoc = await getDoc(ref);
   if (fetchedDoc.exists()) {
-    return fetchedDoc._document.data.value.mapValue.fields.starComment
-      .booleanValue;
+    return fetchedDoc._document.data.value.mapValue.fields.starComment.booleanValue;
   }
 };
 

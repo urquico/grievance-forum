@@ -32,9 +32,7 @@ function PieChartReview({ data, label }) {
           modifiers: [["darker", 0.2]],
         }}
         arcLinkLabelsSkipAngle={10}
-        arcLinkLabelsTextColor={
-          theme.colorScheme === "dark" ? "#fffeee" : "#000"
-        }
+        arcLinkLabelsTextColor={theme.colorScheme === "dark" ? "#fffeee" : "#000"}
         arcLinkLabelsThickness={2}
         arcLinkLabelsColor={{ from: "color" }}
         arcLabelsSkipAngle={10}

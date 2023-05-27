@@ -13,10 +13,7 @@ function Home() {
 function HomeLayout() {
   return (
     <div>
-      <IntroductionCard
-        name={localStorage.getItem("name")}
-        message={"Welcome to Haribon E-Wall!"}
-      />
+      <IntroductionCard name={localStorage.getItem("name")} message={"Welcome to Haribon E-Wall!"} />
       <InfiniteScrolling type="home" isArchive={false} />
     </div>
   );
