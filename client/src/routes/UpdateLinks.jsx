@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 
-import { TextInput, Text, Anchor, Modal, Button, CopyButton, Tooltip, ActionIcon } from "@mantine/core";
+import { TextInput, Text, Anchor, Modal, Button, CopyButton, Tooltip } from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
