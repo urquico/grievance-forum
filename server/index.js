@@ -31,6 +31,7 @@ const {
   notifyDeclinedPost,
   removeOldUsers,
   createReport,
+  updateContacts,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -431,6 +432,17 @@ app.post("/deleteProfanity", async (req, res) => {
     })
     .catch((error) => {
       console.log("error on deleting profanity to the database");
+    });
+});
+
+app.post("/updateContacts", async (req, res) => {
+  await updateContacts(req.body.contactId, req.body.value, req.body.type)
+    .then((result) => {
+      res.send(result);
+      console.log(req.body.contactId, ":Updated contacts", req.body.type);
+    })
+    .catch((error) => {
+      console.log("error on updating the GForms on ", req.body.contactId);
     });
 });
 

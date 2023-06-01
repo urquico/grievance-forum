@@ -37,6 +37,7 @@ const Profanities = lazy(() => import("./routes/Profanities"));
 const Reviews = lazy(() => import("./routes/Reviews"));
 const Pending = lazy(() => import("./routes/Pending"));
 const Users = lazy(() => import("./routes/Users"));
+const UpdateLinks = lazy(() => import("./routes/UpdateLinks"));
 
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage({
@@ -80,6 +81,7 @@ function App() {
                 <Route path={"/reports"} element={<Reviews />} />
                 <Route path={"/pending"} element={<Pending />} />
                 <Route path={"/users"} element={<Users />} />
+                <Route path={"/update-links"} element={<UpdateLinks />} />
 
                 <Route path={"/features"} element={<Features />} />
                 <Route path={"/privacy-policy"} element={<PrivacyPolicy />} />

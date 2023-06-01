@@ -514,6 +514,24 @@ const countOccurrencesByKeyArray = (data, idKey) => {
   return result;
 };
 
+const updateContacts = async (contactId, value, type) => {
+  try {
+    console.log(type);
+    if (type === "FB Link") {
+      const contactRef = db.collection("Contacts").doc(contactId);
+      await contactRef.update({ fbLink: value });
+    } else if (type === "Forms Link") {
+      const contactRef = db.collection("Contacts").doc(contactId);
+      await contactRef.update({ gForms: value });
+    } else if (type === "Email") {
+      const contactRef = db.collection("Contacts").doc(contactId);
+      await contactRef.update({ value: value });
+    }
+  } catch (error) {
+    console.error("Error updating gForms field:", error);
+  }
+};
+
 module.exports = {
   addUser: addUser,
   removeOldUsers: removeOldUsers,
@@ -541,4 +559,5 @@ module.exports = {
   toggleAdmin: toggleAdmin,
   notifyDeclinedPost: notifyDeclinedPost,
   createReport: createReport,
+  updateContacts: updateContacts,
 };
