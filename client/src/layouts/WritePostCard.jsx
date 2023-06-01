@@ -117,8 +117,7 @@ function WritePostCard() {
       </Modal>
 
       <Text c="dimmed" ta="center" fs="italic" style={{ marginBottom: "1rem" }}>
-        Do you feel like you have a complaint that you just really cannot post publicly? Head over to our student council's <Anchor href="/g-forms-link">grievance forms</Anchor>{" "}
-        here
+        Do you feel like you have a complaint that you just really cannot post publicly? Head over to our student council's <Anchor href="/g-forms-link">grievance forms</Anchor>
       </Text>
       <PostAnonymously setIsAnonymous={setIsAnonymous} isAnonymous={isAnonymous} />
 
