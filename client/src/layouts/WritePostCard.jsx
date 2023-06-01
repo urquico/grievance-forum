@@ -1,6 +1,6 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMantineTheme, Text, Switch, Select, MultiSelect, Button, Modal } from "@mantine/core";
+import { useMantineTheme, Text, Switch, Select, MultiSelect, Button, Modal, Anchor } from "@mantine/core";
 import { RichTextEditor } from "@mantine/rte";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconHash, IconCheck, IconX, IconAt } from "@tabler/icons";
@@ -115,6 +115,11 @@ function WritePostCard() {
       >
         <PostPreview isAnonymous={isAnonymous} tags={selectedTags} category={selectedCategory} message={text} submitQuery={writePostQuery} />
       </Modal>
+
+      <Text c="dimmed" ta="center" fs="italic" style={{ marginBottom: "1rem" }}>
+        Do you feel like you have a complaint that you just really cannot post publicly? Head over to our student council's <Anchor href="/g-forms-link">grievance forms</Anchor>{" "}
+        here
+      </Text>
       <PostAnonymously setIsAnonymous={setIsAnonymous} isAnonymous={isAnonymous} />
 
       <AddReceivers receiver={receiver} setReceiver={setReceiver} />
