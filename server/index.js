@@ -172,6 +172,14 @@ app.post("/approvePost", async (req, res) => {
     });
 
   deletePendingPost({ postId: req.body.postId });
+
+  deleteZeroTagCount()
+    .then(() => {
+      console.log("Tag Count with zero values has been deleted Successfully");
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
 });
 
 app.post("/writeComment", async (req, res) => {
@@ -300,6 +308,14 @@ app.post("/archivePost", async (req, res) => {
   deleteTagCount({ tags: req.body.tags })
     .then(() => {
       console.log("Tag Count Decremented Successfully");
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+
+  deleteZeroTagCount()
+    .then(() => {
+      console.log("Tag Count with zero values has been deleted Successfully");
     })
     .catch((error) => {
       console.log(error.message);

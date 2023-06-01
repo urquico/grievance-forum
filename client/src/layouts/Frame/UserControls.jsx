@@ -1,5 +1,5 @@
-import React, { useState, useLayoutEffect } from "react";
-import { IconHome2, IconBallpen, IconCategory, IconUser, IconTags, IconInbox, IconChevronDown, IconChevronUp, IconAlertTriangle } from "@tabler/icons";
+import React, { useState } from "react";
+import { IconHome2, IconBallpen, IconCategory, IconUser, IconTags, IconInbox, IconChevronDown, IconChevronUp, IconAlertTriangle, IconForms } from "@tabler/icons";
 import { useDisclosure } from "@mantine/hooks";
 import { Button, Divider, Collapse } from "@mantine/core";
 import NavLinks from "./NavLinks";
@@ -14,6 +14,7 @@ function UserControls({ isUserAdmin, isUserAgreedSLA }) {
       <NavLinks title={"Post"} icon={<IconBallpen size={16} />} color="blue" path={"/post"} indicator={false} disabled={isUserAgreedSLA} />
       <NavLinks title={"Categories"} icon={<IconCategory size={16} />} color="violet" path={"/category"} indicator={false} />
       <NavLinks title={"Tags"} icon={<IconTags size={16} />} color="teal" path={"/tags"} indicator={false} />
+      <NavLinks title={"Private G-Forms"} icon={<IconForms size={16} />} color="yellow" path={"/g-forms-link"} indicator={false} />
       <Divider
         my="xs"
         label={

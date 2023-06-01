@@ -16,6 +16,7 @@ const Category = lazy(() => import("./routes/Category"));
 const CategoryId = lazy(() => import("./routes/CategoryId"));
 const Tags = lazy(() => import("./routes/Tags"));
 const Tag = lazy(() => import("./routes/Tag"));
+const GFormsLink = lazy(() => import("./routes/GFormsLink"));
 const Comment = lazy(() => import("./routes/Comment"));
 const AccountSetup = lazy(() => import("./routes/AccountSetup"));
 
@@ -70,6 +71,7 @@ function App() {
                 <Route path={"/category/:id"} element={<CategoryId />} />
                 <Route path={"/tags"} element={<Tags />} />
                 <Route path={"/tags/:id"} element={<Tag />} />
+                <Route path={"/g-forms-link"} element={<GFormsLink />} />
                 <Route path={"/comment/:id"} element={<Comment />} />
                 <Route path={"/comment/archive/:id"} element={<CommentArchive />} />
                 <Route path={"/edit/:id"} element={<Tag />} />

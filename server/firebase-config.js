@@ -110,26 +110,30 @@ const redditAlgorithm = (post) => {
 };
 
 const generateVotePoint = async () => {
-  // to update the vote count using the reddit algorithm
-  const ref = await db.collection("Posts").get();
-  const archiveRef = await db.collection("Archive").get();
+  try {
+    // to update the vote count using the reddit algorithm
+    const ref = await db.collection("Posts").get();
+    const archiveRef = await db.collection("Archive").get();
 
-  if (!ref.empty) {
-    ref.forEach((post) => {
-      const refPost = db.collection("Posts").doc(post.id);
-      refPost.update({
-        votePoint: redditAlgorithm(post),
+    if (!ref.empty) {
+      ref.forEach((post) => {
+        const refPost = db.collection("Posts").doc(post.id);
+        refPost.update({
+          votePoint: redditAlgorithm(post),
+        });
       });
-    });
-  }
+    }
 
-  if (!archiveRef.empty) {
-    archiveRef.forEach((post) => {
-      const refPost = db.collection("Archive").doc(post.id);
-      refPost.update({
-        votePoint: redditAlgorithm(post),
+    if (!archiveRef.empty) {
+      archiveRef.forEach((post) => {
+        const refPost = db.collection("Archive").doc(post.id);
+        refPost.update({
+          votePoint: redditAlgorithm(post),
+        });
       });
-    });
+    }
+  } catch (error) {
+    console.error("Error in generateVotePoint:", error);
   }
 };
 
@@ -262,7 +266,7 @@ const writeTags = async ({ tags }) => {
   });
 };
 
-const deletePost = async ({ postId, archive }) => {
+const deletePost = async ({ postId }) => {
   await db
     .collection("Posts")
     .doc(postId)
@@ -293,8 +297,11 @@ const deleteArchive = async ({ postId }) => {
 const archivePost = async ({ postId }) => {
   const post = await db.collection("Posts").doc(postId).get();
   const archiveRef = db.collection("Archive").doc(postId);
-  archiveRef.set({ ...post.data() });
-  deletePost({ postId, archive: true });
+
+  if (post.exists) {
+    await archiveRef.set({ ...post.data() });
+    await deletePost({ postId });
+  }
 };
 
 const deletePendingPost = async ({ postId }) => {
@@ -314,11 +321,13 @@ const deleteVotedPost = async ({ userId, postId }) => {
 };
 
 const deleteTagCount = async ({ tags }) => {
-  await tags.forEach((tag) => {
-    db.collection("Tags")
-      .doc(tag.toLowerCase())
-      .update({ tagCount: FieldValue.increment(-1) });
-  });
+  if (tags.length !== 0 || tags !== undefined || tags !== null || tags !== "") {
+    await tags.forEach((tag) => {
+      db.collection("Tags")
+        .doc(tag.toLowerCase())
+        .update({ tagCount: FieldValue.increment(-1) });
+    });
+  }
 };
 
 const deleteZeroTagCount = async () => {
