@@ -309,11 +309,15 @@ const deleteVotedPost = async ({ userId, postId }) => {
 
 const deleteTagCount = async ({ tags }) => {
   if (tags.length !== 0 || tags !== undefined || tags !== null || tags !== "") {
-    await tags.forEach((tag) => {
-      db.collection("Tags")
-        .doc(tag.toLowerCase())
-        .update({ tagCount: FieldValue.increment(-1) });
-    });
+    await tags
+      .forEach((tag) => {
+        db.collection("Tags")
+          .doc(tag.toLowerCase())
+          .update({ tagCount: FieldValue.increment(-1) });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 };
 
