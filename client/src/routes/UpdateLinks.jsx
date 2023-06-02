@@ -136,23 +136,7 @@ function UpdateLinksLayout() {
         }
         return <></>;
       })}
-      <EndPost
-        content={
-          <>
-            {
-              <CopyButton value="haribondevelopers@gmail.com" timeout={2000}>
-                {({ copied, copy }) => (
-                  <Tooltip label={copied ? "Copied" : "Copy"} withArrow position="right">
-                    <Tooltip label={copied ? "Copied" : "Copy"} withArrow position="right">
-                      <Button>Contact the Developer if your organization is not included</Button>
-                    </Tooltip>
-                  </Tooltip>
-                )}
-              </CopyButton>
-            }{" "}
-          </>
-        }
-      />
+      <EndPost content="Contact the Developer if your organization is not included" />
     </div>
   );
 }
