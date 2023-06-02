@@ -528,6 +528,9 @@ const updateContacts = async (contactId, value, type) => {
     } else if (type === "Email") {
       const contactRef = db.collection("Contacts").doc(contactId);
       await contactRef.update({ value: value });
+    } else if (type === "Description") {
+      const contactRef = db.collection("Contacts").doc(contactId);
+      await contactRef.update({ description: value });
     }
   } catch (error) {
     console.error("Error updating gForms field:", error);

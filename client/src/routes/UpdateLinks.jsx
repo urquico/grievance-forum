@@ -131,6 +131,11 @@ function UpdateLinksLayout() {
               <Text fz="xs" style={{ marginBottom: "1rem" }}>
                 <Anchor onClick={() => updateQuery("Email", contact.label)}>click to update Email</Anchor>
               </Text>
+
+              <TextInput placeholder={contact?.description} label={<Text c="dimmed">Description: </Text>} disabled />
+              <Text fz="xs" style={{ marginBottom: "1rem" }}>
+                <Anchor onClick={() => updateQuery("Description", contact.label)}>click to update Description</Anchor>
+              </Text>
             </div>
           );
         }
