@@ -181,6 +181,14 @@ app.post("/approvePost", async (req, res) => {
     .catch((error) => {
       console.log(error.message);
     });
+
+  generateVotePoint()
+    .then(() => {
+      console.log("Vote Point Generation Success!");
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
 });
 
 app.post("/writeComment", async (req, res) => {

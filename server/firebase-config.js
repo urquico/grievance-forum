@@ -87,23 +87,10 @@ const redditAlgorithm = (post) => {
   const timePosted = new Date(post.data().timePosted._seconds);
   const currentDate = new Date(Timestamp.fromDate(new Date())._seconds);
   let t = currentDate - timePosted;
-  let x = post.data().upVote - post.data().downVote;
-  let y = 0;
-  let z = 0;
 
-  if (x > 0) {
-    y = 1;
-  } else if ((x = 0)) {
-    y = 0;
-  } else {
-    y = -1;
-  }
-
-  if (Math.abs(x) >= 1) {
-    z = Math.abs(x);
-  } else {
-    z = 1;
-  }
+  const x = post.data().upVote - post.data().downVote;
+  const y = x > 0 ? 1 : x === 0 ? 0 : -1;
+  const z = Math.max(Math.abs(x), 1);
 
   let result = Math.log(10) * z + (y * t) / 45000;
   return result;
