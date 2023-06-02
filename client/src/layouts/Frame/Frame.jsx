@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AppShell, useMantineTheme, useMantineColorScheme } from "@mantine/core";
 
-import { logOut } from "../../firebase-config";
+import { checkIfContainsNumber, logOut } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
 import HeaderLayout from "./HeaderLayout";
 import NavBarLayout from "./NavBarLayout";
@@ -18,7 +18,8 @@ function Frame({ content, path }) {
 
   useEffect(() => {
     // redirects to login page when accessing a url that requires authentication
-    if (localStorage.getItem("name") === null) {
+    if (localStorage.getItem("name") === null || !checkIfContainsNumber(localStorage.getItem("email"))) {
+      logOut();
       navigate("/");
     } else {
       navigate(path);
