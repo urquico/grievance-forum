@@ -8,7 +8,7 @@ import IntroductionCard from "../layouts/IntroductionCard";
 import PostCard from "../layouts/PostCard";
 import LoadingPost from "../layouts/Loading/LoadingPost";
 import { getSinglePost, getComments, checkSolveState, getUser, removeHTMLTags } from "../firebase-config";
-import { useMantineTheme, Timeline, Switch, Text } from "@mantine/core";
+import { useMantineTheme, Switch, Text } from "@mantine/core";
 import axios from "axios";
 import { PORT } from "../Globals";
 import { showNotification, updateNotification } from "@mantine/notifications";
@@ -37,6 +37,8 @@ function CommentLayout({ id }) {
   const [isSolve, setIsSolve] = useState();
   const [isCurrentUserAdmin, setIsCurrentUserAdmin] = useState(false);
   const [restrictComment, setRestrictComment] = useState(false);
+  const [isUserOwnerOfPost, setUserIsOwnerOfPost] = useState(false);
+  const [isPostAnonymous, setIsPostAnonymous] = useState(false);
   let timeCurrent = 0,
     timePosted = 0,
     hour = 0;
@@ -51,6 +53,10 @@ function CommentLayout({ id }) {
         readTime: result._document.readTime.timestamp.seconds,
       });
       setIsLoading(false);
+      if (localStorage.getItem("email") === result.data().userId) {
+        setUserIsOwnerOfPost(true);
+        setIsPostAnonymous(result.data().isAnonymous);
+      }
     });
   }, [id]);
 
@@ -224,7 +230,7 @@ function CommentLayout({ id }) {
               />
             </>
           ) : (
-            "asd"
+            ""
           )}
 
           <div
@@ -261,7 +267,7 @@ function CommentLayout({ id }) {
                     <LoadingPost />
                   </>
                 ) : (
-                  <Timeline>
+                  <>
                     {comments?.map((comment, index) => {
                       const timeCurrent = new Date(comment.readTime * 1000);
                       const timeCommented = new Date(comment.timeCommented.seconds * 1000);
@@ -269,26 +275,24 @@ function CommentLayout({ id }) {
                       const hour = (timeCurrent.getTime() - timeCommented.getTime()) / 1000 / 3600;
 
                       return (
-                        <Timeline.Item key={index}>
-                          <PostCard
-                            style={{ marginLeft: "2rem" }}
-                            isAnonymous={false}
-                            email={comment.userId}
-                            tags={[]}
-                            category={""}
-                            time={hour.toLocaleString()}
-                            post={comment.reply}
-                            postId={comment.id}
-                            isSolved={false}
-                            voteNumber={0}
-                            previewOnly={false}
-                            isComment={true}
-                          />
-                        </Timeline.Item>
+                        <PostCard
+                          key={index}
+                          style={{ marginLeft: "2rem" }}
+                          isAnonymous={isUserOwnerOfPost ? (isPostAnonymous ? true : false) : false}
+                          email={comment.userId}
+                          tags={[]}
+                          category={""}
+                          time={hour.toLocaleString()}
+                          post={comment.reply}
+                          postId={comment.id}
+                          isSolved={false}
+                          voteNumber={0}
+                          previewOnly={false}
+                          isComment={true}
+                        />
                       );
                     })}
-                    <Timeline.Item></Timeline.Item>
-                  </Timeline>
+                  </>
                 )}
               </>
             )}

@@ -179,7 +179,7 @@ function PostCard({
         borderRadius: "13px",
         padding: "2.375rem",
         marginTop: "1rem",
-        boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+        boxShadow: isComment ? "" : "rgba(0, 0, 0, 0.16) 0px 1px 4px",
         flexDirection: "column",
       }}
     >
