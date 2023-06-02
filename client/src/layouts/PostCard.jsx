@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { useMantineTheme, Badge, Text, ActionIcon, Button, TypographyStylesProvider } from "@mantine/core";
+import { useMantineTheme, Badge, Text, ActionIcon, Button, TypographyStylesProvider, Tooltip } from "@mantine/core";
 import { IconMessage, IconArrowNarrowUp, IconArrowNarrowDown, IconChevronDownLeft } from "@tabler/icons";
 import { useNavigate } from "react-router-dom";
 import { showNotification, updateNotification } from "@mantine/notifications";
@@ -27,6 +27,7 @@ function PostCard({
   reasonForUrgency,
   levelOfUrgency,
   approver,
+  votePoint,
 }) {
   const theme = useMantineTheme();
   const [publisher, setPublisher] = useState("");
@@ -276,6 +277,11 @@ function PostCard({
               <ActionIcon variant={downVote ? "filled" : "subtle"} onClick={voteDown} color={theme.colorScheme === "dark" ? "yellow" : "dark"}>
                 <IconArrowNarrowDown size={20} />
               </ActionIcon>
+              <Tooltip label="vote point">
+                <Text c="dimmed" fz="xs" style={{ marginLeft: "0.200rem" }}>
+                  {votePoint > 0 ? votePoint.toFixed(2) : ""}
+                </Text>
+              </Tooltip>
             </div>
           </>
         )}

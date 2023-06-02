@@ -90,6 +90,7 @@ function InfiniteScrolling({ type, tag, category, isArchive }) {
               postId={post.id}
               isSolved={post.isSolved}
               voteNumber={post.upVote - post.downVote}
+              votePoint={post.votePoint}
               previewOnly={false}
               isComment={false}
               isPendingPost={false}

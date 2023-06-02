@@ -84,16 +84,27 @@ const updateUserData = async ({ userId, firstName, lastName, birthday, college, 
 };
 
 const redditAlgorithm = (post) => {
-  const timePosted = new Date(post.data().timePosted._seconds);
-  const currentDate = new Date(Timestamp.fromDate(new Date())._seconds);
-  let t = currentDate - timePosted;
+  // modified reddit algorithm
+  const timePosted = post.data().timePosted.toDate();
+  const currentDate = new Date();
+
+  const timeDifferenceInMinutes = Math.floor((currentDate - timePosted) / (1000 * 60));
 
   const x = post.data().upVote - post.data().downVote;
   const y = x > 0 ? 1 : x === 0 ? 0 : -1;
-  const z = Math.max(Math.abs(x), 1);
+  const z = Math.abs(x);
 
-  let result = Math.log(10) * z + (y * t) / 45000;
-  return result;
+  const timeFactor = 1 + Math.log10(timeDifferenceInMinutes + 1);
+
+  let votePoint = 0;
+
+  if (!post.data().isSolved) {
+    votePoint = Math.log10(z + 1) * (y * timeFactor);
+  } else {
+    votePoint = Math.log10(z + 1) * (y * timeFactor) - 10000;
+  }
+
+  return votePoint;
 };
 
 const generateVotePoint = async () => {

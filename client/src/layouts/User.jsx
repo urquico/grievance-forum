@@ -112,7 +112,7 @@ function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin, hide
       });
       deletePost();
       setOpened(false);
-      if (!isComment) {
+      if (!isComment && !isArchive) {
         navigate("/home");
       }
     }
