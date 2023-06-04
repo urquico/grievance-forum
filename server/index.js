@@ -32,6 +32,7 @@ const {
   removeOldUsers,
   createReport,
   updateContacts,
+  deleteNotifications,
 } = require("./firebase-config");
 
 app.use(cors());
@@ -396,6 +397,16 @@ app.post("/readNotification", async (req, res) => {
   await readNotification({ notificationId: req.body.notificationId })
     .then((result) => {
       console.log(`Notification has been viewed`);
+      res.send(result);
+    })
+    .catch((error) => {
+      console.log(error.message);
+      res.send(error.message);
+    });
+
+  deleteNotifications(req.body.postId)
+    .then((result) => {
+      console.log(`Notification has been removed`);
       res.send(result);
     })
     .catch((error) => {

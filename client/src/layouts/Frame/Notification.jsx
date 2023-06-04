@@ -120,6 +120,7 @@ function Notification() {
                               axios
                                 .post(`${PORT}/readNotification`, {
                                   notificationId: notification.id,
+                                  postId: notification.postId,
                                 })
                                 .then(() => {
                                   if (notification.notificationType === "declined") {

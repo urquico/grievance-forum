@@ -565,4 +565,5 @@ module.exports = {
   notifyDeclinedPost: notifyDeclinedPost,
   createReport: createReport,
   updateContacts: updateContacts,
+  deleteNotifications: deleteNotifications,
 };
