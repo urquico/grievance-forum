@@ -365,6 +365,15 @@ app.post("/toggleSolve", async (req, res) => {
       res.send(error.message);
       console.log(error.message);
     });
+
+  await generateVotePoint()
+    .then((result) => {
+      res.send(result);
+      console.log("Vote Point Generation Success!");
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
 });
 
 app.post("/toggleAdmin", async (req, res) => {
