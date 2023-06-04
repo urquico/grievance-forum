@@ -37,7 +37,6 @@ function CommentLayout({ id }) {
   const [isSolve, setIsSolve] = useState();
   const [isCurrentUserAdmin, setIsCurrentUserAdmin] = useState(false);
   const [restrictComment, setRestrictComment] = useState(false);
-  const [isUserOwnerOfPost, setUserIsOwnerOfPost] = useState(false);
   const [isPostAnonymous, setIsPostAnonymous] = useState(false);
   let timeCurrent = 0,
     timePosted = 0,
@@ -53,10 +52,7 @@ function CommentLayout({ id }) {
         readTime: result._document.readTime.timestamp.seconds,
       });
       setIsLoading(false);
-      if (localStorage.getItem("email") === result.data().userId) {
-        setUserIsOwnerOfPost(true);
-        setIsPostAnonymous(result.data().isAnonymous);
-      }
+      setIsPostAnonymous(result.data().isAnonymous);
     });
   }, [id]);
 
@@ -94,13 +90,7 @@ function CommentLayout({ id }) {
   const commentState = (result) => {
     const isCollectionEmpty = result.size === 0;
     if (!isCollectionEmpty) {
-      setComments(() => [
-        ...result.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-          readTime: doc._document.readTime.timestamp.seconds,
-        })),
-      ]);
+      setComments(result);
     } else {
       setIsEmpty(true);
     }
@@ -155,9 +145,7 @@ function CommentLayout({ id }) {
                     },
                     env.EMAILJS_PUBLIC_KEY
                   )
-                  .then((result) => {
-                    console.log(result);
-                  })
+                  .then((result) => {})
                   .catch((err) => {
                     console.log(err.message);
                   });
@@ -278,7 +266,8 @@ function CommentLayout({ id }) {
                         <PostCard
                           key={index}
                           style={{ marginLeft: "2rem" }}
-                          isAnonymous={isUserOwnerOfPost ? (isPostAnonymous ? true : false) : false}
+                          // isAnonymous={isUserOwnerOfPost ? (isPostAnonymous ? true : false) : false}
+                          isAnonymous={isPostAnonymous ? (comment.userId === post.userId ? true : false) : false}
                           email={comment.userId}
                           tags={[]}
                           category={""}

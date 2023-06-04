@@ -39,10 +39,20 @@ export const getComments = async (postId) => {
   const ref = collection(db, "Comments");
 
   const q = query(ref, where("postId", "==", postId));
-  const data = await getDocs(q);
-  return data;
-};
+  const querySnapshot = await getDocs(q);
 
+  // Get the comment documents
+  const comments = querySnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+    readTime: doc._document.readTime.timestamp.seconds,
+  }));
+
+  // Sort the comments based on timeCommented in descending order
+  const sortedComments = comments.sort((a, b) => b.timeCommented.seconds - a.timeCommented.seconds);
+
+  return sortedComments.slice().reverse();
+};
 export const getPost = async (type, userId, tag, category, college, program) => {
   const ref = collection(db, "Posts");
 
