@@ -221,14 +221,6 @@ app.post("/votePost", async (req, res) => {
       res.send(error.message);
       console.log(error.message);
     });
-
-  generateVotePoint()
-    .then(() => {
-      console.log("Vote Point Generation Success!");
-    })
-    .catch((error) => {
-      console.log(error.message);
-    });
 });
 
 app.post("/deletePendingPost", async (req, res) => {
