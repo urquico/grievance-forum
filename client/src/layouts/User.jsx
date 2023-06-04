@@ -23,7 +23,7 @@ function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin, hide
     checkSolveState(postId).then((result) => {
       setIsSolved(result);
     });
-  });
+  }, []);
 
   useLayoutEffect(() => {
     if (isComment) {
