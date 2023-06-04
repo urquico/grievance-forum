@@ -14,7 +14,7 @@ function NavBarLayout({ opened, logOut }) {
       setIsUserAgreedSLA(!result.userAgreedSLA);
       setIsUserAdmin(result.isAdmin);
     });
-  });
+  }, []);
 
   return (
     <div style={{ zIndex: "99" }}>

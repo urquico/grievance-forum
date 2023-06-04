@@ -21,7 +21,7 @@ function ProgramLayout() {
         navigate("/home");
       }
     });
-  });
+  }, []);
 
   return (
     <div>

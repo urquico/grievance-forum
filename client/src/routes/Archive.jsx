@@ -21,7 +21,7 @@ function ArchiveLayout() {
         navigate("/home");
       }
     });
-  });
+  }, []);
 
   return (
     <div>

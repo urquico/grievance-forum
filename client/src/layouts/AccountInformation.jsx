@@ -28,13 +28,13 @@ function AccountInformation() {
     getCollegeInfo(user?.college).then((result) => {
       setCollege(result.label);
     });
-  });
+  }, []);
 
   useLayoutEffect(() => {
     getProgramInfo(user?.college, user?.program).then((result) => {
       setProgram(result.label);
     });
-  });
+  }, []);
 
   const editInfo = () => {
     navigate("/setup");

@@ -21,7 +21,7 @@ function ModerateLayout() {
         navigate("/home");
       }
     });
-  });
+  }, []);
 
   return (
     <div>

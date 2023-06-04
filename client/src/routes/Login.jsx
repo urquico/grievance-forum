@@ -21,7 +21,7 @@ function Login() {
   useLayoutEffect(() => {
     axios.post(`${PORT}/generateVotePoint`, {});
     axios.post(`${PORT}/removeOldUsers`, {});
-  });
+  }, []);
 
   const login = async () => {
     await signInWithMicrosoft()

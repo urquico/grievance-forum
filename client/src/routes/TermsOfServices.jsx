@@ -11,8 +11,6 @@ function TermsOfServices() {
 }
 
 function TermsOfServicesLayout() {
-  const features = [];
-
   return (
     <>
       <Text fw="bold" fz="xl">

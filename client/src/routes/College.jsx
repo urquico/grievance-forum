@@ -21,7 +21,7 @@ function CollegeLayout() {
         navigate("/home");
       }
     });
-  });
+  }, []);
 
   return (
     <div>

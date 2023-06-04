@@ -67,7 +67,7 @@ function AccountSetupLayout() {
     getCollegeInfo(existingUserData?.college).then((result) => {
       initializeCollegeData(result.label);
     });
-  });
+  }, []);
 
   const initializeCollegeData = (collegeData) => {
     setCollegePlaceholder(collegeData);
@@ -77,7 +77,7 @@ function AccountSetupLayout() {
     getProgramInfo(existingUserData?.college, existingUserData?.program).then((result) => {
       setProgramPlaceholder(result.label);
     });
-  });
+  }, []);
 
   const submitData = () => {
     if (firstName === "") {
