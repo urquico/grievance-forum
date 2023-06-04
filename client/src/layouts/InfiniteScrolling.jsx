@@ -30,7 +30,7 @@ function InfiniteScrolling({ type, tag, category, isArchive }) {
       setPosts([]);
       updateState(result);
     });
-  }, [college, program, tag, posts]);
+  }, [college, program, tag]);
 
   const fetchMoreData = () => {
     getMorePosts(lastDoc, type, localStorage.getItem("email"), tag, category, college, program).then((result) => {

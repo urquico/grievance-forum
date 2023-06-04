@@ -366,7 +366,7 @@ app.post("/toggleSolve", async (req, res) => {
       console.log(error.message);
     });
 
-  await generateVotePoint()
+  generateVotePoint()
     .then((result) => {
       res.send(result);
       console.log("Vote Point Generation Success!");
