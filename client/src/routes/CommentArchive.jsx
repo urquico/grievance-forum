@@ -135,7 +135,7 @@ function CommentArchiveLayout() {
                     <LoadingPost />
                   </>
                 ) : (
-                  <Timeline>
+                  <>
                     {comments?.map((comment, index) => {
                       const timeCurrent = new Date(comment.readTime * 1000);
                       const timeCommented = new Date(comment.timeCommented.seconds * 1000);
@@ -143,26 +143,25 @@ function CommentArchiveLayout() {
                       const hour = (timeCurrent.getTime() - timeCommented.getTime()) / 1000 / 3600;
 
                       return (
-                        <Timeline.Item key={index}>
-                          <PostCard
-                            style={{ marginLeft: "2rem" }}
-                            isAnonymous={false}
-                            email={comment.userId}
-                            tags={[]}
-                            category={""}
-                            time={hour.toLocaleString()}
-                            post={comment.reply}
-                            postId={comment.id}
-                            isSolved={false}
-                            voteNumber={0}
-                            previewOnly={false}
-                            isComment={true}
-                          />
-                        </Timeline.Item>
+                        <PostCard
+                          key={index}
+                          style={{ marginLeft: "2rem" }}
+                          isAnonymous={false}
+                          email={comment.userId}
+                          tags={[]}
+                          category={""}
+                          time={hour.toLocaleString()}
+                          post={comment.reply}
+                          postId={comment.id}
+                          isSolved={false}
+                          voteNumber={0}
+                          previewOnly={false}
+                          isComment={true}
+                        />
                       );
                     })}
                     <Timeline.Item></Timeline.Item>
-                  </Timeline>
+                  </>
                 )}
               </>
             )}
