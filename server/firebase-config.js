@@ -2,15 +2,18 @@ var admin = require("firebase-admin");
 const { getFirestore, Timestamp, FieldValue } = require("firebase-admin/firestore");
 
 var serviceAccount = require("./firebaseAppData.json");
+
+const filipinoBadWords = require("filipino-badwords-list");
+
 var Filter = require("bad-words"),
   filter = new Filter({
     regex: /\*|\.|$/gi,
     replaceRegex: /[A-Za-z0-9가-힣_]/g,
+    list: filipinoBadWords.array,
   });
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://haribon-e-wall-default-rtdb.asia-southeast1.firebasedatabase.app",
 });
 
 const db = getFirestore();
@@ -194,9 +197,9 @@ const writePost = async ({ category, isAnonymous, message, userId, tags, college
 const approvePost = async ({ category, isAnonymous, message, userId, tags, admin, college, program, receiver, reasonForUrgency, levelOfUrgency }) => {
   let urgencyPoints = 0;
   if (levelOfUrgency === "severe") {
-    urgencyPoints = 100;
+    urgencyPoints = 1000;
   } else if (levelOfUrgency === "moderate") {
-    urgencyPoints = 50;
+    urgencyPoints = 100;
   } else if (levelOfUrgency === "mild") {
     urgencyPoints = 10;
   }
@@ -264,16 +267,18 @@ const writeTags = async ({ tags }) => {
   });
 };
 
-const deletePost = async ({ postId }) => {
+const deletePost = async ({ postId, archive }) => {
   await db
     .collection("Posts")
     .doc(postId)
     .delete()
     .then(async () => {
-      const comments = await db.collection("Comments").where("postId", "==", postId).get();
-      comments?.forEach((doc) => {
-        deleteComment({ commentId: doc.id });
-      });
+      if (!archive) {
+        const comments = await db.collection("Comments").where("postId", "==", postId).get();
+        comments?.forEach((doc) => {
+          deleteComment({ commentId: doc.id });
+        });
+      }
 
       deleteNotifications(postId);
     });
@@ -298,7 +303,7 @@ const archivePost = async ({ postId }) => {
 
   if (post.exists) {
     await archiveRef.set({ ...post.data() });
-    await deletePost({ postId });
+    await deletePost({ postId, archive: "true" });
   }
 };
 

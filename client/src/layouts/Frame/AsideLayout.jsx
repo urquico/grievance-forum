@@ -73,7 +73,7 @@ function AsideLayout() {
             <Links title={"Features"} path={"features"} />
           </div>
           <Text fz="xs" style={{ marginLeft: "0.75rem", opacity: "0.7" }}>
-            &copy; 2022 Haribon E-Wall
+            &copy; 2023 Haribon E-Wall
           </Text>
         </Aside>
       </MediaQuery>

@@ -69,13 +69,7 @@ function CommentArchiveLayout() {
   const commentState = (result) => {
     const isCollectionEmpty = result.size === 0;
     if (!isCollectionEmpty) {
-      setComments(() => [
-        ...result.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-          readTime: doc._document.readTime.timestamp.seconds,
-        })),
-      ]);
+      setComments(result);
     } else {
       setIsEmpty(true);
     }

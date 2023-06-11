@@ -119,6 +119,15 @@ function WritePostCard() {
       <Text c="dimmed" ta="center" fs="italic" style={{ marginBottom: "1rem" }}>
         Do you feel like you have a complaint that you just really cannot post publicly? Head over to our student council's <Anchor href="/g-forms-link">grievance forms</Anchor>
       </Text>
+
+      <Text c="dimmed" ta="center" fs="italic" style={{ marginBottom: "1rem" }} fw="bold">
+        For urgent personal concerns requiring immediate action, please click{" "}
+        <Anchor href="https://findahelpline.com/ph" target="_blank">
+          here
+        </Anchor>
+        .
+      </Text>
+
       <PostAnonymously setIsAnonymous={setIsAnonymous} isAnonymous={isAnonymous} />
 
       <AddReceivers receiver={receiver} setReceiver={setReceiver} />
@@ -232,7 +241,7 @@ function ChooseCategory({ isAnonymous, selectedCategory, setSelectedCategory, ca
         placeholder="Category"
         error={categoryError ? "please choose a category" : ""}
         data={[
-          { value: "personal-concerns", label: "Personal" },
+          { value: "other-concerns", label: "Others" },
           { value: "academic-concerns", label: "Academic" },
         ]}
       />

@@ -55,15 +55,24 @@ function CategoryLayout() {
           <>
             {/* accordion */}
             <Accordion chevronPosition="left" variant="separated">
-              {categories?.map((cat) => {
+              {categories?.map((cat, index) => {
                 const category = cat._document.data.value.mapValue.fields.category.stringValue;
-                const description = cat._document.data.value.mapValue.fields.description.stringValue;
+                const description = cat._document.data.value.mapValue.fields.description.arrayValue.values;
+
                 return (
-                  <Accordion.Item value={category}>
+                  <Accordion.Item value={category} key={index}>
                     <Accordion.Control>
                       <Text fw="bold">{category}</Text>
                     </Accordion.Control>
-                    <Accordion.Panel>{description}</Accordion.Panel>
+                    <Accordion.Panel>
+                      {description.map((paragraph) => {
+                        return (
+                          <Text style={{ margin: "1.750rem", textIndent: "1rem" }} ta="justify">
+                            {paragraph.stringValue}
+                          </Text>
+                        );
+                      })}
+                    </Accordion.Panel>
                     <Accordion.Panel style={{ display: "flex", width: "100%" }}>
                       <Button variant="subtle" color="dark" style={{ marginRight: "auto" }} onClick={() => navigate(`/category/${category.toLowerCase()}-concerns`)}>
                         <u>View Posts</u>
