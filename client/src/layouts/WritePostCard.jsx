@@ -23,7 +23,7 @@ function WritePostCard() {
   const [college, setCollege] = useState("");
   const [program, setProgram] = useState("");
   const [receiver, setReceiver] = useState([]);
-  const [containsProfanity, setContainsProfanity] = useState(false);
+  const [containsProfanity, setContainsProfanity] = useState(null);
 
   const theme = useMantineTheme();
   const navigate = useNavigate();
@@ -51,7 +51,6 @@ function WritePostCard() {
         headers: { Authorization: `Bearer ${API_TOKEN}` },
       })
       .then((result) => {
-        console.log(result.data);
         result.data[0].sort((a, b) => {
           const labelA = a.label.toLowerCase();
           const labelB = b.label.toLowerCase();
@@ -63,7 +62,6 @@ function WritePostCard() {
           }
           return 0;
         });
-        console.log(result.data);
         if (result.data[0][0].score > result.data[0][1].score) {
           setContainsProfanity(true);
         } else {
@@ -71,8 +69,7 @@ function WritePostCard() {
         }
       })
       .catch((err) => {
-        console.log(err);
-        setContainsProfanity(false);
+        setContainsProfanity(null);
       });
   };
 
@@ -142,7 +139,7 @@ function WritePostCard() {
         centered
         onClose={() => {
           setOpened(false);
-          setContainsProfanity(false);
+          setContainsProfanity(null);
         }}
         title={
           <Text fz="xl" fw={700} style={{ marginLeft: "1rem" }}>
@@ -212,15 +209,29 @@ function PostPreview({ isAnonymous, tags, category, message, submitQuery, contai
 
       {containsProfanity ? (
         <Alert icon={<IconAlertCircle size="1rem" />} title="Bummer!" color="red" style={{ marginTop: "1rem" }}>
-          Your post appears to contain abusive content. As a result, you are unable to submit your post.
+          Your post appears to contain profane and abusive content. As a result, you are unable to submit your post.
         </Alert>
       ) : (
-        <></>
+        <>
+          {containsProfanity !== null ? (
+            <Alert icon={<IconAlertCircle size="1rem" />} title="Congrats!" color="green" style={{ marginTop: "1rem" }}>
+              Your post is in compliance with the guidelines and is acceptable for submission.
+            </Alert>
+          ) : (
+            <></>
+          )}
+        </>
       )}
 
-      <Button style={{ marginTop: "1rem", width: "100%" }} onClick={submitQuery} disabled={containsProfanity}>
-        <Text fw={700}>Submit Post</Text>
-      </Button>
+      {containsProfanity === null ? (
+        <Alert icon={<IconAlertCircle size="1rem" />} title="Bummer!" color="red" style={{ marginTop: "1rem" }}>
+          An error occurred while processing the data. Please close and reopen the preview to resolve the issue. If the error persists, please refresh the page or re-type the post.
+        </Alert>
+      ) : (
+        <Button style={{ marginTop: "1rem", width: "100%" }} onClick={submitQuery} disabled={containsProfanity}>
+          <Text fw={700}>Submit Post</Text>
+        </Button>
+      )}
     </>
   );
 }

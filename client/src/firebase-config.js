@@ -164,7 +164,7 @@ export const getMoreUsers = async (lastDoc) => {
 };
 
 export const getVotePostData = async (postId, userId) => {
-  const ref = doc(db, "VotedPosts", userId, "Vote", postId);
+  const ref = doc(db, "VotedPosts", userId, "Vote", postId || "");
   const fetchedDoc = await getDoc(ref);
   if (fetchedDoc.exists()) {
     let data = {
