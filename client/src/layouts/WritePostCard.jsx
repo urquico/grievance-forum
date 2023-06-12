@@ -1,9 +1,9 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMantineTheme, Text, Switch, Select, MultiSelect, Button, Modal, Anchor } from "@mantine/core";
+import { useMantineTheme, Text, Switch, Select, MultiSelect, Button, Modal, Anchor, Alert } from "@mantine/core";
 import { RichTextEditor } from "@mantine/rte";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import { IconHash, IconCheck, IconX, IconAt } from "@tabler/icons";
+import { IconHash, IconCheck, IconX, IconAt, IconAlertCircle } from "@tabler/icons";
 import axios from "axios";
 
 import { PORT } from "../Globals";
@@ -23,6 +23,7 @@ function WritePostCard() {
   const [college, setCollege] = useState("");
   const [program, setProgram] = useState("");
   const [receiver, setReceiver] = useState([]);
+  const [containsProfanity, setContainsProfanity] = useState(false);
 
   const theme = useMantineTheme();
   const navigate = useNavigate();
@@ -38,8 +39,41 @@ function WritePostCard() {
     if (selectedCategory === undefined) {
       setCategoryError(true);
     } else {
+      profanityCheck(text);
       setOpened(true);
     }
+  };
+
+  const profanityCheck = async (data) => {
+    const API_TOKEN = "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";
+    await axios
+      .post("https://api-inference.huggingface.co/models/Dabid/abusive-tagalog-profanity-detection", data, {
+        headers: { Authorization: `Bearer ${API_TOKEN}` },
+      })
+      .then((result) => {
+        console.log(result.data);
+        result.data[0].sort((a, b) => {
+          const labelA = a.label.toLowerCase();
+          const labelB = b.label.toLowerCase();
+          if (labelA < labelB) {
+            return -1;
+          }
+          if (labelA > labelB) {
+            return 1;
+          }
+          return 0;
+        });
+        console.log(result.data);
+        if (result.data[0][0].score > result.data[0][1].score) {
+          setContainsProfanity(true);
+        } else {
+          setContainsProfanity(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setContainsProfanity(false);
+      });
   };
 
   const writePostQuery = () => {
@@ -106,14 +140,17 @@ function WritePostCard() {
         size="lg"
         opened={opened}
         centered
-        onClose={() => setOpened(false)}
+        onClose={() => {
+          setOpened(false);
+          setContainsProfanity(false);
+        }}
         title={
           <Text fz="xl" fw={700} style={{ marginLeft: "1rem" }}>
             Here's what your post will look like
           </Text>
         }
       >
-        <PostPreview isAnonymous={isAnonymous} tags={selectedTags} category={selectedCategory} message={text} submitQuery={writePostQuery} />
+        <PostPreview isAnonymous={isAnonymous} tags={selectedTags} category={selectedCategory} message={text} submitQuery={writePostQuery} containsProfanity={containsProfanity} />
       </Modal>
 
       <Text c="dimmed" ta="center" fs="italic" style={{ marginBottom: "1rem" }}>
@@ -156,7 +193,7 @@ function WritePostCard() {
   );
 }
 
-function PostPreview({ isAnonymous, tags, category, message, submitQuery }) {
+function PostPreview({ isAnonymous, tags, category, message, submitQuery, containsProfanity }) {
   return (
     <>
       <PostCard
@@ -172,7 +209,16 @@ function PostPreview({ isAnonymous, tags, category, message, submitQuery }) {
         previewOnly={true}
         isComment={false}
       />
-      <Button style={{ marginTop: "0.75rem", width: "100%" }} onClick={submitQuery}>
+
+      {containsProfanity ? (
+        <Alert icon={<IconAlertCircle size="1rem" />} title="Bummer!" color="red" style={{ marginTop: "1rem" }}>
+          Your post appears to contain abusive content. As a result, you are unable to submit your post.
+        </Alert>
+      ) : (
+        <></>
+      )}
+
+      <Button style={{ marginTop: "1rem", width: "100%" }} onClick={submitQuery} disabled={containsProfanity}>
         <Text fw={700}>Submit Post</Text>
       </Button>
     </>
