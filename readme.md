@@ -1,4 +1,4 @@
-![image](https://github.com/urquico/grievance-forum/assets/44643247/d56bfff0-b17f-4854-a0af-86db911e22ac)# Haribon E- Wall: Pamantasan ng Lungsod ng Maynila Grievance Forum
+# Haribon E- Wall: Pamantasan ng Lungsod ng Maynila Grievance Forum
 
 ###  **Overview**
 
