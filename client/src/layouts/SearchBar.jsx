@@ -1,7 +1,14 @@
 import React, { useState, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ActionIcon, useMantineTheme, Tooltip } from "@mantine/core";
-import { IconSearch, IconHome, IconBallpen, IconAddressBook, IconExplicit, IconChartBar } from "@tabler/icons";
+import {
+  IconSearch,
+  IconHome,
+  IconBallpen,
+  IconAddressBook,
+  IconExplicit,
+  IconChartBar,
+} from "@tabler/icons";
 import { SpotlightProvider, openSpotlight, registerSpotlightActions } from "@mantine/spotlight";
 import { getUser, getAllPosts, removeHTMLTags } from "../firebase-config";
 
@@ -42,13 +49,17 @@ function SearchBar() {
 
   const searchQueries = () => {
     getAllPosts().then((result) => {
-      result.docs.map((post) => {
+      result.docs.forEach((post) => {
         registerSpotlightActions([
           {
             group: "posts",
             id: post.id,
-            title: post._document.data.value.mapValue.fields.isAnonymous.booleanValue ? "HARONYMOUS" : post._document.data.value.mapValue.fields.userId.stringValue,
-            description: removeHTMLTags(post._document.data.value.mapValue.fields.message.stringValue),
+            title: post._document.data.value.mapValue.fields.isAnonymous.booleanValue
+              ? "HARONYMOUS"
+              : post._document.data.value.mapValue.fields.userId.stringValue,
+            description: removeHTMLTags(
+              post._document.data.value.mapValue.fields.message.stringValue
+            ),
             onTrigger: () => navigate(`/comment/${post.id}`),
           },
         ]);

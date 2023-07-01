@@ -1,6 +1,19 @@
 import React, { useLayoutEffect, useState } from "react";
-import { useMantineTheme, Badge, Text, ActionIcon, Button, TypographyStylesProvider, Tooltip } from "@mantine/core";
-import { IconMessage, IconArrowNarrowUp, IconArrowNarrowDown, IconChevronDownLeft } from "@tabler/icons";
+import {
+  useMantineTheme,
+  Badge,
+  Text,
+  ActionIcon,
+  Button,
+  TypographyStylesProvider,
+  Tooltip,
+} from "@mantine/core";
+import {
+  IconMessage,
+  IconArrowNarrowUp,
+  IconArrowNarrowDown,
+  IconChevronDownLeft,
+} from "@tabler/icons";
 import { useNavigate } from "react-router-dom";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
@@ -90,10 +103,17 @@ function PostCard({
     timeDisplay = `${cardVerb} ${Math.floor(time / 24)} day ago`;
   } else if (Math.floor(time) > 48) {
     timeDisplay = `${cardVerb} ${Math.floor(time / 24)} days ago`;
-  } else if (parseFloat(time.replace(",", "")) / 24 / 30.437 >= 1 && parseFloat(time.replace(",", "")) / 24 / 30.437 <= 2) {
-    timeDisplay = `${cardVerb} ${Math.floor(parseFloat(time.replace(",", "")) / 24 / 30.437)} month ago`;
+  } else if (
+    parseFloat(time.replace(",", "")) / 24 / 30.437 >= 1 &&
+    parseFloat(time.replace(",", "")) / 24 / 30.437 <= 2
+  ) {
+    timeDisplay = `${cardVerb} ${Math.floor(
+      parseFloat(time.replace(",", "")) / 24 / 30.437
+    )} month ago`;
   } else {
-    timeDisplay = `${cardVerb} ${Math.floor(parseFloat(time.replace(",", "")) / 24 / 30.437)} months ago`;
+    timeDisplay = `${cardVerb} ${Math.floor(
+      parseFloat(time.replace(",", "")) / 24 / 30.437
+    )} months ago`;
   }
 
   const voteDown = async () => {
@@ -222,7 +242,11 @@ function PostCard({
           <>
             <Badge
               variant="gradient"
-              gradient={category === "academic-concerns" ? { from: "orange", to: "red" } : { from: "teal", to: "lime", deg: 105 }}
+              gradient={
+                category === "academic-concerns"
+                  ? { from: "orange", to: "red" }
+                  : { from: "teal", to: "lime", deg: 105 }
+              }
               style={{ marginLeft: "2.500rem", cursor: "pointer" }}
               onClick={() => {
                 navigate(`/category/${category}`);
@@ -262,7 +286,11 @@ function PostCard({
         ) : (
           <>
             <div style={{ marginLeft: "0.200rem", marginTop: "1rem" }}>
-              <ActionIcon variant={upVote ? "filled" : "subtle"} onClick={voteUp} color={theme.colorScheme === "dark" ? "yellow" : "dark"}>
+              <ActionIcon
+                variant={upVote ? "filled" : "subtle"}
+                onClick={voteUp}
+                color={theme.colorScheme === "dark" ? "yellow" : "dark"}
+              >
                 <IconArrowNarrowUp size={20} />
               </ActionIcon>
               <Text
@@ -274,7 +302,11 @@ function PostCard({
               >
                 {voteCount}
               </Text>
-              <ActionIcon variant={downVote ? "filled" : "subtle"} onClick={voteDown} color={theme.colorScheme === "dark" ? "yellow" : "dark"}>
+              <ActionIcon
+                variant={downVote ? "filled" : "subtle"}
+                onClick={voteDown}
+                color={theme.colorScheme === "dark" ? "yellow" : "dark"}
+              >
                 <IconArrowNarrowDown size={20} />
               </ActionIcon>
               <Tooltip label="vote point">
@@ -324,7 +356,14 @@ function PostCard({
       {previewOnly || isComment ? (
         ""
       ) : (
-        <Text style={{ marginLeft: "0.750rem" }} c={levelOfUrgency === "severe" ? "red" : levelOfUrgency === "moderate" ? "orange" : "green"} tt="uppercase" fw="bold">
+        <Text
+          style={{ marginLeft: "0.750rem" }}
+          c={
+            levelOfUrgency === "severe" ? "red" : levelOfUrgency === "moderate" ? "orange" : "green"
+          }
+          tt="uppercase"
+          fw="bold"
+        >
           {levelOfUrgency}
           {isCurrentUserAdmin ? (
             <Text c="dimmed" fw="lighter" fz="xs" tt="initial">
@@ -366,6 +405,7 @@ function PostCard({
                   );
                 }
               }
+              return <></>;
             })}
           </Text>
         </>

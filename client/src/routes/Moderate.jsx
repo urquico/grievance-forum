@@ -21,11 +21,14 @@ function ModerateLayout() {
         navigate("/home");
       }
     });
-  }, []);
+  }, [navigate]);
 
   return (
     <div>
-      <IntroductionCard name={localStorage.getItem("name")} message={"Here are the moderate cases."} />
+      <IntroductionCard
+        name={localStorage.getItem("name")}
+        message={"Here are the moderate cases."}
+      />
       <InfiniteScrolling type="moderate" isArchive={false} />
     </div>
   );

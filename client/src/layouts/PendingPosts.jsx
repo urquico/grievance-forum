@@ -14,8 +14,6 @@ import {
   Select,
 } from "@mantine/core";
 import { updateNotification, showNotification } from "@mantine/notifications";
-import env from "react-dotenv";
-import emailjs from "@emailjs/browser";
 
 import User from "../layouts/User";
 import { getUser, getCollegeInfo } from "../firebase-config";

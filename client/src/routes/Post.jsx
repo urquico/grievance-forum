@@ -20,7 +20,7 @@ function PostLayout() {
         navigate("/home");
       }
     });
-  }, []);
+  }, [navigate]);
 
   return (
     <div>

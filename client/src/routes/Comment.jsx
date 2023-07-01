@@ -7,21 +7,14 @@ import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 import PostCard from "../layouts/PostCard";
 import LoadingPost from "../layouts/Loading/LoadingPost";
-import {
-  getSinglePost,
-  getComments,
-  checkSolveState,
-  getUser,
-  removeHTMLTags,
-} from "../firebase-config";
+import { getSinglePost, getComments, checkSolveState, getUser } from "../firebase-config";
 import { useMantineTheme, Switch, Text } from "@mantine/core";
 import axios from "axios";
 import { PORT } from "../Globals";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
 import EndPost from "../layouts/EndPost";
-import env from "react-dotenv";
-import emailjs from "@emailjs/browser";
+
 import { useDocumentTitle } from "@mantine/hooks";
 
 function Comment() {

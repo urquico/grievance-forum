@@ -1,5 +1,15 @@
 import React, { useState, useLayoutEffect } from "react";
-import { Avatar, Text, useMantineTheme, Badge, ActionIcon, Modal, Button, Center, Tooltip } from "@mantine/core";
+import {
+  Avatar,
+  Text,
+  useMantineTheme,
+  Badge,
+  ActionIcon,
+  Modal,
+  Button,
+  Center,
+  Tooltip,
+} from "@mantine/core";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconTrash, IconX, IconAlertTriangle, IconStar } from "@tabler/icons";
 import { IconCheck, IconArchive } from "@tabler/icons-react";
@@ -9,7 +19,21 @@ import { checkStarComment, checkSolveState, checkIfContainsNumber } from "../fir
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin, hideTrashAndBadge, previewOnly, postId, tags, setIsVisible, isComment, isPendingPost, isArchive }) {
+function User({
+  publisher,
+  isAnonymous,
+  email,
+  isAdmin,
+  isCurrentUserAdmin,
+  hideTrashAndBadge,
+  previewOnly,
+  postId,
+  tags,
+  setIsVisible,
+  isComment,
+  isPendingPost,
+  isArchive,
+}) {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const [archiveOpened, setArchiveOpened] = useState(false);
@@ -23,7 +47,7 @@ function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin, hide
     checkSolveState(postId).then((result) => {
       setIsSolved(result);
     });
-  }, []);
+  }, [postId]);
 
   useLayoutEffect(() => {
     if (isComment) {
@@ -35,7 +59,7 @@ function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin, hide
           console.log(error.message);
         });
     }
-  }, []);
+  }, [isComment, postId]);
 
   const generateRandomColor = () => {
     return avatarColors[Math.floor(Math.random() * avatarColors.length)];
@@ -202,8 +226,18 @@ function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin, hide
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
-      <ConfirmationDialog opened={opened} setOpened={setOpened} confirmDelete={confirmDelete} verb="Delete" />
-      <ConfirmationDialog opened={archiveOpened} setOpened={setArchiveOpened} confirmDelete={confirmArchive} verb="Archive" />
+      <ConfirmationDialog
+        opened={opened}
+        setOpened={setOpened}
+        confirmDelete={confirmDelete}
+        verb="Delete"
+      />
+      <ConfirmationDialog
+        opened={archiveOpened}
+        setOpened={setArchiveOpened}
+        confirmDelete={confirmArchive}
+        verb="Archive"
+      />
       <Avatar src={null} alt={publisher} color={generateRandomColor()}>
         {isAnonymous ? "H" : email?.toUpperCase()[0] + publisher[0]}
       </Avatar>
@@ -251,7 +285,11 @@ function User({ publisher, isAnonymous, email, isAdmin, isCurrentUserAdmin, hide
                     variant="filled"
                     color={isStarComment ? "yellow" : "gray"}
                   >
-                    <IconStar size={16} onClick={isCurrentUserAdmin ? starComment : ""} color="white" />
+                    <IconStar
+                      size={16}
+                      onClick={isCurrentUserAdmin ? starComment : ""}
+                      color="white"
+                    />
                   </ActionIcon>
                 </>
               ) : (

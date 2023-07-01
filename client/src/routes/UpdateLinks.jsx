@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 
-import { TextInput, Text, Anchor, Modal, Button, CopyButton, Tooltip } from "@mantine/core";
+import { TextInput, Text, Anchor, Modal, Button } from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
@@ -33,7 +33,7 @@ function UpdateLinksLayout() {
         navigate("/home");
       }
     });
-  }, []);
+  }, [navigate]);
 
   useLayoutEffect(() => {
     getAllContacts()
@@ -93,7 +93,10 @@ function UpdateLinksLayout() {
 
   return (
     <div>
-      <IntroductionCard name={localStorage.getItem("name")} message={`You can update admin links here`} />
+      <IntroductionCard
+        name={localStorage.getItem("name")}
+        message={`You can update admin links here`}
+      />
       <Modal
         opened={opened}
         onClose={() => {
@@ -105,7 +108,10 @@ function UpdateLinksLayout() {
         size={260}
       >
         <Text>{updateWhat}</Text>
-        <TextInput placeholder="Enter new value" onChange={(event) => setNewValue(event.currentTarget.value)} />
+        <TextInput
+          placeholder="Enter new value"
+          onChange={(event) => setNewValue(event.currentTarget.value)}
+        />
         <Button style={{ marginTop: "0.500rem" }} fullWidth onClick={submitButton}>
           Submit
         </Button>
@@ -117,24 +123,48 @@ function UpdateLinksLayout() {
               <Text fw="bold" fz="xl" style={{ marginTop: "1rem" }}>
                 {contact.label}
               </Text>
-              <TextInput placeholder={contact?.fbLink} label={<Text c="dimmed">FB Link: </Text>} disabled />
+              <TextInput
+                placeholder={contact?.fbLink}
+                label={<Text c="dimmed">FB Link: </Text>}
+                disabled
+              />
               <Text fz="xs">
-                <Anchor onClick={() => updateQuery("FB Link", contact.label)}>click to update FB Link</Anchor>
+                <Anchor onClick={() => updateQuery("FB Link", contact.label)}>
+                  click to update FB Link
+                </Anchor>
               </Text>
 
-              <TextInput placeholder={contact?.gForms} label={<Text c="dimmed">Forms: </Text>} disabled />
+              <TextInput
+                placeholder={contact?.gForms}
+                label={<Text c="dimmed">Forms: </Text>}
+                disabled
+              />
               <Text fz="xs">
-                <Anchor onClick={() => updateQuery("Forms Link", contact.label)}>click to update Forms Link</Anchor>
+                <Anchor onClick={() => updateQuery("Forms Link", contact.label)}>
+                  click to update Forms Link
+                </Anchor>
               </Text>
 
-              <TextInput placeholder={contact?.value} label={<Text c="dimmed">Email: </Text>} disabled />
+              <TextInput
+                placeholder={contact?.value}
+                label={<Text c="dimmed">Email: </Text>}
+                disabled
+              />
               <Text fz="xs" style={{ marginBottom: "1rem" }}>
-                <Anchor onClick={() => updateQuery("Email", contact.label)}>click to update Email</Anchor>
+                <Anchor onClick={() => updateQuery("Email", contact.label)}>
+                  click to update Email
+                </Anchor>
               </Text>
 
-              <TextInput placeholder={contact?.description} label={<Text c="dimmed">Description: </Text>} disabled />
+              <TextInput
+                placeholder={contact?.description}
+                label={<Text c="dimmed">Description: </Text>}
+                disabled
+              />
               <Text fz="xs" style={{ marginBottom: "1rem" }}>
-                <Anchor onClick={() => updateQuery("Description", contact.label)}>click to update Description</Anchor>
+                <Anchor onClick={() => updateQuery("Description", contact.label)}>
+                  click to update Description
+                </Anchor>
               </Text>
             </div>
           );

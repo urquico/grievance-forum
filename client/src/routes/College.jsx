@@ -21,11 +21,14 @@ function CollegeLayout() {
         navigate("/home");
       }
     });
-  }, []);
+  }, [navigate]);
 
   return (
     <div>
-      <IntroductionCard name={localStorage.getItem("name")} message={"Welcome to Haribon E-Wall!"} />
+      <IntroductionCard
+        name={localStorage.getItem("name")}
+        message={"Welcome to Haribon E-Wall!"}
+      />
       <InfiniteScrolling type="college" isArchive={false} />
     </div>
   );

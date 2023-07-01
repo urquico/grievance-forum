@@ -22,19 +22,21 @@ function AccountInformation() {
       setFetchedAge((dateToday.getTime() - fetchedBirthday.getTime()) / 1000 / 31536000);
       setIsLoading(false);
     });
+    console.log(dateToday);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useLayoutEffect(() => {
     getCollegeInfo(user?.college).then((result) => {
       setCollege(result.label);
     });
-  }, []);
+  }, [user?.college]);
 
   useLayoutEffect(() => {
     getProgramInfo(user?.college, user?.program).then((result) => {
       setProgram(result.label);
     });
-  }, []);
+  }, [user?.college, user?.program]);
 
   const editInfo = () => {
     navigate("/setup");
@@ -59,16 +61,28 @@ function AccountInformation() {
         </Center>
       ) : (
         <Stack spacing="xs">
-          <TextInput value={user.isAdmin ? "Admin" : "Student"} label="Account Type:" radius="xs" disabled />
+          <TextInput
+            value={user.isAdmin ? "Admin" : "Student"}
+            label="Account Type:"
+            radius="xs"
+            disabled
+          />
 
-          <TextInput value={localStorage.getItem("email")} label="Email Address:" radius="xs" disabled />
+          <TextInput
+            value={localStorage.getItem("email")}
+            label="Email Address:"
+            radius="xs"
+            disabled
+          />
 
           {user.userAgreedSLA === true ? (
             <>
               <TextInput value={user.firstName} label="First Name:" radius="xs" disabled />
               <TextInput value={user.lastName} label="Last Name:" radius="xs" disabled />
               <DatePicker
-                placeholder={`${new Date(user.birthday).getMonth() + 1} / ${new Date(user.birthday).getDate()} / ${new Date(user.birthday).getFullYear()}`}
+                placeholder={`${new Date(user.birthday).getMonth() + 1} / ${new Date(
+                  user.birthday
+                ).getDate()} / ${new Date(user.birthday).getFullYear()}`}
                 label="Birthday:"
                 radius="xs"
                 disabled
