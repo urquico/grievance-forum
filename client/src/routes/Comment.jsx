@@ -7,7 +7,13 @@ import Frame from "../layouts/Frame/Frame";
 import IntroductionCard from "../layouts/IntroductionCard";
 import PostCard from "../layouts/PostCard";
 import LoadingPost from "../layouts/Loading/LoadingPost";
-import { getSinglePost, getComments, checkSolveState, getUser, removeHTMLTags } from "../firebase-config";
+import {
+  getSinglePost,
+  getComments,
+  checkSolveState,
+  getUser,
+  removeHTMLTags,
+} from "../firebase-config";
 import { useMantineTheme, Switch, Text } from "@mantine/core";
 import axios from "axios";
 import { PORT } from "../Globals";
@@ -134,21 +140,21 @@ function CommentLayout({ id }) {
                 userId: post.userId,
               })
               .then(() => {
-                emailjs
-                  .send(
-                    env.EMAILJS_SERVICE_ID,
-                    env.EMAILJS_TEMPLATE_ID,
-                    {
-                      receiver_email: post.userId,
-                      sender_name: localStorage.getItem("name"),
-                      reply: removeHTMLTags(text),
-                    },
-                    env.EMAILJS_PUBLIC_KEY
-                  )
-                  .then((result) => {})
-                  .catch((err) => {
-                    console.log(err.message);
-                  });
+                // emailjs
+                //   .send(
+                //     env.EMAILJS_SERVICE_ID,
+                //     env.EMAILJS_TEMPLATE_ID,
+                //     {
+                //       receiver_email: post.userId,
+                //       sender_name: localStorage.getItem("name"),
+                //       reply: removeHTMLTags(text),
+                //     },
+                //     env.EMAILJS_PUBLIC_KEY
+                //   )
+                //   .then((result) => {})
+                //   .catch((err) => {
+                //     console.log(err.message);
+                //   });
               })
               .catch((err) => {
                 console.log(err.message);
@@ -191,7 +197,8 @@ function CommentLayout({ id }) {
           style={{
             display: "flex",
             height: "auto",
-            backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
+            backgroundColor:
+              theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
             borderRadius: "13px",
             padding: "2.375rem",
             marginTop: "1rem",
@@ -199,7 +206,11 @@ function CommentLayout({ id }) {
             flexDirection: "column",
           }}
         >
-          {isCurrentUserAdmin ? <SolveSwitch isSolve={isSolve} setIsSolve={setIsSolve} postId={id} /> : ""}
+          {isCurrentUserAdmin ? (
+            <SolveSwitch isSolve={isSolve} setIsSolve={setIsSolve} postId={id} />
+          ) : (
+            ""
+          )}
           {post?.length !== 0 ? (
             <>
               <PostCard
@@ -225,7 +236,8 @@ function CommentLayout({ id }) {
             style={{
               display: isSolve ? "none" : "flex",
               height: "auto",
-              backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
+              backgroundColor:
+                theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
               marginTop: isEmpty ? "1rem" : "1rem",
               borderRadius: "13px",
               padding: "2.375rem",
@@ -267,7 +279,13 @@ function CommentLayout({ id }) {
                           key={index}
                           style={{ marginLeft: "2rem" }}
                           // isAnonymous={isUserOwnerOfPost ? (isPostAnonymous ? true : false) : false}
-                          isAnonymous={isPostAnonymous ? (comment.userId === post.userId ? true : false) : false}
+                          isAnonymous={
+                            isPostAnonymous
+                              ? comment.userId === post.userId
+                                ? true
+                                : false
+                              : false
+                          }
                           email={comment.userId}
                           tags={[]}
                           category={""}

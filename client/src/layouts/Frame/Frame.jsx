@@ -18,7 +18,10 @@ function Frame({ content, path }) {
 
   useEffect(() => {
     // redirects to login page when accessing a url that requires authentication
-    if (localStorage.getItem("name") === null || !checkIfContainsNumber(localStorage.getItem("email"))) {
+    if (
+      localStorage.getItem("name") === null ||
+      !checkIfContainsNumber(localStorage.getItem("email"))
+    ) {
       logOut();
       navigate("/");
     } else {
@@ -41,7 +44,15 @@ function Frame({ content, path }) {
             background: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[0],
           },
         }}
-        header={<HeaderLayout opened={opened} setOpened={setOpened} dark={dark} theme={theme} toggleColorScheme={toggleColorScheme} />}
+        header={
+          <HeaderLayout
+            opened={opened}
+            setOpened={setOpened}
+            dark={dark}
+            theme={theme}
+            toggleColorScheme={toggleColorScheme}
+          />
+        }
         navbar={<NavBarLayout opened={opened} logOut={logout} />}
         aside={<AsideLayout />}
       >
