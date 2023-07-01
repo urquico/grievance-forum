@@ -33,7 +33,15 @@ function InfiniteScrolling({ type, tag, category, isArchive }) {
   }, [college, program, tag]);
 
   const fetchMoreData = () => {
-    getMorePosts(lastDoc, type, localStorage.getItem("email"), tag, category, college, program).then((result) => {
+    getMorePosts(
+      lastDoc,
+      type,
+      localStorage.getItem("email"),
+      tag,
+      category,
+      college,
+      program
+    ).then((result) => {
       updateState(result);
     });
   };
