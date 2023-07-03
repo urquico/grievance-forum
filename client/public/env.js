@@ -1,7 +1,7 @@
 window.env = {
   "ALLUSERSPROFILE": "C:\\ProgramData",
   "APPDATA": "C:\\Users\\Windows 10\\AppData\\Roaming",
-  "CHROME_CRASHPAD_PIPE_NAME": "\\\\.\\pipe\\LOCAL\\crashpad_1940_NILTHYXATISXMKCN",
+  "CHROME_CRASHPAD_PIPE_NAME": "\\\\.\\pipe\\LOCAL\\crashpad_8972_JMFJRTMDPLZKHAUH",
   "COLOR": "1",
   "COLORTERM": "truecolor",
   "CommonProgramFiles": "C:\\Program Files\\Common Files",
@@ -70,8 +70,9 @@ window.env = {
   "REACT_APP_MEASUREMENT_ID": "G-22TTD7ZZK3",
   "REACT_APP_MESSAGING_SENDER_ID": "1031960180871",
   "REACT_APP_PROJECT_ID": "haribon-e-wall",
-  "REACT_APP_STORAGE_BUCKET": "\"haribon-e-wall.appspot.com\"",
+  "REACT_APP_STORAGE_BUCKET": "haribon-e-wall.appspot.com",
   "REACT_APP_TENANT": "c83f55a7-7fe8-4934-b759-09926430aef0",
+  "SESSIONNAME": "Console",
   "SystemDrive": "C:",
   "SystemRoot": "C:\\WINDOWS",
   "TEMP": "C:\\Users\\WINDOW~1\\AppData\\Local\\Temp",
@@ -87,6 +88,6 @@ window.env = {
   "VSCODE_GIT_ASKPASS_NODE": "C:\\Users\\Windows 10\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
   "VSCODE_GIT_IPC_HANDLE": "\\\\.\\pipe\\vscode-git-bb10972527-sock",
   "VSCODE_INJECTION": "1",
-  "VSCODE_NONCE": "1abc3f0a-36b5-4852-9bd8-f0841df85e48",
+  "VSCODE_NONCE": "1e02cdc5-74dd-4e30-8ca3-4aa142ff514b",
   "windir": "C:\\WINDOWS"
 };

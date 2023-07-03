@@ -18,10 +18,7 @@ function Frame({ content, path }) {
 
   useEffect(() => {
     // redirects to login page when accessing a url that requires authentication
-    if (
-      localStorage.getItem("name") === null ||
-      !checkIfContainsNumber(localStorage.getItem("email"))
-    ) {
+    if (!checkIfContainsNumber(localStorage.getItem("email"))) {
       logOut();
       navigate("/");
     } else {

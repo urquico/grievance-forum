@@ -6,6 +6,7 @@ import { useLocalStorage, useFavicon } from "@mantine/hooks";
 
 import Loading from "./layouts/Loading/Loading";
 import haribonFavicon from "../src/assets/hariBirdLogo.svg";
+import Protected from "./layouts/Protected";
 
 const Login = lazy(() => import("./routes/Login"));
 const Home = lazy(() => import("./routes/Home"));
@@ -58,34 +59,207 @@ function App() {
               <Routes>
                 <Route path={"/"} element={<Login />} />
                 <Route path={"/login"} element={<Login />} />
-                <Route path={"/setup"} element={<AccountSetup />} />
-                <Route path={"/home"} element={<Home />} />
-                <Route path={"/post"} element={<Post />} />
-                <Route path={"/archive"} element={<Archive />} />
-                <Route path={"/college"} element={<College />} />
-                <Route path={"/severe"} element={<Severe />} />
-                <Route path={"/moderate"} element={<Moderate />} />
-                <Route path={"/mild"} element={<Mild />} />
-                <Route path={"/program"} element={<Program />} />
-                <Route path={"/profile"} element={<Profile />} />
-                <Route path={"/category"} element={<Category />} />
-                <Route path={"/category/:id"} element={<CategoryId />} />
-                <Route path={"/tags"} element={<Tags />} />
-                <Route path={"/tags/:id"} element={<Tag />} />
-                <Route path={"/g-forms-link"} element={<GFormsLink />} />
-                <Route path={"/comment/:id"} element={<Comment />} />
-                <Route path={"/comment/archive/:id"} element={<CommentArchive />} />
-                <Route path={"/edit/:id"} element={<Tag />} />
+                <Route
+                  path={"/setup"}
+                  element={
+                    <Protected>
+                      <AccountSetup />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/home"}
+                  element={
+                    <Protected>
+                      <Home />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/post"}
+                  element={
+                    <Protected>
+                      <Post />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/archive"}
+                  element={
+                    <Protected>
+                      <Archive />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/college"}
+                  element={
+                    <Protected>
+                      <College />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/severe"}
+                  element={
+                    <Protected>
+                      <Severe />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/moderate"}
+                  element={
+                    <Protected>
+                      <Moderate />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/mild"}
+                  element={
+                    <Protected>
+                      <Mild />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/program"}
+                  element={
+                    <Protected>
+                      <Program />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/profile"}
+                  element={
+                    <Protected>
+                      <Profile />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/category"}
+                  element={
+                    <Protected>
+                      <Category />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/category/:id"}
+                  element={
+                    <Protected>
+                      <CategoryId />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/tags"}
+                  element={
+                    <Protected>
+                      <Tags />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/tags/:id"}
+                  element={
+                    <Protected>
+                      <Tag />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/g-forms-link"}
+                  element={
+                    <Protected>
+                      <GFormsLink />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/comment/:id"}
+                  element={
+                    <Protected>
+                      <Comment />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/comment/archive/:id"}
+                  element={
+                    <Protected>
+                      <CommentArchive />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/profanities"}
+                  element={
+                    <Protected>
+                      <Profanities />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/reports"}
+                  element={
+                    <Protected>
+                      <Reviews />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/pending"}
+                  element={
+                    <Protected>
+                      <Pending />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/users"}
+                  element={
+                    <Protected>
+                      <Users />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/update-links"}
+                  element={
+                    <Protected>
+                      <UpdateLinks />
+                    </Protected>
+                  }
+                />
 
-                <Route path={"/profanities"} element={<Profanities />} />
-                <Route path={"/reports"} element={<Reviews />} />
-                <Route path={"/pending"} element={<Pending />} />
-                <Route path={"/users"} element={<Users />} />
-                <Route path={"/update-links"} element={<UpdateLinks />} />
-
-                <Route path={"/features"} element={<Features />} />
-                <Route path={"/privacy-policy"} element={<PrivacyPolicy />} />
-                <Route path={"/terms-of-services"} element={<TermsOfServices />} />
+                <Route
+                  path={"/features"}
+                  element={
+                    <Protected>
+                      <Features />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/privacy-policy"}
+                  element={
+                    <Protected>
+                      <PrivacyPolicy />
+                    </Protected>
+                  }
+                />
+                <Route
+                  path={"/terms-of-services"}
+                  element={
+                    <Protected>
+                      <TermsOfServices />
+                    </Protected>
+                  }
+                />
 
                 <Route path={"*"} element={<Error />} />
               </Routes>
